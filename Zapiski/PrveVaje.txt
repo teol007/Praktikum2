@@ -1,0 +1,7 @@
+OPSI - odprti podatki slovenije - eni podatki so prosti, eni ne
+Osnovni podatki o predpisih RS - csv osnovni
+Sodne prakse - ga preusmerimo na sodneprakse.si - url manipulacija
+Mnenja po splošni uredbi (GDPR) - url manipulacija
+PIS RS - ko poznamo kratice zakonov, jih v PIS RS lahko poiščemo kje se kratica najdeš
+pisrs.si
+sodnapraksa.si - podatki vrhovnih sodišč
