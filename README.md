@@ -1,2 +1,4 @@
 # Praktikum2
-Pravo za vse informacijski sistem
+Informacijski sistem Pravo za vse
+
+Dokumentacija vzpostavitve:
