@@ -1,0 +1,9 @@
+PRVI SESTANEK
+-React vs Wordpress
+-Problem baze
+-Vprašanje o samem izgledu strani (ali imajo preference - if so: kakšne)
+-Katere funkcionalnosti moremo obdržati (objava člankov, obrazec za vprašanja, informacije o pravnih klinikah, naročanje na spletno svetovanje
+prek Zooma)
+-Katere funkcionalnosti na novo (Iskanje po ključnih besedah, uporabniki bi lahko iskali odgovore?, linki na koristne info o tej legal
+tematiki; na admin strani - dodajanje člankov, vnos terminov)
+-Kdaj bi bil check-up meeting
