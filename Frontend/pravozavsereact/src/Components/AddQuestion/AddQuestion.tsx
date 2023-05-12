@@ -1,10 +1,6 @@
 import React from "react";
 import { Button, Form } from "react-bootstrap";
 
-interface AddQuestionProps{
-
-}
-
 export default function AddQuestion(): JSX.Element {
   return (
     <div className="container">

@@ -1,6 +1,6 @@
 import React from "react";
 import { useAtom } from "jotai";
-import { test1Atom, test2Atom } from "../../Atoms/TestsAtoms";
+import { test1Atom, test2Atom } from "../../../Atoms/TestsAtoms";
 import { Button } from 'primereact/button'
 
 export default function TestUseOfAtoms(): JSX.Element {
