@@ -6,13 +6,16 @@ import { MenuItem } from 'primereact/menuitem';
 const buttons: MenuItem[] = [
     {label: 'Home', icon: 'pi pi-fw pi-home'},
     {label: 'Zastavi vprašanje', icon: 'pi pi-fw pi-question-circle'},
+    {label: 'O nas', icon: 'pi pi-fw pi-question-circle'},
+    {label: 'Človekove pravice', icon: 'pi pi-fw pi-question-circle'},
     {label: 'Edit', icon: 'pi pi-fw pi-pencil'},
     {label: 'Documentation', icon: 'pi pi-fw pi-file'},
-    {label: 'Settings', icon: 'pi pi-fw pi-cog'}
+    {label: 'Settings', icon: 'pi pi-fw pi-cog'},
+    
 ];
 
 const pages: string[] = [
-    '/', '/zastaviVprasanje'
+    '/', '/zastaviVprasanje', '/aboutUs', '/humanRights'
 ];
 
 export default function Navbar() {
