@@ -1,23 +1,34 @@
-import React from 'react'; 
-import { Button, Container, Modal, Nav, Navbar as NavbarBootstrap} from "react-bootstrap"
-import { NavLink, Router } from "react-router-dom";
-import { Menubar } from 'primereact/menubar';
+import React, { useState } from 'react'; 
+import { useNavigate } from 'react-router-dom';
+import { TabMenu, TabMenuTabChangeEvent } from 'primereact/tabmenu';
+import { MenuItem } from 'primereact/menuitem';
+
+const buttons: MenuItem[] = [
+    {label: 'Home', icon: 'pi pi-fw pi-home'},
+    {label: 'Zastavi vprašanje', icon: 'pi pi-fw pi-question-circle'},
+    {label: 'O nas', icon: 'pi pi-fw pi-question-circle'},
+    {label: 'Človekove pravice', icon: 'pi pi-fw pi-question-circle'},
+    {label: 'Edit', icon: 'pi pi-fw pi-pencil'},
+    {label: 'Documentation', icon: 'pi pi-fw pi-file'},
+    {label: 'Settings', icon: 'pi pi-fw pi-cog'},
+    
+];
+
+const pages: string[] = [
+    '/', '/zastaviVprasanje', '/aboutUs', '/humanRights'
+];
 
 export default function Navbar() {
-    const items = [
-        {
-            label: 'Domov',
-            icon: 'pi pi-fw pi-power-off'
-        },
-        {
-            label: 'Zastavi vprašanje',
-            icon: 'pi pi-fw pi-power-off'
-        }
-    ];
+    const [currentPage, setCurrentPage] = useState<number>(0);
+    const navigate = useNavigate();
+
+    const goToPage = (event: TabMenuTabChangeEvent):void => {
+        const buttonIndex = event.index;
+        setCurrentPage(buttonIndex);
+        navigate(pages[buttonIndex]);
+    };
 
     return (
-        <div className="card">
-            <Menubar model={items} />
-        </div>
+        <TabMenu model={buttons} activeIndex={currentPage} onTabChange={goToPage}/>
     )
 }
