@@ -1,26 +1,29 @@
-import React, { useState } from 'react'; 
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from 'react'; 
+import { useLocation, useNavigate } from 'react-router-dom';
 import { TabMenu, TabMenuTabChangeEvent } from 'primereact/tabmenu';
 import { MenuItem } from 'primereact/menuitem';
 
 const buttons: MenuItem[] = [
     {label: 'Home', icon: 'pi pi-fw pi-home'},
     {label: 'Zastavi vprašanje', icon: 'pi pi-fw pi-question-circle'},
-    {label: 'O nas', icon: 'pi pi-fw pi-question-circle'},
-    {label: 'Človekove pravice', icon: 'pi pi-fw pi-question-circle'},
-    {label: 'Edit', icon: 'pi pi-fw pi-pencil'},
-    {label: 'Documentation', icon: 'pi pi-fw pi-file'},
-    {label: 'Settings', icon: 'pi pi-fw pi-cog'},
-    
+    {label: 'O\u00A0nas', icon: 'pi pi-fw pi-building'},
+    {label: 'Človekove pravice', icon: 'pi pi-fw pi-id-card'},
+    {label: 'Račun', icon: 'pi pi-fw pi-user'},
+    {label: 'Neodgovorjena vprašanja', icon: 'pi pi-fw pi-comment'},
 ];
 
 const pages: string[] = [
-    '/', '/zastaviVprasanje', '/aboutUs', '/humanRights'
+    '/', '/zastaviVprasanje', '/oNas', '/clovekovePravice', '/racun', '/vprasanja'
 ];
 
 export default function Navbar() {
+    const location = useLocation();
     const [currentPage, setCurrentPage] = useState<number>(0);
     const navigate = useNavigate();
+
+    useEffect(() => {
+        setCurrentPage(pages.indexOf(location.pathname));
+    }, [location.pathname]);
 
     const goToPage = (event: TabMenuTabChangeEvent):void => {
         const buttonIndex = event.index;

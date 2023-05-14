@@ -3,4 +3,5 @@ export interface Question {
     customerEmail: string;
     description: string;
     lawField: string;
+    created: number;
 }

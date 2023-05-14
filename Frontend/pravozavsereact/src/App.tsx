@@ -5,13 +5,15 @@ import "primereact/resources/primereact.min.css";
 import 'primeicons/primeicons.css';
 import { Routes, Route } from 'react-router';
 import Greetings from './Components/Greetings/Greetings';
-import TestUseOfAtoms from './Components/Test/TestUseOfAtoms/TestUseOfAtom';
-import AddQuestion from './Components/AddQuestion/AddQuestion';
+import AddQuestion from './Components/Questions/AddQuestion/AddQuestion';
 import Navbar from './Components/Navbar/Navbar';
 import Footer from './Components/Footer/Footer';
 import Tests from './Components/Test/Tests/Tests';
 import HumanRights from './Components/HumanRights/HumanRights';
 import AboutUs from './Components/AboutUs/AboutUs';
+import PageNotFound from './Components/PageNotFound/PageNotFound';
+import Account from './Components/Account/Account';
+import DisplayQuestions from './Components/Questions/DisplayQuestions/DisplayQuestions';
 
 function App() {
   return (
@@ -26,12 +28,18 @@ function App() {
               } />
           <Route path='/zastaviVprasanje'
               element={<AddQuestion/>}/>
-          <Route path='/aboutUs'
+          <Route path='/oNas'
               element={<AboutUs/>}/>
-          <Route path='/humanRights'
+          <Route path='/clovekovePravice'
               element={<HumanRights/>}/>
+          <Route path='/racun'
+              element={<Account />}/>
+          <Route path='/vprasanja'
+              element={<DisplayQuestions />}/>
           <Route path='/tests'
               element={<Tests />}/>
+          <Route path='/*'
+              element={<PageNotFound />}/>
       </Routes>
       <Footer />
     </div>

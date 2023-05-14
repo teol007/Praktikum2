@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Card } from 'primereact/card';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
@@ -11,7 +11,7 @@ import { Divider } from 'primereact/divider';
 
 
 export default function AboutUS(): JSX.Element {
-    const [data, setData] = useState([
+    const data = [
         { code: 'Osnovni podatki društva:', name: 'Društvo Pravo za VSE, Elektrarniška ulica 8, 2351 Kamnica' },
         { code: 'Predsednik:', name: 'Žiga Cvetko, mag. prav.' },
         { code: 'Podpredsednik:', name: 'Patricija Glavica, dipl. prav. (UN)' },
@@ -21,7 +21,7 @@ export default function AboutUS(): JSX.Element {
         { code: 'Matična številka:', name: '4060199000' },
         { code: 'Davčna številka:', name: '58270507' },
         { code: 'TRR društva:', name: 'SI56 6100 0000 7134 503, odprt pri DELAVSKI HRANILNICI d.d. LJUBLJANA' },
-    ]);
+    ];
 
     const members = [
         {

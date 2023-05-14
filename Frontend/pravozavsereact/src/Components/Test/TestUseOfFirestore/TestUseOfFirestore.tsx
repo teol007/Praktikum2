@@ -7,9 +7,9 @@ import { Column } from 'primereact/column';
 
 export default function TestUseOfFirestore(): JSX.Element {
   const [questions, setQuestions] = useState<Question[]>([]);
-  const questionsCollectionRef = collection(db, 'Questions');
-
+  
   useEffect(() => {
+    const questionsCollectionRef = collection(db, 'Questions');
     const getQuestions = async () => {
       try {
         const data = await getDocs(questionsCollectionRef); //more bit await, da počaka da ta asinhrona funkcija vrne odgovor
@@ -19,7 +19,8 @@ export default function TestUseOfFirestore(): JSX.Element {
             id: doc.id,
             customerEmail: doc.data().customerEmail,
             description: doc.data().description,
-            lawField: doc.data().lawField
+            lawField: doc.data().lawField,
+            created: doc.data().created,
           }
         });
         
