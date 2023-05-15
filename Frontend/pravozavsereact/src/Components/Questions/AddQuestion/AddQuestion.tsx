@@ -5,7 +5,8 @@ import { InputTextarea } from "primereact/inputtextarea";
 import { Dropdown } from 'primereact/dropdown';
 import { Checkbox } from "primereact/checkbox";
 import { collection, addDoc } from "firebase/firestore";
-import { db } from "../../Config/Firebase";
+//import { db } from "../../Config/Firebase";
+import { db } from "../../../Config/Firebase";
 import { Timestamp } from "@firebase/firestore";
 
 export default function AddQuestion(): JSX.Element {
