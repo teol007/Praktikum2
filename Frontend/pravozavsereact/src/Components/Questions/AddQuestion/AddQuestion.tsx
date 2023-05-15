@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { Button, Form } from "react-bootstrap";
+import { Form } from "react-bootstrap";
+import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
 import { InputTextarea } from "primereact/inputtextarea";
 import { Dropdown } from 'primereact/dropdown';
@@ -77,9 +78,8 @@ export default function AddQuestion(): JSX.Element {
         </div>
         <br />
 
-        <button className="btn btn-success">Pošlji vprašanje</button>
-
-        
+        <Button label="Pošlji vprašanje" className="w-full" severity="success" raised />
+      
     </form>
     
 
