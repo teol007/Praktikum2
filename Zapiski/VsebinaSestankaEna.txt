@@ -1,9 +1,24 @@
 PRVI SESTANEK
--React vs Wordpress
+-React vs WordPress (
 -Problem baze
 -Vprašanje o samem izgledu strani (ali imajo preference - if so: kakšne)
--Katere funkcionalnosti moremo obdržati (objava člankov, obrazec za vprašanja, informacije o pravnih klinikah, naročanje na spletno svetovanje
-prek Zooma)
--Katere funkcionalnosti na novo (Iskanje po ključnih besedah, uporabniki bi lahko iskali odgovore?, linki na koristne info o tej legal
+-Katere funkcionalnosti moremo obdržati (objava člankov, obrazec za vprašanja, informacije o pravnih klinikah... )
+-Katere funkcionalnosti na novo (naročanje na spletno svetovanje
+prek Zooma, Iskanje po ključnih besedah, uporabniki bi lahko iskali odgovore?, linki na koristne info o tej legal
 tematiki; na admin strani - dodajanje člankov, vnos terminov)
+- Kakšen AI bi implementirali? 
 -Kdaj bi bil check-up meeting
+
+Prednosti React:
+(Prilagodljivost
+Hitrost in zmogljivost
+Skalabilnost
+Komponentno usmerjeno programiranje
+Ekosistem
+Ločevanje od vsebine) 
+
+Slabosti WordPress:
+(Tehnička zahtevnost za razvijalce
+Odvisnost od tem in vtičnikov tretjih oseb
+Slabše skaliranje za obsežna spletna mesta
+) 
