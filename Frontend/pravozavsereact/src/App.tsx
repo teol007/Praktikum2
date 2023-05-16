@@ -14,6 +14,7 @@ import AboutUs from './Components/AboutUs/AboutUs';
 import PageNotFound from './Components/PageNotFound/PageNotFound';
 import Account from './Components/Account/Account';
 import DisplayQuestions from './Components/Questions/DisplayQuestions/DisplayQuestions';
+import EditorPage from './Components/EditorPage/EditorPage';
 
 function App() {
   return (
@@ -38,6 +39,8 @@ function App() {
               element={<DisplayQuestions />}/>
           <Route path='/tests'
               element={<Tests />}/>
+          <Route path='/urednik'
+              element={<EditorPage />}/>
           <Route path='/*'
               element={<PageNotFound />}/>
       </Routes>
