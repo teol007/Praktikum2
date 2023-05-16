@@ -1,26 +1,27 @@
 import React, { useEffect, useState } from "react";
-import { Question } from "../../../Modules/Interfaces/Question";
+import { QuestionWithId } from "../../../Modules/Interfaces/Question";
 import { db } from "../../../Config/Firebase";
 import { getDocs, collection } from "@firebase/firestore";
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 
 export default function TestUseOfFirestore(): JSX.Element {
-  const [questions, setQuestions] = useState<Question[]>([]);
+  const [questions, setQuestions] = useState<QuestionWithId[]>([]);
   
   useEffect(() => {
-    const questionsCollectionRef = collection(db, 'Questions');
     const getQuestions = async () => {
       try {
+        const questionsCollectionRef = collection(db, 'Questions');
         const data = await getDocs(questionsCollectionRef); //more bit await, da počaka da ta asinhrona funkcija vrne odgovor
         
-        const questionsData: Question[] = data.docs.map((doc): Question => {
+        const questionsData: QuestionWithId[] = data.docs.map((doc): QuestionWithId => {
           return {
             id: doc.id,
             customerEmail: doc.data().customerEmail,
             description: doc.data().description,
             lawField: doc.data().lawField,
             created: doc.data().created,
+            selectedRespondentUid: doc.data().selectedRespondentUid
           }
         });
         

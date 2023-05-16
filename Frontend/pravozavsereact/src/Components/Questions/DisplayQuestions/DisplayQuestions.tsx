@@ -3,10 +3,10 @@ import { Card } from 'primereact/card';
 import { Button } from 'primereact/button';
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../../../Config/Firebase";
-import { Question } from "../../../Modules/Interfaces/Question";
+import { QuestionWithId } from "../../../Modules/Interfaces/Question";
 
 export default function DisplayQuestions(): JSX.Element {
-    const [questions, setQuestions] = useState<Question[]>([]);
+    const [questions, setQuestions] = useState<QuestionWithId[]>([]);
     
     useEffect(() => {
         const questionsCollectionRef = collection(db, 'Questions');
@@ -14,13 +14,14 @@ export default function DisplayQuestions(): JSX.Element {
           try {
             const data = await getDocs(questionsCollectionRef); //more bit await, da počaka da ta asinhrona funkcija vrne odgovor
             
-            const questionsData: Question[] = data.docs.map((doc): Question => {
+            const questionsData: QuestionWithId[] = data.docs.map((doc): QuestionWithId => {
               return {
                 id: doc.id,
                 customerEmail: doc.data().customerEmail,
                 description: doc.data().description,
                 lawField: doc.data().lawField,
-                created: doc.data().created
+                created: doc.data().created,
+                selectedRespondentUid: doc.data().selectedRespondentUid
               }
             });
             

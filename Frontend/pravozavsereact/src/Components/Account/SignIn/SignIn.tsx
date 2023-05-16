@@ -3,7 +3,6 @@ import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
 import { Link } from "react-router-dom";
 import { Toast } from 'primereact/toast';
-import SignInWithGoogle from "../SignInWithGoogle/SignInWithGoogle";
 import { firebaseAuth } from "../../../Config/Firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
 
@@ -67,8 +66,6 @@ export default function SignIn(props: Props): JSX.Element {
             </div>
 
             <div>
-              <SignInWithGoogle />
-              <br /><br />ali<br /><br />
               <form onSubmit={handleSubmit}>
                 <label htmlFor="email" className="block text-900 font-medium mb-2">Email: </label>
                 <InputText onChange={handleChange} value={uporabnik.email} id="email" name="email" type="email" placeholder="Email" className="w-full mb-3" required />

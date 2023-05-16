@@ -1,14 +1,24 @@
-import React, { useState } from "react";
-import SignUp from "./SignUp/SignUp";
-import SignIn from "./SignIn/SignIn";
+import React from "react";
 import SignOut from "./SignOut/SignOut";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { firebaseAuth } from "../../Config/Firebase";
+import SignInWithGoogle from "./SignInWithGoogle/SignInWithGoogle";
+import { ProgressSpinner } from 'primereact/progressspinner';
 
 
 export default function Account(): JSX.Element {
-  const [register, setRegister] = useState<boolean>(false);
-  const [user] = useAuthState(firebaseAuth);
+  const [user, loading, error] = useAuthState(firebaseAuth);
+
+  if(loading)
+  {
+    return (
+      <>
+        <br />
+        <ProgressSpinner />
+        <SignOut />
+      </>
+    );
+  }
 
   if(user)
   {
@@ -21,13 +31,14 @@ export default function Account(): JSX.Element {
     );
   }
 
-  if(register)
+  if(error)
   {
     return (
       <>
         <br />
-        <h2>Registracija</h2>
-        <SignUp setRegister={setRegister} />
+        <h2>Prišlo je do težave</h2>
+        <p>Poskusi ponovno</p>
+        <SignInWithGoogle />
       </>
     );
   }
@@ -36,7 +47,7 @@ export default function Account(): JSX.Element {
     <>
       <br />
       <h2>Prijava</h2>
-      <SignIn setRegister={setRegister} />
+      <SignInWithGoogle />
     </>
   );
 }
