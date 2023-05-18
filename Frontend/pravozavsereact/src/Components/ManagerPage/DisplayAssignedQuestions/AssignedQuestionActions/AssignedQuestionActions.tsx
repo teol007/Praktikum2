@@ -6,6 +6,7 @@ import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../../../../Config/Firebase";
 import { QuestionWithId } from "../../../../Modules/Interfaces/Question";
 import { UserCustomInfo } from "../../../../Modules/Interfaces/UserCustomInfo";
+import QuestionDetails from "../../QuestionDetails/QuestionDetails";
 
 
 interface QuestionActionsProps {
@@ -68,7 +69,7 @@ export default function AssignedQuestionActions(props: QuestionActionsProps): JS
     <>
       <div className="flex flex-wrap justify-content-end gap-2">
         <div style={{marginLeft: '3em', marginRight: '3em'}}>
-          <Button label="Podrobnosti" icon="pi pi-pencil" size="small" style={{width: '100%', margin: '1px'}} className="p-button-outlined p-button-primary" /><br />
+          <QuestionDetails question={props.question} />
           <Button label="Spremeni avtorja odgovora" icon="pi pi-user-edit" onClick={(e) => overlayPanelRef.current?.toggle(e)} size="small" style={{width: '100%', margin: '1px'}} className="p-button-primary" />
         </div>
 
