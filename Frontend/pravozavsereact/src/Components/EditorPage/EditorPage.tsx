@@ -3,11 +3,11 @@ import { Card } from 'primereact/card';
 import { Button } from 'primereact/button';
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../../Config/Firebase";
-import { Question } from "../../Modules/Interfaces/Question";
+import { Question, QuestionWithId } from "../../Modules/Interfaces/Question";
 import { Dropdown } from 'primereact/dropdown';
 
 export default function EditorPage(): JSX.Element {
-  const [questions, setQuestions] = useState<Question[]>([]);
+  const [questions, setQuestions] = useState<QuestionWithId[]>([]);
   const [lawField, setLawField] = useState('');
   const [showContentLawField, setShowContentLawField] = useState<{ [key: string]: boolean }>({});
   const [showContentAttorneys, setShowContentAttorneys] = useState<{ [key: string]: boolean }>({});
@@ -37,13 +37,14 @@ export default function EditorPage(): JSX.Element {
     const getQuestions = async () => {
       try {
         const data = await getDocs(questionsCollectionRef);
-        const questionsData: Question[] = data.docs.map((doc): Question => {
+        const questionsData: QuestionWithId[] = data.docs.map((doc): QuestionWithId => {
           return {
             id: doc.id,
             customerEmail: doc.data().customerEmail,
             description: doc.data().description,
             lawField: doc.data().lawField,
-            created: doc.data().created
+            created: doc.data().created,
+            selectedRespondentUid: doc.data().selectedRespondentUid
           }
         });
         setQuestions(questionsData);
