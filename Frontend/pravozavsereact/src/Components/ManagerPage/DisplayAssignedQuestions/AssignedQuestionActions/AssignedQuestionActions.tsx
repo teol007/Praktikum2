@@ -2,10 +2,11 @@ import React, { useRef, useState } from "react";
 import { Button } from 'primereact/button';
 import { Dropdown, DropdownChangeEvent } from 'primereact/dropdown';
 import { OverlayPanel } from 'primereact/overlaypanel';
-import { QuestionWithId } from "../../../Modules/Interfaces/Question";
-import { UserCustomInfo } from "../../../Modules/Interfaces/UserCustomInfo";
 import { doc, updateDoc } from "firebase/firestore";
-import { db } from "../../../Config/Firebase";
+import { db } from "../../../../Config/Firebase";
+import { QuestionWithId } from "../../../../Modules/Interfaces/Question";
+import { UserCustomInfo } from "../../../../Modules/Interfaces/UserCustomInfo";
+
 
 interface QuestionActionsProps {
   question: QuestionWithId;
@@ -29,20 +30,23 @@ interface QuestionActionsProps {
           </div>}
   */
 
-export default function QuestionActions(props: QuestionActionsProps): JSX.Element {
+export default function AssignedQuestionActions(props: QuestionActionsProps): JSX.Element {
   const [selectedAuthor, setSelectedAuthor] = useState<UserCustomInfo|undefined>(props.authors.find((author) => (author.uid === props.question.selectedRespondentUid)));
   const overlayPanelRef = useRef<OverlayPanel>(null);
 
-  //onClick={() => handleClickAttorneys(props.question.id)}
+  const updateQuestionAuthor = async (author: UserCustomInfo|null) => {
+    let authorUid = '';
 
-  const updateQuestionAuthor = async (author: UserCustomInfo) => {
-    if(author.uid === props.question.selectedRespondentUid)
+    if(author)
+      authorUid = author.uid;
+
+    if(authorUid === props.question.selectedRespondentUid)
       return;
 
     const questionRef = doc(db, "Questions", props.question.id);
     try {
       await updateDoc(questionRef, {
-        selectedRespondentUid: author.uid
+        selectedRespondentUid: authorUid
       });
       overlayPanelRef.current?.hide();
     } catch (error) {
@@ -63,15 +67,18 @@ export default function QuestionActions(props: QuestionActionsProps): JSX.Elemen
   return (
     <>
       <div className="flex flex-wrap justify-content-end gap-2">
-        <Button label="Podrobnosti" icon="pi pi-pencil" className="p-button-outlined p-button-primary" size="small" /><br />
-      
-        <Button label="Dodeli odvetniku" icon="pi pi-user-edit" onClick={(e) => overlayPanelRef.current?.toggle(e)} size="small" />
+        <div style={{marginLeft: '3em', marginRight: '3em'}}>
+          <Button label="Podrobnosti" icon="pi pi-pencil" size="small" style={{width: '100%', margin: '1px'}} className="p-button-outlined p-button-primary" /><br />
+          <Button label="Spremeni avtorja odgovora" icon="pi pi-user-edit" onClick={(e) => overlayPanelRef.current?.toggle(e)} size="small" style={{width: '100%', margin: '1px'}} className="p-button-primary" />
+        </div>
 
         <OverlayPanel ref={overlayPanelRef} showCloseIcon >
           <form onSubmit={handleSubmit}>
             <span style={{marginBottom: '0.5em'}}>Določi avtorja odgovora</span><br />
-            <Dropdown value={selectedAuthor} onChange={handleSelectAuthor} options={props.authors} optionLabel="fullName" placeholder="Določi avtorja odgovora"  className="w-full md:w-14rem" style={{width: 'min-content'}} filter required />
+            <Dropdown value={selectedAuthor} onChange={handleSelectAuthor} options={props.authors} optionLabel="fullName" placeholder="Spremeni avtorja odgovora"  className="w-full md:w-14rem" style={{width: 'min-content'}} filter required />
             <Button type="submit" label="Potrdi" icon="pi pi-check" />
+            <hr />
+            <Button label="Odstrani avtorja odgovora" icon="pi pi-user-minus" onClick={() => {updateQuestionAuthor(null)}} size="small" style={{width: '100%', margin: '1px'}} className="p-button-outlined p-button-danger" />
           </form>
         </OverlayPanel>
       </div>
