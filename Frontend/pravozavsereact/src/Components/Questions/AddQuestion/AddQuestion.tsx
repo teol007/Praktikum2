@@ -33,7 +33,7 @@ export default function AddQuestion(): JSX.Element {
             setLawField('');
             setEmail('');
             setDescription('');
-            console.log("uspelo je! :D"); //! za testiranje - will delete later
+            console.log("uspelo je! :D"); //za testiranje - will delete later
         } catch (error) {
             console.error(error);
         }
@@ -83,9 +83,6 @@ export default function AddQuestion(): JSX.Element {
         <Button label="Pošlji vprašanje" className="w-full" severity="success" raised />
       
     </form>
-    
-
-        
     </div>
   );
 }

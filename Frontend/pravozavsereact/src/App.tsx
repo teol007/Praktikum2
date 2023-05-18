@@ -15,8 +15,14 @@ import PageNotFound from './Components/PageNotFound/PageNotFound';
 import Account from './Components/Account/Account';
 import DisplayQuestions from './Components/Questions/DisplayQuestions/DisplayQuestions';
 import EditorPage from './Components/EditorPage/EditorPage';
+import AddAnwser from './Components/Answer/AddAnwser/AddAnwser';
 
 function App() {
+
+  const handleQuestionSelection = () => {
+
+  }
+
   return (
     <div className="App">
       <Navbar />
@@ -43,6 +49,7 @@ function App() {
               element={<EditorPage />}/>
           <Route path='/*'
               element={<PageNotFound />}/>
+          
       </Routes>
       <Footer />
     </div>

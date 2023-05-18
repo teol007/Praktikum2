@@ -15,7 +15,7 @@ export interface Response {
 
 export interface Answer {
     questionId: string;
-    authorUid: string;
+    authorUid: string | undefined;
     title: string;
     content: string;
     created: Timestamp;
