@@ -6,6 +6,7 @@ import { QuestionWithId } from "../../../Modules/Interfaces/Question";
 import { UserCustomInfo } from "../../../Modules/Interfaces/UserCustomInfo";
 import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../../../Config/Firebase";
+import QuestionDetails from "../QuestionDetails/QuestionDetails";
 
 interface QuestionActionsProps {
   question: QuestionWithId;
@@ -59,12 +60,12 @@ export default function QuestionActions(props: QuestionActionsProps): JSX.Elemen
     if(selectedAuthor)
       updateQuestionAuthor(selectedAuthor);
   }
-  
+
+    
   return (
     <>
       <div className="flex flex-wrap justify-content-end gap-2">
-        <Button label="Podrobnosti" icon="pi pi-pencil" className="p-button-outlined p-button-primary" size="small" /><br />
-      
+        <QuestionDetails question={props.question} />
         <Button label="Dodeli odvetniku" icon="pi pi-user-edit" onClick={(e) => overlayPanelRef.current?.toggle(e)} size="small" />
 
         <OverlayPanel ref={overlayPanelRef} showCloseIcon >
