@@ -8,6 +8,7 @@ export interface UserCustomInfo {
     fullName: string;
     academicTitle: string;
     email: string;
-    group: Group;
+    group: Group | string;
+    lawFields: string[];
     uid: string;
 }
