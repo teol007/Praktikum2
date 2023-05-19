@@ -18,13 +18,6 @@ import ManagerPage from './Components/ManagerPage/ManagerPage';
 import AddAnwser from './Components/Answer/AddAnwser/AddAnwser';
 
 function App() {
-
-  const [selectedQuesiton, setSelectedQuestion] = useState("");
-
-  const handleQuestionSelection = (selectedQuesitonId: string) => {
-    setSelectedQuestion(selectedQuesitonId);
-  }
-
   return (
     <div className="App">
       <Navbar />

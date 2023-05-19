@@ -21,7 +21,7 @@ export default function DisplayAssignedQuestions(): JSX.Element {
           description: doc.data().description,
           lawField: doc.data().lawField,
           created: doc.data().created,
-          selectedRespondentUid: doc.data().selectedRespondentUid
+          closed: doc.data().closed
         }
       });
       setQuestions(questionsData);
@@ -65,14 +65,14 @@ export default function DisplayAssignedQuestions(): JSX.Element {
     <div className="container">
       <h2 style={{marginTop: '1em'}}>Dodeljena vprašanja</h2>
       <div className="row">
-      {questions.filter((question) => (question.selectedRespondentUid!=='')).map(question => (
+      {questions.map(question => (
           <div key={question.id} className="col flex justify-content-center" style={{ paddingTop: '1rem', paddingBottom: '1rem' }} >
               <Card title={question.lawField} subTitle={question.customerEmail} header={header} footer={()=>(assignedQuestionActions(question))} className="md:w-25rem">
                 <p className="m-0">
                   Ustvarjeno:<br />
                   {toSlovenianDate(question.created.toDate())} ob {toSlovenianTime(question.created.toDate())}
                   <hr style={{width: '70%', marginLeft: 'auto', marginRight: 'auto'}} />
-                  Dodeljeno: <strong>{authors.find((author) => (author.uid === question.selectedRespondentUid))?.fullName}</strong>
+                  Dodeljeno: <strong>{/* authors.find((author) => (author.uid === question.selectedRespondentUid))?.fullName */}</strong>
                 </p>
               </Card>
           </div>

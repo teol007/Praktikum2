@@ -1,12 +1,6 @@
-import React, { useRef, useState } from "react";
-import { Button } from 'primereact/button';
-import { Dropdown, DropdownChangeEvent } from 'primereact/dropdown';
-import { OverlayPanel } from 'primereact/overlaypanel';
-import { doc, updateDoc } from "firebase/firestore";
-import { db } from "../../../../Config/Firebase";
+import React from "react";
 import { QuestionWithId } from "../../../../Modules/Interfaces/Question";
 import { UserCustomInfo } from "../../../../Modules/Interfaces/UserCustomInfo";
-import QuestionDetails from "../../QuestionDetails/QuestionDetails";
 
 
 interface QuestionActionsProps {
@@ -32,7 +26,7 @@ interface QuestionActionsProps {
   */
 
 export default function AssignedQuestionActions(props: QuestionActionsProps): JSX.Element {
-  const [selectedAuthor, setSelectedAuthor] = useState<UserCustomInfo|undefined>(props.authors.find((author) => (author.uid === props.question.selectedRespondentUid)));
+  /* const [selectedAuthor, setSelectedAuthor] = useState<UserCustomInfo|undefined>(props.authors.find((author) => (author.uid === props.question.selectedRespondentUid)));
   const overlayPanelRef = useRef<OverlayPanel>(null);
 
   const updateQuestionAuthor = async (author: UserCustomInfo|null) => {
@@ -53,6 +47,7 @@ export default function AssignedQuestionActions(props: QuestionActionsProps): JS
     } catch (error) {
       console.error(error);
     }
+    console.log('Ta del še implementiraj!'); //!
   }
 
   const handleSelectAuthor = (e: DropdownChangeEvent):void => {
@@ -85,4 +80,7 @@ export default function AssignedQuestionActions(props: QuestionActionsProps): JS
       </div>
     </>
   );
+
+  */
+  return <></>; //!
 }

@@ -1,12 +1,7 @@
 import { Timestamp } from "@firebase/firestore";
 
-export interface QuestionWithId {
+export interface QuestionWithId extends Question {
     id: string;
-    customerEmail: string;
-    description: string;
-    lawField: string;
-    created: Timestamp;
-    selectedRespondentUid: string;
 }
 
 export interface Question {
@@ -14,5 +9,5 @@ export interface Question {
     description: string;
     lawField: string;
     created: Timestamp;
-    selectedRespondentUid: string;
+    closed: boolean;
 }

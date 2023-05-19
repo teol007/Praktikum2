@@ -4,7 +4,6 @@ import { InputText } from "primereact/inputtext";
 import { InputTextarea } from "primereact/inputtextarea";
 import { collection, addDoc } from "firebase/firestore";
 import { db, firebaseAuth } from "../../../Config/Firebase";
-import { Timestamp } from "@firebase/firestore";
 import { Answer } from "../../../Modules/Interfaces/Answer";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useParams } from "react-router";
@@ -13,7 +12,7 @@ export default function AddAnwser(): JSX.Element {
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
 
-    const [user, loading, error] = useAuthState(firebaseAuth);
+    const [user /*, loading, error */] = useAuthState(firebaseAuth);
 
     const { questionId } = useParams()
     const qustionIdStr = String(questionId)
@@ -28,9 +27,9 @@ export default function AddAnwser(): JSX.Element {
                 authorUid: authorId,
                 title: title,
                 content: content,
-                created: Timestamp.now(),
-                published: null,
-                responses: []
+                answered: null,
+                responses: [],
+                published: null
             }
             await addDoc(collection(db, "Answers"), newAnswer);
 

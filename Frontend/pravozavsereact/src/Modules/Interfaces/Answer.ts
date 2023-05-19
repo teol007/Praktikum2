@@ -13,23 +13,16 @@ export interface Response {
     status: Status;
 }
 
+export interface AnswerWithId extends Answer {
+    id: string;
+}
+
 export interface Answer {
     questionId: string;
     authorUid: string | undefined;
     title: string;
     content: string;
-    created: Timestamp;
-    published: Timestamp | null;
+    answered: Timestamp | null;
     responses: Response[];
-}
-
-export interface AnswerWithId {
-    id: string;
-    questionId: string;
-    authorUid: string;
-    title: string;
-    content: string;
-    created: Timestamp;
     published: Timestamp | null;
-    responses: Response[];
 }

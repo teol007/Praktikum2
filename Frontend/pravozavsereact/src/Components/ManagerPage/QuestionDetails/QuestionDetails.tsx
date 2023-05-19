@@ -85,7 +85,7 @@ export default function QuestionDetails(props: QuestionDetailsProps): JSX.Elemen
                         </div> : <Button label="Uredi pravno področje" icon="pi pi-external-link" className="p-button-outlined p-button-primary" size="small" onClick={() => setShowEdit(true)} />
                     }
                     <p><b>Postavljeno vprašanje: </b>{props.question.description}</p>
-                    <p><b>Dodeljen avtor odgovora: </b>{(authors.find((author) => (author.uid === props.question.selectedRespondentUid))?.fullName)??'Ni dodeljenega avtorja za odgovor na vprašanje'}</p>
+                    <p><b>Dodeljen avtor odgovora: </b>{/* (authors.find((author) => (author.uid === props.question.selectedRespondentUid))?.fullName)??'Ni dodeljenega avtorja za odgovor na vprašanje' */}</p>
                 </div>
             
             </Dialog>

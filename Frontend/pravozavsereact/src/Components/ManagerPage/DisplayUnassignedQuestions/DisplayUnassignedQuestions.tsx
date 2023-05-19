@@ -21,7 +21,7 @@ export default function DisplayUnassignedQuestions(): JSX.Element {
           description: doc.data().description,
           lawField: doc.data().lawField,
           created: doc.data().created,
-          selectedRespondentUid: doc.data().selectedRespondentUid
+          closed: doc.data().closed
         }
       });
       setQuestions(questionsData);
@@ -65,7 +65,7 @@ export default function DisplayUnassignedQuestions(): JSX.Element {
     <div className="container">
       <h2 style={{marginTop: '1em'}}>Nedodeljena vprašanja</h2>
       <div className="row">
-      {questions.filter((question) => (question.selectedRespondentUid==='')).map(question => (
+      {questions.map(question => (
           <div key={question.id} className="col flex justify-content-center" style={{ paddingTop: '1rem', paddingBottom: '1rem' }} >
               <Card title={question.lawField} subTitle={question.customerEmail} header={header} footer={()=>(unassignedQuestionActions(question))} className="md:w-25rem">
                 <p className="m-0">

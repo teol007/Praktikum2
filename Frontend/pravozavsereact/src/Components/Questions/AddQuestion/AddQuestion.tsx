@@ -25,7 +25,7 @@ export default function AddQuestion(): JSX.Element {
                 customerEmail: email,
                 description: description,
                 lawField: lawField,
-                selectedRespondentUid: ''
+                closed: false
             }
 
             await addDoc(collection(db, "Questions"), newQuestion);

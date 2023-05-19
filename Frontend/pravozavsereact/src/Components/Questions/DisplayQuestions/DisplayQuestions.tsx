@@ -24,7 +24,7 @@ export default function DisplayQuestions(): JSX.Element {
                 description: doc.data().description,
                 lawField: doc.data().lawField,
                 created: doc.data().created,
-                selectedRespondentUid: doc.data().selectedRespondentUid
+                closed: doc.data().closed
               }
             });
             
