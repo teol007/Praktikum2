@@ -39,7 +39,7 @@ export default function QuestionDetails(props: QuestionDetailsProps): JSX.Elemen
         setNewLawField(e.target.value);
       }
     
-      const ja = (e:any):void => {
+      const shrani = (e: React.MouseEvent<HTMLButtonElement>):void => {
         e.preventDefault();
         if(newLawField)
           updateLawField(newLawField);
@@ -81,7 +81,7 @@ export default function QuestionDetails(props: QuestionDetailsProps): JSX.Elemen
                     {showEdit ? 
                         <div>
                         <Dropdown value={newLawField} options={lawFieldsArray} onChange={handleSelectLawField} placeholder="Izberi pravno področje problema"  className="w-full md:w-14rem" filter required />
-                        <Button label="shrani" icon="pi pi-external-link" className="p-button-outlined p-button-primary" size="small" onClick={ja} />
+                        <Button label="shrani" icon="pi pi-external-link" className="p-button-outlined p-button-primary" size="small" onClick={shrani} />
                         </div> : <Button label="Uredi pravno področje" icon="pi pi-external-link" className="p-button-outlined p-button-primary" size="small" onClick={() => setShowEdit(true)} />
                     }
                     <p><b>Postavljeno vprašanje: </b>{props.question.description}</p>
