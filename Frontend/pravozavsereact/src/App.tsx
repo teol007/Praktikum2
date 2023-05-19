@@ -47,7 +47,7 @@ function App() {
               element={<DisplayQuestions />}/>
           <Route path='/tests'
               element={<Tests />}/>
-          <Route path='/urednik'
+          <Route path='/urednik/*'
               element={<ManagerPage />}/>
           <Route path='/*'
               element={<PageNotFound />}/>
