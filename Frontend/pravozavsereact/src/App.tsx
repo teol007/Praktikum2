@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import './App.css';
 import "primereact/resources/themes/lara-light-indigo/theme.css";     
 import "primereact/resources/primereact.min.css";     
@@ -17,10 +17,12 @@ import DisplayQuestions from './Components/Questions/DisplayQuestions/DisplayQue
 import ManagerPage from './Components/ManagerPage/ManagerPage';
 import AddAnwser from './Components/Answer/AddAnwser/AddAnwser';
 import AuthorPage from './Components/AuthorPage/AuthorPage';
+import Inicialization from './Components/Inicialization/Inicialization';
 
 function App() {
   return (
     <div className="App">
+      <Inicialization />
       <Navbar />
       <Routes>
           <Route path='/'

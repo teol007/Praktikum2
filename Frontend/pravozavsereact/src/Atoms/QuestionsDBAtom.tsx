@@ -1,6 +1,6 @@
 import { atom } from 'jotai';
 import { QuestionWithId } from '../Modules/Interfaces/Question';
 
-const questionsAtom = atom<QuestionWithId[]>([]);
+const questionsDBAtom = atom<QuestionWithId[]>([]);
 
-export { questionsAtom };
+export { questionsDBAtom };

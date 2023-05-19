@@ -19,7 +19,7 @@ export default function QuestionDetails(props: QuestionDetailsProps): JSX.Elemen
     const [visible, setVisible] = useState<boolean>(false);
     const [showEdit, setShowEdit] = useState(false);
     const [newLawField, setNewLawField] = useState(props.question.lawField)
-    const [authors, setAuthors] = useState<UserCustomInfo[]>([]);
+    const [, setAuthors] = useState<UserCustomInfo[]>([]);
     
     const updateLawField = async (questionLawField: String) => {
         if(questionLawField === props.question.lawField)
