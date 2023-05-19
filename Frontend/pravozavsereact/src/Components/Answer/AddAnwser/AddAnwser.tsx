@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
 import { InputTextarea } from "primereact/inputtextarea";
-import { collection, addDoc } from "firebase/firestore";
+import { collection, addDoc, Timestamp } from "firebase/firestore";
 import { db, firebaseAuth } from "../../../Config/Firebase";
 import { Answer } from "../../../Modules/Interfaces/Answer";
 import { useAuthState } from "react-firebase-hooks/auth";
@@ -25,8 +25,10 @@ export default function AddAnwser(): JSX.Element {
             const newAnswer: Answer = {
                 questionId: qustionIdStr,
                 authorUid: authorId,
+                authorAssigned: (authorId ? Timestamp.now() : null),
                 title: title,
                 content: content,
+                tags: [],
                 answered: null,
                 responses: [],
                 published: null

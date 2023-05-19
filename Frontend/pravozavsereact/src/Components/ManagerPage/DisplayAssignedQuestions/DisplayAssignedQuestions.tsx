@@ -71,7 +71,9 @@ export default function DisplayAssignedQuestions(): JSX.Element {
                 <p className="m-0">
                   Ustvarjeno:<br />
                   {toSlovenianDate(question.created.toDate())} ob {toSlovenianTime(question.created.toDate())}
-                  <hr style={{width: '70%', marginLeft: 'auto', marginRight: 'auto'}} />
+                </p>
+                <hr style={{width: '70%', marginLeft: 'auto', marginRight: 'auto'}} />
+                <p>
                   Dodeljeno: <strong>{/* authors.find((author) => (author.uid === question.selectedRespondentUid))?.fullName */}</strong>
                 </p>
               </Card>

@@ -20,8 +20,10 @@ export interface AnswerWithId extends Answer {
 export interface Answer {
     questionId: string;
     authorUid: string | undefined;
+    authorAssigned: Timestamp | null;
     title: string;
     content: string;
+    tags: string[];
     answered: Timestamp | null;
     responses: Response[];
     published: Timestamp | null;

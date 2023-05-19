@@ -1,57 +1,77 @@
-import React from "react";
+import React, { useRef, useState } from "react";
 import { QuestionWithId } from "../../../../Modules/Interfaces/Question";
-import { UserCustomInfo } from "../../../../Modules/Interfaces/UserCustomInfo";
+import { Group, UserCustomInfo } from "../../../../Modules/Interfaces/UserCustomInfo";
+import { Timestamp, addDoc, collection, doc, updateDoc } from "firebase/firestore";
+import { DropdownChangeEvent } from "primereact/dropdown";
+import { OverlayPanel } from "primereact/overlaypanel";
+import { Button } from "primereact/button";
+import { Dropdown } from "primereact/dropdown";
+import { db } from "../../../../Config/Firebase";
+import QuestionDetails from "../../QuestionDetails/QuestionDetails";
+import { useAtom } from "jotai";
+import { answersDBAtom } from "../../../../Atoms/AnswersDBAtom";
+import { usersDBAtom } from "../../../../Atoms/UsersDBAtom";
+import { Answer } from "../../../../Modules/Interfaces/Answer";
 
 
 interface QuestionActionsProps {
   question: QuestionWithId;
-  authors: UserCustomInfo[];
 }
 
-//const [showContentLawField, setShowContentLawField] = useState<{ [key: string]: boolean }>({});
-
-/* const handleClickLawField = (cardId: string) => {
-    setShowContentLawField(prevState => ({
-      ...prevState,
-      [cardId]: !prevState[cardId]
-    }));
-  }; */
-
-  /* <Button label="Uredi področje" icon="pi pi-pencil" className="p-button-outlined p-button-primary" onClick={() => handleClickLawField(props.question.id)} size="small" />
-        {showContentLawField[props.question.id] &&
-          <div className="card flex justify-content-center"> <br />
-            <label>Spremeni pravno področje</label>
-            <Dropdown value={lawField} onChange={(e) => setLawField(e.value)} options={lawFieldsArray}  placeholder="Izberi pravno področje problema"  className="w-full md:w-14rem" />
-          </div>}
-  */
-
 export default function UnassignedQuestionActions(props: QuestionActionsProps): JSX.Element {
-  /*const [selectedAuthor, setSelectedAuthor] = useState<UserCustomInfo|undefined>(props.authors.find((author) => (author.uid === props.question.selectedRespondentUid)));
+  const [selectedAuthor, setSelectedAuthor] = useState<UserCustomInfo|undefined>(/*props.authors.find((author) => (author.uid === props.question.selectedRespondentUid*/undefined);
   const overlayPanelRef = useRef<OverlayPanel>(null);
+  const [answers] = useAtom(answersDBAtom);
+  const [users] = useAtom(usersDBAtom);
 
-  const updateQuestionAuthor = async (author: UserCustomInfo) => {
-    if(author.uid === props.question.selectedRespondentUid)
-      return;
+  const authors = () => (users.filter((user)=>(user.group===Group.Author)));
 
-    const questionRef = doc(db, "Questions", props.question.id);
+  const defineAnwser = async (authorOfAnswer: UserCustomInfo) => {
+    const existingAnswer = answers.find((answer)=>(answer.questionId === props.question.id));
     try {
-      await updateDoc(questionRef, {
-        selectedRespondentUid: author.uid
-      });
+      if(existingAnswer)
+      {
+        if(existingAnswer.authorUid===authorOfAnswer.uid)
+          return;
+
+        const answerRef = doc(db, "Answers", existingAnswer.id);
+        await updateDoc(answerRef, {
+          questionId: props.question.id,
+          authorUid: authorOfAnswer.uid,
+          authorAssigned: Timestamp.now(),
+        });
+      }
+      else
+      {
+        const newAnswer: Answer = {
+          questionId: props.question.id,
+          authorUid: authorOfAnswer.uid,
+          authorAssigned: Timestamp.now(),
+          title: '',
+          content: '',
+          tags: [],
+          answered: null,
+          responses: [],
+          published: null,
+        };
+
+        await addDoc(collection(db, "Answers"), newAnswer);
+      }
+
       overlayPanelRef.current?.hide();
     } catch (error) {
       console.error(error);
     }
   }
 
-  const handleSelectAuthor = (e: DropdownChangeEvent):void => {
+  const handleChange = (e: DropdownChangeEvent):void => {
     setSelectedAuthor(e.target.value);
   }
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>):void => {
     e.preventDefault();
     if(selectedAuthor)
-      updateQuestionAuthor(selectedAuthor);
+      defineAnwser(selectedAuthor);
   }
   
   return (
@@ -65,13 +85,12 @@ export default function UnassignedQuestionActions(props: QuestionActionsProps): 
         <OverlayPanel ref={overlayPanelRef} showCloseIcon >
           <form onSubmit={handleSubmit}>
             <span style={{marginBottom: '0.5em'}}>Določi avtorja odgovora</span><br />
-            <Dropdown value={selectedAuthor} onChange={handleSelectAuthor} options={props.authors} optionLabel="fullName" placeholder="Določi avtorja odgovora"  className="w-full md:w-14rem" style={{width: 'min-content'}} filter required />
+            <Dropdown value={selectedAuthor} onChange={handleChange} options={authors()} optionLabel="fullName" placeholder="Določi avtorja odgovora"  className="w-full md:w-14rem" style={{width: 'min-content'}} filter required />
             <Button type="submit" label="Potrdi" icon="pi pi-check" />
           </form>
         </OverlayPanel>
       </div>
     </>
   );
-  */
- return <></> //!
+
 }
