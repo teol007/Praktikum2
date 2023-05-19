@@ -16,6 +16,7 @@ import Account from './Components/Account/Account';
 import DisplayQuestions from './Components/Questions/DisplayQuestions/DisplayQuestions';
 import ManagerPage from './Components/ManagerPage/ManagerPage';
 import AddAnwser from './Components/Answer/AddAnwser/AddAnwser';
+import AuthorPage from './Components/AuthorPage/AuthorPage';
 
 function App() {
   return (
@@ -42,6 +43,8 @@ function App() {
               element={<Tests />}/>
           <Route path='/urednik/*'
               element={<ManagerPage />}/>
+          <Route path='/avtor/*'
+              element={<AuthorPage />}/>
           <Route path='/*'
               element={<PageNotFound />}/>
           <Route path='/odgovor/:questionId'

@@ -11,10 +11,12 @@ const buttons: MenuItem[] = [
     {label: 'Račun', icon: 'pi pi-fw pi-user'},
     {label: 'Neodgovorjena vprašanja', icon: 'pi pi-fw pi-comment'},
     {label: 'Stran za urednika', icon: 'pi pi-fw pi-user'},
+    {label: 'Stran za avtorja', icon: 'pi pi-fw pi-user'},
+
 ];
 
 const pages: string[] = [
-    '/', '/zastaviVprasanje', '/oNas', '/clovekovePravice', '/racun', '/vprasanja', '/urednik'
+    '/', '/zastaviVprasanje', '/oNas', '/clovekovePravice', '/racun', '/vprasanja', '/urednik', '/avtor'
 ];
 
 export default function Navbar() {
