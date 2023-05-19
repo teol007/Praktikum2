@@ -22,7 +22,8 @@ export default function SignInWithGoogle(): JSX.Element {
               academicTitle: "",
               email: (logedInAccount.user.email ?? 'Neznano'),
               group: Group.Unconfirmed,
-              uid: logedInAccount.user.uid
+              lawFields: [],
+              uid: logedInAccount.user.uid,
             };
 
             await setDoc(doc(db, 'Users', newUser.uid), newUser);

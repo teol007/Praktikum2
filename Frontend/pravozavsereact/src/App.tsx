@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './App.css';
 import "primereact/resources/themes/lara-light-indigo/theme.css";     
 import "primereact/resources/primereact.min.css";     
@@ -14,13 +14,15 @@ import AboutUs from './Components/AboutUs/AboutUs';
 import PageNotFound from './Components/PageNotFound/PageNotFound';
 import Account from './Components/Account/Account';
 import DisplayQuestions from './Components/Questions/DisplayQuestions/DisplayQuestions';
-import EditorPage from './Components/EditorPage/EditorPage';
+import ManagerPage from './Components/ManagerPage/ManagerPage';
 import AddAnwser from './Components/Answer/AddAnwser/AddAnwser';
 
 function App() {
 
-  const handleQuestionSelection = () => {
+  const [selectedQuesiton, setSelectedQuestion] = useState("");
 
+  const handleQuestionSelection = (selectedQuesitonId: string) => {
+    setSelectedQuestion(selectedQuesitonId);
   }
 
   return (
@@ -46,9 +48,11 @@ function App() {
           <Route path='/tests'
               element={<Tests />}/>
           <Route path='/urednik'
-              element={<EditorPage />}/>
+              element={<ManagerPage />}/>
           <Route path='/*'
               element={<PageNotFound />}/>
+          <Route path='/odgovor/:questionId'
+              element={<AddAnwser />}/>
           
       </Routes>
       <Footer />

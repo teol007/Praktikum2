@@ -2,15 +2,12 @@ import React, { useState } from "react";
 import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
 import { InputTextarea } from "primereact/inputtextarea";
-import { Dropdown } from 'primereact/dropdown';
 import { collection, addDoc } from "firebase/firestore";
 import { db, firebaseAuth } from "../../../Config/Firebase";
 import { Timestamp } from "@firebase/firestore";
-import { Question } from "../../../Modules/Interfaces/Question";
 import { Answer } from "../../../Modules/Interfaces/Answer";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useParams } from "react-router";
-
 
 export default function AddAnwser(): JSX.Element {
     const [title, setTitle] = useState('');
@@ -23,25 +20,23 @@ export default function AddAnwser(): JSX.Element {
 
     const handleSubmit = async (event: {preventDefault: () => void}) => {
         event.preventDefault();
-
-        const authorId = user?.uid;//????
-        //user?.providerId
+        const authorId = user?.uid;
 
         try {
             const newAnswer: Answer = {
                 questionId: qustionIdStr,
-                authorUid: authorId,//spremeni
+                authorUid: authorId,
                 title: title,
                 content: content,
                 created: Timestamp.now(),
                 published: null,
                 responses: []
             }
-            await addDoc(collection(db, "Answers"), newAnswer);//preveri da je prava tabela
+            await addDoc(collection(db, "Answers"), newAnswer);
 
             setTitle('');
             setContent('');
-            console.log("uspelo je! :D"); //za testiranje - will delete later
+            console.log("uspelo je! :D");
         } catch (error) {
             console.error(error);
             console.log("ni uspelo");

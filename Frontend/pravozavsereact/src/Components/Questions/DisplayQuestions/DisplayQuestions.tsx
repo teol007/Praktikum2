@@ -4,9 +4,12 @@ import { Button } from 'primereact/button';
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../../../Config/Firebase";
 import { QuestionWithId } from "../../../Modules/Interfaces/Question";
+import { useNavigate } from "react-router";
 
 export default function DisplayQuestions(): JSX.Element {
     const [questions, setQuestions] = useState<QuestionWithId[]>([]);
+
+    const navigate = useNavigate();
     
     useEffect(() => {
         const questionsCollectionRef = collection(db, 'Questions');
@@ -33,6 +36,12 @@ export default function DisplayQuestions(): JSX.Element {
         getQuestions();
       }, []);
 
+      const selectQuestionToAnswer = (questionId: string) => {
+        console.log("hej");
+        navigate("/odgovor/" + questionId);
+
+      }
+
     const header = (
         <img alt="Card" src="https://primefaces.org/cdn/primereact/images/usercard.png" />
     );
@@ -51,6 +60,7 @@ export default function DisplayQuestions(): JSX.Element {
             <div key={question.id} className="col flex justify-content-center" style={{paddingTop: '1rem', paddingBottom: '1rem'}}>
             <Card title={question.lawField} subTitle={question.customerEmail} footer={footer} header={header} className="md:w-25rem">
               <p className="m-0">{question.description}</p>
+              <Button label="Test" icon="pi pi-check" onClick={() => selectQuestionToAnswer(question.id)} />
             </Card>
           </div>
           ))
