@@ -3,19 +3,19 @@ import { MenuItem } from "primereact/menuitem";
 import { Menubar } from "primereact/menubar";
 import PageNotFound from "../PageNotFound/PageNotFound";
 import { Route, Routes, useNavigate } from "react-router-dom";
-import { QuestionsToAnswer } from "./QuestionsToAnswer/QuestionsToAnswer";
-import { QuestionsToEvaluate } from "./QuestionsToEvaluate/QuestionsToEvaluate";
+import { QuestionsToAnswer } from "./DisplayQuestionsToAnswer/DisplayQuestionsToAnswer";
+import DisplayAnswersToEvaluate from "./DisplayAnswersToEvaluate/DisplayAnswersToEvaluate";
 
 export default function ManagerPage(): JSX.Element {
   const navigate = useNavigate();
   const pages: MenuItem[] = [
     {
-      label: 'vprašanja\u00A0za\u00A0odgovoriti',
+      label: 'Vprašanja\u00A0za\u00A0odgovoriti',
       icon: 'pi pi-fw pi-exclamation-circle',
       command: () => {navigate('/avtor')}
     },
     {
-      label: 'odgovori\u00A0za\u00A0oceniti',
+      label: 'Odgovori\u00A0za\u00A0oceniti',
       icon: 'pi pi-fw pi-info-circle',
       command: () => {navigate('/avtor/ocenaOdgovorov')}
     },
@@ -29,7 +29,7 @@ export default function ManagerPage(): JSX.Element {
           element={<QuestionsToAnswer />} 
         />
         <Route path='/ocenaOdgovorov'
-          element={<QuestionsToEvaluate />}
+          element={<DisplayAnswersToEvaluate />}
         />
         <Route path='/*'
           element={<PageNotFound />}/>
