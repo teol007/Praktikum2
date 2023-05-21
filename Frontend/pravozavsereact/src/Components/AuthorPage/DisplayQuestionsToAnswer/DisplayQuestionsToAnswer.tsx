@@ -7,16 +7,15 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { firebaseAuth } from "../../../Config/Firebase";
 import { questionsDBAtom } from "../../../Atoms/QuestionsDBAtom";
 import { QuestionWithId } from "../../../Modules/Interfaces/Question";
-import TimeUntilAnswered from "../../Answer/TimeUntilAnswered/TimeUntilAnswered";
 import { AnswerWithId } from "../../../Modules/Interfaces/Answer";
 import { Timestamp } from "firebase/firestore";
+import TimeUntilAnswered from "../../Answer/TimeUntilAnswered/TimeUntilAnswered";
 
 export function QuestionsToAnswer (){
 
     const [questions] = useAtom(questionsDBAtom);
     const [answer] = useAtom(answersDBAtom);
-
-    const [user /*, loading, error */] = useAuthState(firebaseAuth);
+    const [user] = useAuthState(firebaseAuth);
     const userID = user?.uid;
 
     const testniArray: AnswerWithId[] = [];

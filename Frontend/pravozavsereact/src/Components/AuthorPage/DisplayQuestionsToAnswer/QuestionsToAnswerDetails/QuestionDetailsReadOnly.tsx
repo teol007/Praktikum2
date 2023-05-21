@@ -8,9 +8,6 @@ export interface QuestionDetailsProps{
   question: QuestionWithId;
 }
 
-const lawFieldsArray = [ 'Stvarno pravo', 'Kazensko pravo', 'Prekrškovno pravo', 'Obligacijsko pravo', 'Odškodnina',
-'Delovno pravo', 'Socialno pravo', 'Družinsko pravo', 'Dedno pravo', 'Izvršilno pravo', 'Stečaj', 'Davčno pravo', 'Drugo'];
-
 export default function QuestionDetailsReadOnly(props: QuestionDetailsProps): JSX.Element {
   const [visible, setVisible] = useState<boolean>(false);
 

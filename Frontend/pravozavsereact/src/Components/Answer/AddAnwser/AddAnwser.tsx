@@ -2,21 +2,17 @@ import React, { useState } from "react";
 import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
 import { InputTextarea } from "primereact/inputtextarea";
-import { collection, addDoc, Timestamp, doc, updateDoc } from "firebase/firestore";
-import { db, firebaseAuth } from "../../../Config/Firebase";
-import { Answer, AnswerWithId } from "../../../Modules/Interfaces/Answer";
-import { useAuthState } from "react-firebase-hooks/auth";
+import { Timestamp, doc, updateDoc } from "firebase/firestore";
+import { db } from "../../../Config/Firebase";
 import { useNavigate, useParams } from "react-router";
 import { answersDBAtom } from "../../../Atoms/AnswersDBAtom";
 import { useAtom } from "jotai";
-import { Editor } from 'primereact/editor';
 import { questionsDBAtom } from "../../../Atoms/QuestionsDBAtom";
 import QuestionDetailsReadOnly from "../../AuthorPage/DisplayQuestionsToAnswer/QuestionsToAnswerDetails/QuestionDetailsReadOnly";
 
 export default function AddAnwser(): JSX.Element {
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
-    const [user /*, loading, error */] = useAuthState(firebaseAuth);
     const [answers] = useAtom(answersDBAtom);
     const [questions] = useAtom(questionsDBAtom);
 
@@ -51,41 +47,41 @@ export default function AddAnwser(): JSX.Element {
         navigate("/avtor");
     }
 
-  return (
-    <div className="container">
-        <h2 style={{marginTop: '1em'}}>Odgovor na vprašanje</h2> <br />
-        <p>Podajte odgovor izbranemu pravnemu vprašanju.</p> <br />
+    return (
+        <div className="container">
+            <h2 style={{marginTop: '1em'}}>Odgovor na vprašanje</h2> <br />
+            <p>Podajte odgovor izbranemu pravnemu vprašanju.</p> <br />
 
-        <div className="flex flex-wrap justify-content-end gap-2">
-        <div style={{marginLeft: '3em', marginRight: '3em'}}>
-          <QuestionDetailsReadOnly question={selectedQuestion!} /> <br />
+            <div className="flex flex-wrap justify-content-end gap-2">
+            <div style={{marginLeft: '3em', marginRight: '3em'}}>
+            <QuestionDetailsReadOnly question={selectedQuestion!} /> <br />
+            </div>
         </div>
-      </div>
 
-        <form onSubmit={handleSubmit}>
-            <div className="card flex justify-content-center">
-                <div className="flex flex-column gap-2"> <br />
-                    <label htmlFor="title">Naslov</label><br />
-                    <InputText id="title" aria-describedby="title-help" type="text" value={title} onChange={(e) => setTitle(e.target.value)} required /><br />
-                    <small id="title-help">
-                        Vpišite naslov odgovora na pravno vprašanje.
-                    </small> <br /> <br />
-                </div>
-            </div> <br />
+            <form onSubmit={handleSubmit}>
+                <div className="card flex justify-content-center">
+                    <div className="flex flex-column gap-2"> <br />
+                        <label htmlFor="title">Naslov</label><br />
+                        <InputText id="title" aria-describedby="title-help" type="text" value={title} onChange={(e) => setTitle(e.target.value)} required /><br />
+                        <small id="title-help">
+                            Vpišite naslov odgovora na pravno vprašanje.
+                        </small> <br /> <br />
+                    </div>
+                </div> <br />
 
-            <div className="card flex justify-content-center">
-                <div className="flex flex-column gap-2"> <br />
-                    <label htmlFor="opis">Odgovor na pravo vprašanje</label> <br />
-                    <InputTextarea id="opis" value={content} onChange={(e) => setContent(e.target.value)} rows={3} cols={100} required /> <br />
-                    <small id="opis-help">
-                        V to polje vpišite vsebino odgovora na pravno vprašanje.
-                    </small> <br /> <br />
-                </div>
-            </div> <br />
+                <div className="card flex justify-content-center">
+                    <div className="flex flex-column gap-2"> <br />
+                        <label htmlFor="opis">Odgovor na pravo vprašanje</label> <br />
+                        <InputTextarea id="opis" value={content} onChange={(e) => setContent(e.target.value)} rows={3} cols={100} required /> <br />
+                        <small id="opis-help">
+                            V to polje vpišite vsebino odgovora na pravno vprašanje.
+                        </small> <br /> <br />
+                    </div>
+                </div> <br />
 
-            <Button label="Odgovori na vprašanje" className="w-full" severity="success" raised />
-            <Button label="Nazaj na vprašanja" className="w-full" onClick={() => goBack()} raised style={{marginLeft: "30px"}} />
-        </form>
-    </div>
-  );
+                <Button label="Odgovori na vprašanje" className="w-full" severity="success" raised />
+                <Button label="Nazaj na vprašanja" className="w-full" onClick={() => goBack()} raised style={{marginLeft: "30px"}} />
+            </form>
+        </div>
+    );
 }

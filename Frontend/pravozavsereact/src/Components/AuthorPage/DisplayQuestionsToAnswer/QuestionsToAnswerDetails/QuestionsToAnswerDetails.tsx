@@ -1,23 +1,13 @@
 import React, { useRef, useState } from "react";
 import { Button } from 'primereact/button';
-import { Dialog } from 'primereact/dialog';
 import { useAtom } from "jotai";
-import { Accordion, AccordionTab } from "primereact/accordion";
-import { ScrollTop } from 'primereact/scrolltop';
-import { Answer, AnswerWithId } from "../../../../Modules/Interfaces/Answer";
-import QuestionDetails from "../../../Questions/QuestionDetails/QuestionDetails";
-import { questionsDBAtom } from "../../../../Atoms/QuestionsDBAtom";
-import { useAuthState } from "react-firebase-hooks/auth";
-import { db, firebaseAuth } from "../../../../Config/Firebase";
-import { Card, Dropdown } from "react-bootstrap";
-import { Question, QuestionWithId } from "../../../../Modules/Interfaces/Question";
+import { Answer } from "../../../../Modules/Interfaces/Answer";
+import { db} from "../../../../Config/Firebase";
+import { QuestionWithId } from "../../../../Modules/Interfaces/Question";
 import { answersDBAtom } from "../../../../Atoms/AnswersDBAtom";
-import { timeBetweenDates, timeBetweenDatesSeconds, toSlovenianDateTime } from "../../../../Modules/Functions/DateConverters";
-import { Group, UserCustomInfo } from "../../../../Modules/Interfaces/UserCustomInfo";
+import { UserCustomInfo } from "../../../../Modules/Interfaces/UserCustomInfo";
 import { OverlayPanel } from "primereact/overlaypanel";
-import { usersDBAtom } from "../../../../Atoms/UsersDBAtom";
 import { Timestamp, addDoc, collection, doc, updateDoc } from "firebase/firestore";
-import { DropdownChangeEvent } from "primereact/dropdown";
 import { useNavigate } from "react-router";
 import QuestionDetailsReadOnly from "./QuestionDetailsReadOnly";
 
@@ -25,29 +15,16 @@ interface QuestionActionsProps {
   question: QuestionWithId;
 }
 
-interface DropdownGroup {
-  label: string;
-  items: DropdownItem[];
-}
-
-interface DropdownItem {
-  label: string;
-  value: UserCustomInfo;
-}
-
-
-
 export default function QuestionsToAnswerDetails(props: QuestionActionsProps): JSX.Element {
-  const [selectedAuthor, setSelectedAuthor] = useState<UserCustomInfo|undefined>(undefined);
+  const [selectedAuthor, ] = useState<UserCustomInfo|undefined>(undefined);
   const overlayPanelRef = useRef<OverlayPanel>(null);
   const [answers] = useAtom(answersDBAtom);
-  const [users] = useAtom(usersDBAtom);
 
   const navigate = useNavigate();
 
-    const selectQuestionToAnswer = (questionId: string) => {
-      navigate("/avtor/odgovor/" + questionId);
-    }
+  const selectQuestionToAnswer = (questionId: string) => {
+    navigate("/avtor/odgovor/" + questionId);
+  }
 
   const defineAnwser = async (authorOfAnswer: UserCustomInfo) => {
     const existingAnswer = answers.find((answer)=>(answer.questionId === props.question.id));
@@ -64,8 +41,7 @@ export default function QuestionsToAnswerDetails(props: QuestionActionsProps): J
           authorAssigned: Timestamp.now(),
         });
       }
-      else
-      {
+      else {
         const newAnswer: Answer = {
           questionId: props.question.id,
           authorUid: authorOfAnswer.uid,
@@ -77,18 +53,12 @@ export default function QuestionsToAnswerDetails(props: QuestionActionsProps): J
           responses: [],
           published: null,
         };
-
         await addDoc(collection(db, "Answers"), newAnswer);
       }
-
       overlayPanelRef.current?.hide();
     } catch (error) {
       console.error(error);
     }
-  }
-
-  const handleChange = (e: DropdownChangeEvent):void => {
-    setSelectedAuthor(e.target.value);
   }
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>):void => {
@@ -97,19 +67,6 @@ export default function QuestionsToAnswerDetails(props: QuestionActionsProps): J
       defineAnwser(selectedAuthor);
   }
 
-  const authors = () => (users.filter((user)=>(user.group===Group.Author)));
-  const authorsOfLawField = (lawField: string) => (authors().filter((author)=>(author.lawFields.includes(lawField))));
-  const authorsNotOfLawField = (lawField: string) => (authors().filter((author)=>(!author.lawFields.includes(lawField))));
-  const grupedAuthors = (): DropdownGroup[] => ([
-    {
-      label: props.question.lawField,
-      items: authorsOfLawField(props.question.lawField).map((author)=>({label: author.academicTitle+' '+author.fullName, value: author}))
-    },
-    {
-      label: 'Ostali',
-      items: authorsNotOfLawField(props.question.lawField).map((author)=>({label: author.academicTitle+' '+author.fullName, value: author}))
-    }
-  ]);
   
   return (
     <>
