@@ -49,8 +49,7 @@ function App() {
               element={<AuthorPage />}/>
           <Route path='/*'
               element={<PageNotFound />}/>
-          <Route path='/odgovor/:questionId'
-              element={<AddAnwser />}/>
+          
           
       </Routes>
       <Footer />

@@ -2,52 +2,65 @@ import React, { useState } from "react";
 import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
 import { InputTextarea } from "primereact/inputtextarea";
-import { collection, addDoc, Timestamp } from "firebase/firestore";
+import { collection, addDoc, Timestamp, doc, updateDoc } from "firebase/firestore";
 import { db, firebaseAuth } from "../../../Config/Firebase";
-import { Answer } from "../../../Modules/Interfaces/Answer";
+import { Answer, AnswerWithId } from "../../../Modules/Interfaces/Answer";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
+import { answersDBAtom } from "../../../Atoms/AnswersDBAtom";
+import { useAtom } from "jotai";
+import { Editor } from 'primereact/editor';
+import { questionsDBAtom } from "../../../Atoms/QuestionsDBAtom";
+import QuestionDetailsReadOnly from "../../AuthorPage/DisplayQuestionsToAnswer/QuestionsToAnswerDetails/QuestionDetailsReadOnly";
 
 export default function AddAnwser(): JSX.Element {
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
-
     const [user /*, loading, error */] = useAuthState(firebaseAuth);
+    const [answers] = useAtom(answersDBAtom);
+    const [questions] = useAtom(questionsDBAtom);
 
-    const { questionId } = useParams()
-    const qustionIdStr = String(questionId)
+    const navigate = useNavigate();
+
+    const { questionId } = useParams();
+    const qustionIdStr = String(questionId);
+
+    const selectedQuestion = questions.find((question) => question.id === qustionIdStr);
 
     const handleSubmit = async (event: {preventDefault: () => void}) => {
         event.preventDefault();
-        const authorId = user?.uid;
+        const existingAnswer = answers.find((answer)=>(answer.questionId === qustionIdStr));
 
         try {
-            const newAnswer: Answer = {
-                questionId: qustionIdStr,
-                authorUid: authorId,
-                authorAssigned: (authorId ? Timestamp.now() : null),
-                title: title,
-                content: content,
-                tags: [],
-                answered: null,
-                responses: [],
-                published: null
-            }
-            await addDoc(collection(db, "Answers"), newAnswer);
+            if (existingAnswer){
+                const answerRef = doc(db, "Answers", existingAnswer.id);
+                await updateDoc(answerRef, {
+                    anwsered:  Timestamp.now(),
+                    content: content,
+                    title: title
+                });
 
-            setTitle('');
-            setContent('');
-            console.log("uspelo je! :D");
+                navigate("/avtor");
+            }
         } catch (error) {
             console.error(error);
-            console.log("ni uspelo");
         }
+    }
+
+    const goBack = () => {
+        navigate("/avtor");
     }
 
   return (
     <div className="container">
-        <h2>Odgovor na vprašanje</h2> <br />
+        <h2 style={{marginTop: '1em'}}>Odgovor na vprašanje</h2> <br />
         <p>Podajte odgovor izbranemu pravnemu vprašanju.</p> <br />
+
+        <div className="flex flex-wrap justify-content-end gap-2">
+        <div style={{marginLeft: '3em', marginRight: '3em'}}>
+          <QuestionDetailsReadOnly question={selectedQuestion!} /> <br />
+        </div>
+      </div>
 
         <form onSubmit={handleSubmit}>
             <div className="card flex justify-content-center">
@@ -71,6 +84,7 @@ export default function AddAnwser(): JSX.Element {
             </div> <br />
 
             <Button label="Odgovori na vprašanje" className="w-full" severity="success" raised />
+            <Button label="Nazaj na vprašanja" className="w-full" onClick={() => goBack()} raised style={{marginLeft: "30px"}} />
         </form>
     </div>
   );

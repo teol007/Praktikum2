@@ -5,6 +5,7 @@ import PageNotFound from "../PageNotFound/PageNotFound";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import { QuestionsToAnswer } from "./DisplayQuestionsToAnswer/DisplayQuestionsToAnswer";
 import DisplayAnswersToEvaluate from "./DisplayAnswersToEvaluate/DisplayAnswersToEvaluate";
+import AddAnwser from "../Answer/AddAnwser/AddAnwser";
 
 export default function AuthorPage(): JSX.Element {
   const navigate = useNavigate();
@@ -30,6 +31,9 @@ export default function AuthorPage(): JSX.Element {
         />
         <Route path='/ocenaOdgovorov'
           element={<DisplayAnswersToEvaluate />}
+        />
+        <Route path='/odgovor/:questionId'
+              element={<AddAnwser />}
         />
         <Route path='/*'
           element={<PageNotFound />}/>

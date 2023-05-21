@@ -7,17 +7,17 @@ import { collection, addDoc } from "firebase/firestore";
 import { db } from "../../../Config/Firebase";
 import { Timestamp } from "@firebase/firestore";
 import { Question } from "../../../Modules/Interfaces/Question";
+import { useNavigate } from "react-router";
 
 export default function AddQuestion(): JSX.Element {
     const [lawField, setLawField] = useState('');
     const [email, setEmail] = useState('');
     const [description, setDescription] = useState('');
 
+    const navigate = useNavigate();
+
     const handleSubmit = async (event: {preventDefault: () => void}) => {
         event.preventDefault();
-        console.log(email);
-        console.log(lawField);
-        console.log(description);
 
         try {
             const newQuestion: Question = {
@@ -33,6 +33,7 @@ export default function AddQuestion(): JSX.Element {
             setLawField('');
             setEmail('');
             setDescription('');
+            navigate("/oNas")
         } catch (error) {
             console.error(error);
         }
