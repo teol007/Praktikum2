@@ -6,9 +6,16 @@ import { Route, Routes, useNavigate } from "react-router-dom";
 import { QuestionsToAnswer } from "./DisplayQuestionsToAnswer/DisplayQuestionsToAnswer";
 import DisplayAnswersToEvaluate from "./DisplayAnswersToEvaluate/DisplayAnswersToEvaluate";
 import AddAnwser from "../Answer/AddAnwser/AddAnwser";
+import { firebaseAuth } from "../../Config/Firebase";
+import { useAuthState } from "react-firebase-hooks/auth";
 
 export default function AuthorPage(): JSX.Element {
+  const [user] = useAuthState(firebaseAuth);
+
   const navigate = useNavigate();
+  if (!user){
+    navigate("/racun");
+  }
   const pages: MenuItem[] = [
     {
       label: 'Vprašanja\u00A0za\u00A0odgovoriti',

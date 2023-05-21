@@ -5,9 +5,15 @@ import { Menubar } from "primereact/menubar";
 import PageNotFound from "../PageNotFound/PageNotFound";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import DisplayAnswers from "./DisplayAnswers/DisplayAnswers";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { firebaseAuth } from "../../Config/Firebase";
 
 export default function ManagerPage(): JSX.Element {
+  const [user] = useAuthState(firebaseAuth);
   const navigate = useNavigate();
+  if (!user){
+    navigate("/racun");
+  }
   const pages: MenuItem[] = [
     {
       label: 'Nedodeljena\u00A0vprašanja',

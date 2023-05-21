@@ -1,17 +1,12 @@
 import { useAtom } from "jotai";
 import React from "react";
 import { answersDBAtom } from "../../../Atoms/AnswersDBAtom";
-import { usersDBAtom } from "../../../Atoms/UsersDBAtom";
 import { Card } from 'primereact/card';
-import AnswerToEvaluateDetails from "../DisplayAnswersToEvaluate/AnswerToEvaluateDetails/AnswerToEvaluateDetails";
-import ResponseToAnswer from "../DisplayAnswersToEvaluate/Response/ResponseToAnswer";
 import QuestionsToAnswerDetails from "./QuestionsToAnswerDetails/QuestionsToAnswerDetails";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { firebaseAuth } from "../../../Config/Firebase";
 import { questionsDBAtom } from "../../../Atoms/QuestionsDBAtom";
 import { QuestionWithId } from "../../../Modules/Interfaces/Question";
-import { toSlovenianDate, toSlovenianTime } from "../../../Modules/Functions/DateConverters";
-import UnassignedQuestionActions from "../../ManagerPage/DisplayUnassignedQuestions/UnassignedQuestionActions/UnassignedQuestionActions";
 import TimeUntilAnswered from "../../ManagerPage/DisplayAnswers/TimeUntilAnswered/TimeUntilAnswered";
 import { AnswerWithId } from "../../../Modules/Interfaces/Answer";
 import { Timestamp } from "firebase/firestore";
@@ -20,9 +15,7 @@ export function QuestionsToAnswer (){
 
     const [questions] = useAtom(questionsDBAtom);
     const [answer] = useAtom(answersDBAtom);
-    const [users] = useAtom(usersDBAtom);
-
-    const [user /*, loading, error */] = useAuthState(firebaseAuth);
+    const [user] = useAuthState(firebaseAuth);
     const userID = user?.uid;
 
     const testniArray: AnswerWithId[] = [];
@@ -39,11 +32,6 @@ export function QuestionsToAnswer (){
     });
 
     const userQuestions = questions.filter((question) => (questionIDsArray.includes(question.id)))
-    
-    const filterUserQuestions = (questions: QuestionWithId[]): QuestionWithId[] => {
-        const assignedQuestionsIDs = answer.map((answer)=>(answer.questionId));
-        return questions.filter((question)=>(!assignedQuestionsIDs.includes(question.id)));
-    }
 
       const unassignedQuestionActions = (question: QuestionWithId): JSX.Element => (
         <QuestionsToAnswerDetails question={question} />
