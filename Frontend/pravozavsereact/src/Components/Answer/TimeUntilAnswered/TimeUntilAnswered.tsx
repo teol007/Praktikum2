@@ -1,6 +1,6 @@
 import React from "react";
-import { AnswerWithId } from "../../../../Modules/Interfaces/Answer";
-import { timeBetweenDates, timeBetweenDatesSeconds, toSlovenianDateTime } from "../../../../Modules/Functions/DateConverters";
+import { AnswerWithId } from "../../../Modules/Interfaces/Answer";
+import { timeBetweenDates, timeBetweenDatesSeconds, toSlovenianDateTime } from "../../../Modules/Functions/DateConverters";
 
 interface AnswerProps {
     answer: AnswerWithId;

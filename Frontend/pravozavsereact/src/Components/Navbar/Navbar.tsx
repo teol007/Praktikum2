@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { TabMenu, TabMenuTabChangeEvent } from 'primereact/tabmenu';
 import { MenuItem } from 'primereact/menuitem';
+import './Navbar.css'
 
 const buttons: MenuItem[] = [
     {label: 'Home', icon: 'pi pi-fw pi-home'},
@@ -35,6 +36,6 @@ export default function Navbar() {
     };
 
     return (
-        <TabMenu model={buttons} activeIndex={currentPage} onTabChange={goToPage}/>
+        <TabMenu model={buttons} activeIndex={currentPage} onTabChange={goToPage} className='dynamicResizing' />
     )
 }

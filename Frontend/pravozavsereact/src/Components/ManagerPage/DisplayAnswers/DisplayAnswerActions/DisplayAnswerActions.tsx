@@ -1,7 +1,7 @@
 import React, { useRef, useState } from "react";
 import { QuestionWithId } from "../../../../Modules/Interfaces/Question";
 import { Group, UserCustomInfo } from "../../../../Modules/Interfaces/UserCustomInfo";
-import { Timestamp, doc, updateDoc } from "firebase/firestore";
+import { Timestamp, deleteDoc, doc, updateDoc } from "firebase/firestore";
 import { DropdownChangeEvent } from "primereact/dropdown";
 import { OverlayPanel } from "primereact/overlaypanel";
 import { Button } from "primereact/button";
@@ -9,9 +9,10 @@ import { Dropdown } from "primereact/dropdown";
 import { db } from "../../../../Config/Firebase";
 import { useAtom } from "jotai";
 import { usersDBAtom } from "../../../../Atoms/UsersDBAtom";
-import { Answer, AnswerWithId } from "../../../../Modules/Interfaces/Answer";
+import { Answer, AnswerWithId, Status } from "../../../../Modules/Interfaces/Answer";
 import { questionsDBAtom } from "../../../../Atoms/QuestionsDBAtom";
 import AnswerDetails from "../../../Answer/AnswerDetails/AnswerDetails";
+import { ConfirmPopup, confirmPopup } from 'primereact/confirmpopup';
 
 interface AnswerActionsProps {
   answer: AnswerWithId;
@@ -60,7 +61,7 @@ export default function DisplayAnswerActions(props: AnswerActionsProps): JSX.Ele
       changeAuhtorOfAnswer(selectedAuthor);
   }
 
-  const getQuestionOfAnswer = (answer: AnswerWithId|Answer): QuestionWithId|undefined => (questions.find((question)=>(question.id === props.answer.questionId)))
+  const getQuestionOfAnswer = (answer: AnswerWithId|Answer): QuestionWithId|undefined => (questions.find((question)=>(question.id === answer.questionId)))
 
   const authors = (): UserCustomInfo[] => (users.filter((user)=>(user.group===Group.Author)));
   const authorsOfLawField = (lawField: string): UserCustomInfo[] => (authors().filter((author)=>(author.lawFields.includes(lawField))));
@@ -80,14 +81,30 @@ export default function DisplayAnswerActions(props: AnswerActionsProps): JSX.Ele
       items: authorsNotOfLawField(questionOfAnswer.lawField).map((author)=>({label: author.academicTitle+' '+author.fullName, value: author}))
     }
   ])};
-  
+
+  const confirmDelete = (event: React.MouseEvent<HTMLButtonElement>) => {
+    confirmPopup({
+        target: event.currentTarget,
+        message: <>Ali res želiš <strong>popolnoma izbrisati</strong> ta odgovor na vprašanje?</>,
+        icon: 'pi pi-exclamation-triangle',
+        acceptClassName: 'p-button-danger',
+        async accept() {
+          await deleteDoc(doc(db, "Answers", props.answer.id));
+        },
+    });
+  };
+
   
   return (
     <>
       <div className="flex flex-wrap justify-content-end gap-2">
         <div style={{marginLeft: '3em', marginRight: '3em'}}>
-          <AnswerDetails answer={props.answer} />
-          <Button label="Spremeni avtorja odgovora" icon="pi pi-user-edit" onClick={(e) => overlayPanelRef.current?.toggle(e)} size="small" style={{width: '100%', margin: '1px'}} disabled={props.answer.answered ? true : false} />
+          <AnswerDetails answer={props.answer} >
+            <Button label="Spremeni avtorja odgovora" icon="pi pi-user-edit" onClick={(e) => overlayPanelRef.current?.toggle(e)} size="small" style={{display: 'inline-block', margin: '1px'}} disabled={props.answer.answered ? true : false} />
+            <ConfirmPopup />
+            <Button label="Izbriši odgovor na vprašanje" icon="pi pi-times" onClick={confirmDelete} size="small" style={{display: 'inline-block', margin: '1px'}} severity="danger" />
+          </AnswerDetails>
+          <Button label="Objavi" icon="pi pi-globe" size="small" onClick={() => {console.log('TODO')/* //! */}} style={{width: '100%', margin: '1px'}} disabled={props.answer.answered&&props.answer.responses.filter((response)=>(response.status===Status.Good)).length>=3 ? false : true} />
         </div>
 
         <OverlayPanel ref={overlayPanelRef} showCloseIcon >

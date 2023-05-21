@@ -1,0 +1,8 @@
+.dynamicResizing .p-tabmenu-nav {
+    display: block;
+}
+
+.dynamicResizing .p-tabmenu-nav .p-tabmenuitem {
+    display: inline-block;
+    margin-top: 2px;
+}

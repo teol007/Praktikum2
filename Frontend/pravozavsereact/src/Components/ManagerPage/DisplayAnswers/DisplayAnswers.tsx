@@ -4,8 +4,9 @@ import { useAtom } from "jotai";
 import { answersDBAtom } from "../../../Atoms/AnswersDBAtom";
 import { usersDBAtom } from "../../../Atoms/UsersDBAtom";
 import { AnswerWithId } from "../../../Modules/Interfaces/Answer";
-import TimeUntilAnswered from "./TimeUntilAnswered/TimeUntilAnswered";
+import TimeUntilAnswered from "../../Answer/TimeUntilAnswered/TimeUntilAnswered";
 import DisplayAnswerActions from "./DisplayAnswerActions/DisplayAnswerActions";
+import ResponsesStatusesCount from "../../Answer/Response/ResponsesStatusesCount/ResponseStatuses";
 
 export default function DisplayAnswers(): JSX.Element {
   const [answers] = useAtom(answersDBAtom);
@@ -31,6 +32,8 @@ export default function DisplayAnswers(): JSX.Element {
           <div key={answer.id} className="col flex justify-content-center" style={{ paddingTop: '1rem', paddingBottom: '1rem' }} >
               <Card title={()=>(answerTitle(answer))} subTitle={() => (answerAuthor(answer))} footer={<DisplayAnswerActions answer={answer} />} className="md:w-25rem">
                 <TimeUntilAnswered answer={answer} />
+                <hr />
+                <ResponsesStatusesCount responses={answer.responses} />
               </Card>
           </div>
       ))}

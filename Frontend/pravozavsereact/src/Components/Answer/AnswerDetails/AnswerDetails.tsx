@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { PropsWithChildren, useState } from "react";
 import { Button } from 'primereact/button';
 import { Dialog } from 'primereact/dialog';
 import { toSlovenianDate, toSlovenianTime } from "../../../Modules/Functions/DateConverters";
@@ -72,7 +72,7 @@ const displayResponses = (answer: AnswerWithId): JSX.Element => {
 }
 
 
-export default function AnswerDetails(props: AnswerDetailsProps): JSX.Element {
+export default function AnswerDetails(props: PropsWithChildren<AnswerDetailsProps>): JSX.Element {
   const [questions] = useAtom(questionsDBAtom);
   const [users] = useAtom(usersDBAtom);
   const [visible, setVisible] = useState<boolean>(false);
@@ -107,12 +107,13 @@ export default function AnswerDetails(props: AnswerDetailsProps): JSX.Element {
           </Accordion>
           <div style={{marginTop: '1em', marginBottom: '1em'}}><b>Oznake (tags): </b>{displayTags(props.answer)}</div>
           <p><b>Odgovorjeno (oddano): </b>{props.answer.answered ? `Da, ${toSlovenianDate(props.answer.answered.toDate())} ob ${toSlovenianTime(props.answer.answered.toDate())}` : 'Ne'}</p>
-          <Accordion style={{padding: 0}} className="saveSpace">
+          <Accordion style={{padding: 0, marginBottom: '1em'}} className="saveSpace">
             <AccordionTab header={`Odzivi (${props.answer.responses.length})`} style={{padding: 0}}>
               {displayResponses(props.answer)}
             </AccordionTab>
           </Accordion>
           <p><b>Objavljeno: </b>{props.answer.published ? `Da, ${toSlovenianDate(props.answer.published.toDate())} ob ${toSlovenianTime(props.answer.published.toDate())}` : 'Ne'}</p>
+          {props.children && <div>Dodatne možnosti:<br />{props.children}</div>}
         </div>
         <ScrollTop target="parent" />
       </Dialog>
