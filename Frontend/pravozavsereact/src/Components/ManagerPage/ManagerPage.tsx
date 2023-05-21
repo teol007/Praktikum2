@@ -4,7 +4,7 @@ import { MenuItem } from "primereact/menuitem";
 import { Menubar } from "primereact/menubar";
 import PageNotFound from "../PageNotFound/PageNotFound";
 import { Route, Routes, useNavigate } from "react-router-dom";
-import DisplayAssignedQuestions from "./DisplayAssignedQuestions/DisplayAssignedQuestions";
+import DisplayAnswers from "./DisplayAnswers/DisplayAnswers";
 
 export default function ManagerPage(): JSX.Element {
   const navigate = useNavigate();
@@ -29,7 +29,7 @@ export default function ManagerPage(): JSX.Element {
           element={<DisplayUnassignedQuestions />} 
         />
         <Route path='/dodeljenaVprasanja'
-          element={<DisplayAssignedQuestions />}
+          element={<DisplayAnswers />}
         />
         <Route path='/*'
           element={<PageNotFound />}/>

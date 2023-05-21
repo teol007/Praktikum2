@@ -1,46 +1,19 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Card } from 'primereact/card';
 import { Button } from 'primereact/button';
-import { collection, getDocs } from "firebase/firestore";
-import { db } from "../../../Config/Firebase";
-import { QuestionWithId } from "../../../Modules/Interfaces/Question";
 import { useNavigate } from "react-router";
+import { useAtom } from "jotai";
+import { questionsDBAtom } from "../../../Atoms/QuestionsDBAtom";
 
 export default function DisplayQuestions(): JSX.Element {
-    const [questions, setQuestions] = useState<QuestionWithId[]>([]);
+    const [questions] = useAtom(questionsDBAtom);
 
     const navigate = useNavigate();
-    
-    useEffect(() => {
-        const questionsCollectionRef = collection(db, 'Questions');
-        const getQuestions = async () => {
-          try {
-            const data = await getDocs(questionsCollectionRef); //more bit await, da počaka da ta asinhrona funkcija vrne odgovor
-            
-            const questionsData: QuestionWithId[] = data.docs.map((doc): QuestionWithId => {
-              return {
-                id: doc.id,
-                customerEmail: doc.data().customerEmail,
-                description: doc.data().description,
-                lawField: doc.data().lawField,
-                created: doc.data().created,
-                closed: doc.data().closed
-              }
-            });
-            
-            setQuestions(questionsData);
-          } catch (error) {
-            console.error(error);
-          }
-        }
-        getQuestions();
-      }, []);
 
-      const selectQuestionToAnswer = (questionId: string) => {
-        console.log("hej");
-        navigate("/odgovor/" + questionId);
-
-      }
+    const selectQuestionToAnswer = (questionId: string) => {
+      console.log("hej");
+      navigate("/odgovor/" + questionId);
+    }
 
     const header = (
         <img alt="Card" src="https://primefaces.org/cdn/primereact/images/usercard.png" />

@@ -3,14 +3,14 @@ import { Timestamp } from "firebase/firestore";
 export enum Status {
     Good = 'Good',
     Bad = 'Bad',
-    VeryBad = 'VeryBad'
+    VeryBad = 'Very bad'
 }
 
 export interface Response {
     commenterUid: string;
     created: Timestamp;
-    description: string;
     status: Status;
+    description: string;
 }
 
 export interface AnswerWithId extends Answer {

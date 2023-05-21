@@ -25,7 +25,7 @@ export default function Navbar() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        setCurrentPage(pages.indexOf(location.pathname));
+        setCurrentPage(pages.indexOf('/'+location.pathname.split('/')[1]));
     }, [location.pathname]);
 
     const goToPage = (event: TabMenuTabChangeEvent):void => {
