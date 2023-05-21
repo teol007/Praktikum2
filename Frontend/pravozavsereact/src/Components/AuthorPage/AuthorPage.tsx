@@ -6,7 +6,7 @@ import { Route, Routes, useNavigate } from "react-router-dom";
 import { QuestionsToAnswer } from "./DisplayQuestionsToAnswer/DisplayQuestionsToAnswer";
 import DisplayAnswersToEvaluate from "./DisplayAnswersToEvaluate/DisplayAnswersToEvaluate";
 
-export default function ManagerPage(): JSX.Element {
+export default function AuthorPage(): JSX.Element {
   const navigate = useNavigate();
   const pages: MenuItem[] = [
     {
