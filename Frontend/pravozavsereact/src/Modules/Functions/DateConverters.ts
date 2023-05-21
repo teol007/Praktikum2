@@ -21,4 +21,18 @@ const toSlovenianDateTime = (date: Date): string => {
     return slovenianDateTime;
 }
 
-export { toSlovenianDate, toSlovenianTime, toSlovenianDateTime };
+const timeBetweenDatesSeconds = (earlierDate: Date, laterDate: Date): number => {
+    return Math.round((laterDate.getTime() - earlierDate.getTime()) / 1000); //+ (new Date().getTimezoneOffset() * 60)
+}
+
+const timeBetweenDates = (date1: Date, date2: Date): string => {
+    const differenceSeconds = Math.abs(timeBetweenDatesSeconds(date1, date2));
+    //const seconds = differenceSeconds%60;
+    const minutes = Math.floor((differenceSeconds/60)%60);
+    const hours = Math.floor((differenceSeconds/60/60)%24);
+    const days = Math.floor(differenceSeconds/60/60/24);
+
+    return days+' dni '+hours+'h '+minutes+'min '; //+seconds+'s';
+}
+
+export { toSlovenianDate, toSlovenianTime, toSlovenianDateTime, timeBetweenDatesSeconds, timeBetweenDates };

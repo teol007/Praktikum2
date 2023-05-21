@@ -7,7 +7,7 @@ import { OverlayPanel } from "primereact/overlaypanel";
 import { Button } from "primereact/button";
 import { Dropdown } from "primereact/dropdown";
 import { db } from "../../../../Config/Firebase";
-import QuestionDetails from "../../QuestionDetails/QuestionDetails";
+import QuestionDetails from "../../../Questions/QuestionDetails/QuestionDetails";
 import { useAtom } from "jotai";
 import { answersDBAtom } from "../../../../Atoms/AnswersDBAtom";
 import { usersDBAtom } from "../../../../Atoms/UsersDBAtom";
@@ -18,13 +18,23 @@ interface QuestionActionsProps {
   question: QuestionWithId;
 }
 
+interface DropdownGroup {
+  label: string;
+  items: DropdownItem[];
+}
+
+interface DropdownItem {
+  label: string;
+  value: UserCustomInfo;
+}
+
+
+
 export default function UnassignedQuestionActions(props: QuestionActionsProps): JSX.Element {
   const [selectedAuthor, setSelectedAuthor] = useState<UserCustomInfo|undefined>(/*props.authors.find((author) => (author.uid === props.question.selectedRespondentUid*/undefined);
   const overlayPanelRef = useRef<OverlayPanel>(null);
   const [answers] = useAtom(answersDBAtom);
   const [users] = useAtom(usersDBAtom);
-
-  const authors = () => (users.filter((user)=>(user.group===Group.Author)));
 
   const defineAnwser = async (authorOfAnswer: UserCustomInfo) => {
     const existingAnswer = answers.find((answer)=>(answer.questionId === props.question.id));
@@ -73,6 +83,21 @@ export default function UnassignedQuestionActions(props: QuestionActionsProps): 
     if(selectedAuthor)
       defineAnwser(selectedAuthor);
   }
+
+  const authors = () => (users.filter((user)=>(user.group===Group.Author)));
+  const authorsOfLawField = (lawField: string) => (authors().filter((author)=>(author.lawFields.includes(lawField))));
+  const authorsNotOfLawField = (lawField: string) => (authors().filter((author)=>(!author.lawFields.includes(lawField))));
+  const grupedAuthors = (): DropdownGroup[] => ([
+    {
+      label: props.question.lawField,
+      items: authorsOfLawField(props.question.lawField).map((author)=>({label: author.academicTitle+' '+author.fullName, value: author}))
+    },
+    {
+      label: 'Ostali',
+      items: authorsNotOfLawField(props.question.lawField).map((author)=>({label: author.academicTitle+' '+author.fullName, value: author}))
+    }
+  ]);
+  
   
   return (
     <>
@@ -85,7 +110,7 @@ export default function UnassignedQuestionActions(props: QuestionActionsProps): 
         <OverlayPanel ref={overlayPanelRef} showCloseIcon >
           <form onSubmit={handleSubmit}>
             <span style={{marginBottom: '0.5em'}}>Določi avtorja odgovora</span><br />
-            <Dropdown value={selectedAuthor} onChange={handleChange} options={authors()} optionLabel="fullName" placeholder="Določi avtorja odgovora"  className="w-full md:w-14rem" style={{width: 'min-content'}} filter required />
+            <Dropdown value={selectedAuthor} onChange={handleChange} options={grupedAuthors()} placeholder="Določi avtorja odgovora"  className="w-full md:w-14rem" style={{width: 'min-content'}} optionLabel="label" optionGroupLabel="label" optionGroupChildren="items" filter required />
             <Button type="submit" label="Potrdi" icon="pi pi-check" />
           </form>
         </OverlayPanel>
