@@ -19,23 +19,18 @@ export default function DisplayAnswers(): JSX.Element {
     return <>{text}</>;
   };
 
-  const answerTitle = (answer: AnswerWithId): JSX.Element => {
-    const text = answer.title;
-    return text!=='' ? <>{text}</> : <i>Ni naslova</i>;
-  }
-
   return (
     <div className="container">
       <h2 style={{marginTop: '1em'}}>Dodeljena vprašanja</h2>
       <div className="row">
       {answers.map(answer => (
-          <div key={answer.id} className="col flex justify-content-center" style={{ paddingTop: '1rem', paddingBottom: '1rem' }} >
-              <Card title={()=>(answerTitle(answer))} subTitle={() => (answerAuthor(answer))} footer={<DisplayAnswerActions answer={answer} />} className="md:w-25rem">
-                <TimeUntilAnswered answer={answer} />
-                <hr />
-                <ResponsesStatusesCount responses={answer.responses} />
-              </Card>
-          </div>
+        <div key={answer.id} className="col flex justify-content-center" style={{ paddingTop: '1rem', paddingBottom: '1rem' }} >
+            <Card title={<></>} subTitle={() => (answerAuthor(answer))} footer={<DisplayAnswerActions answer={answer} />} className="md:w-25rem">
+              <TimeUntilAnswered answer={answer} />
+              <hr />
+              <ResponsesStatusesCount responses={answer.responses} />
+            </Card>
+        </div>
       ))}
       </div>
     </div>

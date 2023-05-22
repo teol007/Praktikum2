@@ -12,7 +12,7 @@ export interface AnswerDetailsProps{
   answer: AnswerWithId;
 }
 
-export default function AnswerDetails(props: AnswerDetailsProps): JSX.Element {
+export default function AnswerToEvaluateDetails(props: AnswerDetailsProps): JSX.Element {
   const [questions] = useAtom(questionsDBAtom);
   const [visible, setVisible] = useState<boolean>(false);
 
@@ -25,17 +25,12 @@ export default function AnswerDetails(props: AnswerDetailsProps): JSX.Element {
 
   return (
     <div className="flex justify-content-center">
-      <Button label="Podrobnosti" icon="pi pi-external-link" className="p-button p-button-primary" size="small" onClick={() => setVisible(true)} style={{width: '100%', margin: '1px'}} />
+      <Button label="Podrobnosti" icon="pi pi-external-link" className="p-button p-button-outlined p-button-primary" size="small" onClick={() => setVisible(true)} style={{width: '100%', margin: '1px'}} />
       <Dialog header="Podrobnosti odgovora na vprašanje" visible={visible} style={{ width: '90vw' }} onHide={() => setVisible(false)} blockScroll={true}>
         <div>
           <div style={{marginTop: '1em', marginBottom: '1em'}}>
             <b>Navezuje se na vprašanje: </b>{displayQuestionDetails(props.answer)}</div>
-            <p><b>Naslov: </b>{props.answer.title!=='' ? props.answer.title : <i>Ni naslova</i>}</p>
-            <Accordion>
-              <AccordionTab header="Vsebina" >
-                <p className="m-0">{props.answer.content!=='' ? props.answer.content : <i>Ni vsebine</i>}</p>
-              </AccordionTab>
-            </Accordion>
+            <b>Datoteka: </b>
           </div>
           <ScrollTop target="parent" />
       </Dialog>

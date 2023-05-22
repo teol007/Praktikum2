@@ -15,9 +15,10 @@ export default function QuestionsInicialization(): JSX.Element {
           id: doc.id,
           customerEmail: doc.data().customerEmail,
           description: doc.data().description,
+          relatesToQuestionId: doc.data().relatesToQuestionId,
           lawField: doc.data().lawField,
           created: doc.data().created,
-          closed: doc.data().selectedRespondentUid
+          closed: doc.data().closed
         }
       });
       setQuestions(data);

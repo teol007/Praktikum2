@@ -94,17 +94,12 @@ export default function AnswerDetails(props: PropsWithChildren<AnswerDetailsProp
   return (
     <div className="flex justify-content-center">
       <Button label="Podrobnosti" icon="pi pi-external-link" className="p-button-outlined p-button-primary" size="small" onClick={() => setVisible(true)} style={{width: '100%', margin: '1px'}} />
-      <Dialog header="Podrobnosti odgovora na vprašanje" visible={visible} style={{ width: '90vw' }} onHide={() => setVisible(false)} blockScroll={true}>
+      <Dialog header="Podrobnosti odgovora na vprašanje" visible={visible} style={{ width: '90vw' }} onHide={() => setVisible(false)} blockScroll={true} >
         <div>
           <div style={{marginTop: '1em', marginBottom: '1em'}}><b>Navezuje se na vprašanje: </b>{displayQuestionDetails(props.answer)}</div>
           <p><b>Avtor odgovora na vprašanje: </b>{displayAnswerAuthor(props.answer)}</p>
           <p><b>Avtor je bil določen: </b>{displayAnswerAuthorAssigned(props.answer)}</p>
-          <p><b>Naslov: </b>{props.answer.title!=='' ? props.answer.title : <i>Ni naslova</i>}</p>
-          <Accordion>
-            <AccordionTab header="Vsebina" >
-              <p className="m-0">{props.answer.content!=='' ? props.answer.content : <i>Ni vsebine</i>}</p>
-            </AccordionTab>
-          </Accordion>
+          <p><b>Datoteka: </b></p>
           <div style={{marginTop: '1em', marginBottom: '1em'}}><b>Oznake (tags): </b>{displayTags(props.answer)}</div>
           <p><b>Odgovorjeno (oddano): </b>{props.answer.answered ? `Da, ${toSlovenianDate(props.answer.answered.toDate())} ob ${toSlovenianTime(props.answer.answered.toDate())}` : 'Ne'}</p>
           <Accordion style={{padding: 0, marginBottom: '1em'}} className="saveSpace">

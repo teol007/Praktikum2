@@ -31,7 +31,7 @@ interface DropdownItem {
 
 
 export default function UnassignedQuestionActions(props: QuestionActionsProps): JSX.Element {
-  const [selectedAuthor, setSelectedAuthor] = useState<UserCustomInfo|undefined>(/*props.authors.find((author) => (author.uid === props.question.selectedRespondentUid*/undefined);
+  const [selectedAuthor, setSelectedAuthor] = useState<UserCustomInfo|undefined>(undefined);
   const overlayPanelRef = useRef<OverlayPanel>(null);
   const [answers] = useAtom(answersDBAtom);
   const [users] = useAtom(usersDBAtom);
@@ -57,12 +57,11 @@ export default function UnassignedQuestionActions(props: QuestionActionsProps): 
           questionId: props.question.id,
           authorUid: authorOfAnswer.uid,
           authorAssigned: Timestamp.now(),
-          title: '',
-          content: '',
           tags: [],
           answered: null,
           responses: [],
           published: null,
+          fileUrl: ""
         };
 
         await addDoc(collection(db, "Answers"), newAnswer);

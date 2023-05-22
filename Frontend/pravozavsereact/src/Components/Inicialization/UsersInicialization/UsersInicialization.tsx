@@ -17,6 +17,7 @@ export default function UsersInicialization(): JSX.Element {
           email: doc.data().email, 
           group: doc.data().group,
           lawFields: doc.data().lawFields,
+          inactive: doc.data().inactive,
           uid: doc.data().uid,
         }
       });

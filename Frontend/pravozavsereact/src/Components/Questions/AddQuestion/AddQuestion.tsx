@@ -24,8 +24,9 @@ export default function AddQuestion(): JSX.Element {
                 created: Timestamp.now(),
                 customerEmail: email,
                 description: description,
+                relatesToQuestionId: null, //! TODO, ce uporabnik vpise id prejsnjega vprasanja, ga dodaj sem
                 lawField: lawField,
-                closed: false
+                closed: false,
             }
 
             await addDoc(collection(db, "Questions"), newQuestion);

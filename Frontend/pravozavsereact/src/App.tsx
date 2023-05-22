@@ -15,7 +15,7 @@ import PageNotFound from './Components/PageNotFound/PageNotFound';
 import Account from './Components/Account/Account';
 import DisplayQuestions from './Components/Questions/DisplayQuestions/DisplayQuestions';
 import ManagerPage from './Components/ManagerPage/ManagerPage';
-import AddAnwser from './Components/Answer/AddAnwser/AddAnwser';
+import PendingAnswerActions from './Components/AuthorPage/PendingAnswers/PendingAnswerActions/PendingAnswerActions';
 import AuthorPage from './Components/AuthorPage/AuthorPage';
 import Inicialization from './Components/Inicialization/Inicialization';
 

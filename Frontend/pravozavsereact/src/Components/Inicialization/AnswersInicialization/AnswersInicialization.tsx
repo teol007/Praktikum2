@@ -16,12 +16,11 @@ export default function AnswersInicialization(): JSX.Element {
           questionId: doc.data().questionId, 
           authorUid: doc.data().authorUid, 
           authorAssigned: doc.data().authorAssigned,
-          title: doc.data().title,
-          content: doc.data().content, 
           tags: doc.data().tags, 
           answered: doc.data().answered, 
           responses: doc.data().responses, 
-          published: doc.data().published
+          published: doc.data().published,
+          fileUrl: doc.data().fileUrl
         }
       });
       setAtom(data);

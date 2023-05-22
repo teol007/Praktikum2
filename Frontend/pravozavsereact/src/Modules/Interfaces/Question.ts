@@ -7,6 +7,7 @@ export interface QuestionWithId extends Question {
 export interface Question {
     customerEmail: string;
     description: string;
+    relatesToQuestionId: string | null;
     lawField: string;
     created: Timestamp;
     closed: boolean;
