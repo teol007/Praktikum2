@@ -1,0 +1,16 @@
+- dodajanje kljukic pri postavljanju vprašanj (3 al 4 checkboxi ki jih že imajo + za strinjanje z uporabo emaila
+- avtomatsko dodeljevanje vprašanj pravnikom (tistih ki so na seznamu - aktivnih)
+- skrijemo email tistega ki je postavil vprapanje na strani avtorja (aka pravnika)
+- vsi vidijo komentarje
+- spremeni "dobro, slabo, zelo slabo" v nekaj kar je bolj user-friendly (npr se/ne strinjam, sth like that)
+- možnost, da avtor lahko spremeni svoj komentar
+- neka stran z arhivom vseh vprašanj ever
+- razno sortiranje
+- stats - št. komentarjev (koliko jih je dal dobro-slabo-zelo slabo na leto, statistika vprašanj?
+- admin lahko avtorju nastavi da je "aktiven/neaktiven" (do določenega datuma)
+- shranjevanje odgovorov kot pdf/word dokument
+- ODGOVORI SE NE OBJAVLJAJO JAVNO! Le pošljejo se kot mail stranki
+- v mailu stranki NI podatka o tem, kdo je odgovor zapisal
+- arhiv vseh odgovorov in komentarjev
+- mail reminder - ko je avtorju dodeljeno vprašanje, ko avtor dobi odgovor za ocenit, ko ti nekdo oceni odgovor (tudi ostala 2 ocenjevalca
+sta obveščena da je ta tretr+ji odgovoril(!)
