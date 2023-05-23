@@ -31,7 +31,7 @@ export default function AddAnwser(): JSX.Element {
             if (existingAnswer){
                 const answerRef = doc(db, "Answers", existingAnswer.id);
                 await updateDoc(answerRef, {
-                    anwsered:  Timestamp.now(),
+                    answered:  Timestamp.now(),
                     content: content,
                     title: title
                 });
