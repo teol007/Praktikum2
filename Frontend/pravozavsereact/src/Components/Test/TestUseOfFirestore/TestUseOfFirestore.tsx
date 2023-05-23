@@ -19,6 +19,7 @@ export default function TestUseOfFirestore(): JSX.Element {
             id: doc.id,
             customerEmail: doc.data().customerEmail,
             description: doc.data().description,
+            relatesToQuestionId: doc.data().relatesToQuestionId,
             lawField: doc.data().lawField,
             created: doc.data().created,
             closed: doc.data().closed

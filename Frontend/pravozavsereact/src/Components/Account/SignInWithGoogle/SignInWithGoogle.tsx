@@ -4,7 +4,7 @@ import { signInWithPopup } from "@firebase/auth";
 import { db, firebaseAuth, firebaseAuthGoogleProvider } from "../../../Config/Firebase";
 import { Toast } from 'primereact/toast';
 import { getAdditionalUserInfo } from "firebase/auth";
-import { doc, setDoc } from "firebase/firestore";
+import { Timestamp, doc, setDoc } from "firebase/firestore";
 import { Group, UserCustomInfo } from "../../../Modules/Interfaces/UserCustomInfo";
 
 export default function SignInWithGoogle(): JSX.Element {
@@ -23,6 +23,10 @@ export default function SignInWithGoogle(): JSX.Element {
               email: (logedInAccount.user.email ?? 'Neznano'),
               group: Group.Unconfirmed,
               lawFields: [],
+              inactive: {
+                from: Timestamp.now(),
+                to: Timestamp.now()
+              },
               uid: logedInAccount.user.uid,
             };
 

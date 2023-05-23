@@ -8,7 +8,6 @@ import { useNavigate, useParams } from "react-router";
 import { answersDBAtom } from "../../../Atoms/AnswersDBAtom";
 import { useAtom } from "jotai";
 import { questionsDBAtom } from "../../../Atoms/QuestionsDBAtom";
-import QuestionDetailsReadOnly from "../../AuthorPage/DisplayQuestionsToAnswer/QuestionsToAnswerDetails/QuestionDetailsReadOnly";
 
 export default function AddAnwser(): JSX.Element {
     const [title, setTitle] = useState('');

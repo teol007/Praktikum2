@@ -3,11 +3,10 @@ import { MenuItem } from "primereact/menuitem";
 import { Menubar } from "primereact/menubar";
 import PageNotFound from "../PageNotFound/PageNotFound";
 import { Route, Routes, useNavigate } from "react-router-dom";
-import { QuestionsToAnswer } from "./DisplayQuestionsToAnswer/DisplayQuestionsToAnswer";
 import DisplayAnswersToEvaluate from "./DisplayAnswersToEvaluate/DisplayAnswersToEvaluate";
-import AddAnwser from "../Answer/AddAnwser/AddAnwser";
 import { firebaseAuth } from "../../Config/Firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
+import { PendingAnswers } from "./PendingAnswers/PendingAnswers";
 
 export default function AuthorPage(): JSX.Element {
   const [user] = useAuthState(firebaseAuth);
@@ -37,13 +36,10 @@ export default function AuthorPage(): JSX.Element {
       <Menubar model={pages} />
       <Routes>
         <Route path='/'
-          element={<QuestionsToAnswer />} 
+          element={<PendingAnswers />} 
         />
         <Route path='/ocenaOdgovorov'
           element={<DisplayAnswersToEvaluate />}
-        />
-        <Route path='/odgovor/:questionId'
-              element={<AddAnwser />}
         />
         <Route path='/*'
           element={<PageNotFound />}/>
