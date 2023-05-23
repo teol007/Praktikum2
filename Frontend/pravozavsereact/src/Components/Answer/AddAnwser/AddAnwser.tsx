@@ -8,6 +8,7 @@ import { useNavigate, useParams } from "react-router";
 import { answersDBAtom } from "../../../Atoms/AnswersDBAtom";
 import { useAtom } from "jotai";
 import { questionsDBAtom } from "../../../Atoms/QuestionsDBAtom";
+import PendingAnswerActions from "../../AuthorPage/PendingAnswers/PendingAnswerActions/PendingAnswerActions";
 
 export default function AddAnwser(): JSX.Element {
     const [title, setTitle] = useState('');
@@ -53,7 +54,7 @@ export default function AddAnwser(): JSX.Element {
 
             <div className="flex flex-wrap justify-content-end gap-2">
             <div style={{marginLeft: '3em', marginRight: '3em'}}>
-            <QuestionDetailsReadOnly question={selectedQuestion!} /> <br />
+            {/* <PendingAnswerActions question={selectedQuestion!} /> <br /> */}
             </div>
         </div>
 
