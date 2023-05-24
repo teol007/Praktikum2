@@ -7,11 +7,13 @@ import DisplayAnswersToEvaluate from "./DisplayAnswersToEvaluate/DisplayAnswersT
 import { firebaseAuth } from "../../Config/Firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { PendingAnswers } from "./PendingAnswers/PendingAnswers";
+import OldComments from "./OldComments/OldComments";
 
 export default function AuthorPage(): JSX.Element {
   const [user] = useAuthState(firebaseAuth);
   const navigate = useNavigate();
 
+  
   useEffect(() => {
     if (!user){
       navigate("/racun");
@@ -29,6 +31,11 @@ export default function AuthorPage(): JSX.Element {
       icon: 'pi pi-fw pi-info-circle',
       command: () => {navigate('/avtor/ocenaOdgovorov')}
     },
+    {
+      label: 'Moji\u00A0komentarji',
+      icon: 'pi pi-fw pi-info-circle',
+      command: () => {navigate('/avtor/mojiKomentarji')}
+    },
   ];
   
   return (
@@ -40,6 +47,9 @@ export default function AuthorPage(): JSX.Element {
         />
         <Route path='/ocenaOdgovorov'
           element={<DisplayAnswersToEvaluate />}
+        />
+         <Route path='/mojiKomentarji'
+          element={<OldComments />}
         />
         <Route path='/*'
           element={<PageNotFound />}/>
