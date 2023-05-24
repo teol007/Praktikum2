@@ -7,12 +7,17 @@ import { firebaseAuth } from "../../../Config/Firebase";
 import TimeUntilAnswered from "../../Answer/TimeUntilAnswered/TimeUntilAnswered";
 import ResponsesStatusesCount from "../../Answer/Response/ResponsesStatusesCount/ResponseStatuses";
 import PendingAnswerActions from "./PendingAnswerActions/PendingAnswerActions";
+import { AnswerWithId } from "../../../Modules/Interfaces/Answer";
 
 export function PendingAnswers(): JSX.Element {
   const [answers] = useAtom(answersDBAtom);
   const [user] = useAuthState(firebaseAuth);
 
-  const answersForAuthor = () => (answers.filter((answer)=>(answer.authorUid===user!.uid)));
+  const answersForAuthor = ():AnswerWithId[] => {
+    if(!user)
+      return [];
+    return answers.filter((answer)=>(answer.authorUid===user.uid))
+  };
 
   return(
     <div className="container">
@@ -20,7 +25,7 @@ export function PendingAnswers(): JSX.Element {
       {
         answersForAuthor().map((answer)=>(
           <div key={answer.id} className="col flex justify-content-center" style={{ paddingTop: '1rem', paddingBottom: '1rem' }} >
-            <Card title={<></>} subTitle={<>Subtitle</>} footer={<PendingAnswerActions answer={answer} />} className="md:w-25rem">
+            <Card title={undefined} subTitle={undefined} footer={<PendingAnswerActions answer={answer} />} className="md:w-25rem">
               <TimeUntilAnswered answer={answer} />
               <hr />
               <ResponsesStatusesCount responses={answer.responses} />

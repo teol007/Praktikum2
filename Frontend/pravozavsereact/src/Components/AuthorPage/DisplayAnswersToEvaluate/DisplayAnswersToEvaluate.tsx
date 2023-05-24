@@ -4,9 +4,8 @@ import { useAtom } from "jotai";
 import { answersDBAtom } from "../../../Atoms/AnswersDBAtom";
 import { usersDBAtom } from "../../../Atoms/UsersDBAtom";
 import { AnswerWithId } from "../../../Modules/Interfaces/Answer";
-import { Button } from "primereact/button";
-import AnswerToEvaluateDetails from "./AnswerToEvaluateDetails/AnswerToEvaluateDetails";
 import ResponseToAnswer from "./Response/ResponseToAnswer";
+import AnswerDetails from "../../Answer/AnswerDetails/AnswerDetails";
 
 
 export default function DisplayAnswersToEvaluate(): JSX.Element {
@@ -28,7 +27,7 @@ export default function DisplayAnswersToEvaluate(): JSX.Element {
           <div key={answer.id} className="col flex justify-content-center" style={{ paddingTop: '1rem', paddingBottom: '1rem' }} >
               <Card title={<></>} subTitle={() => (answerAuthor(answer))}  className="md:w-25rem">
               <div style={{marginLeft: '3em', marginRight: '3em'}}>
-                <AnswerToEvaluateDetails answer={answer} />
+                <AnswerDetails answer={answer} />
                 <ResponseToAnswer answer={answer} />
                </div>
               </Card>

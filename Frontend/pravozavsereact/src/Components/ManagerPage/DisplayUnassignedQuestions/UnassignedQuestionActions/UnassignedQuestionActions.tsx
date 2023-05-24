@@ -102,7 +102,7 @@ export default function UnassignedQuestionActions(props: QuestionActionsProps): 
     <>
       <div className="flex flex-wrap justify-content-end gap-2">
         <div style={{marginLeft: '3em', marginRight: '3em'}}>
-          <QuestionDetails question={props.question} />
+          <QuestionDetails question={props.question} withPersonalData={true} />
           <Button label="Dodeli avtorja odgovora" icon="pi pi-user-plus" onClick={(e) => overlayPanelRef.current?.toggle(e)} size="small" style={{width: '100%', margin: '1px'}} />
         </div>
 

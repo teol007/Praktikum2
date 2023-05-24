@@ -1,15 +1,17 @@
 import React, { useState } from "react";
 import { FileUpload, FileUploadHandlerEvent } from 'primereact/fileupload';
 import { UploadMetadata, getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
-import { db, fileStorage, firebaseAuth } from "../../../Config/Firebase";
+import { db, fileStorage, firebaseAuth } from "../../../../Config/Firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { CustomMetadata } from "../../../Modules/Interfaces/StorageFile";
-import { AnswerWithId } from "../../../Modules/Interfaces/Answer";
+import { CustomMetadata } from "../../../../Modules/Interfaces/StorageFile";
+import { AnswerWithId } from "../../../../Modules/Interfaces/Answer";
 import { updateDoc, Timestamp, doc } from "firebase/firestore";
 
 interface AnswerProps {
   answer: AnswerWithId;
 }
+
+const acceptedFiles: string[] = ['application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
 
 export default function FileUploadArea(props: AnswerProps): JSX.Element {
   const [user] = useAuthState(firebaseAuth);
@@ -23,7 +25,15 @@ export default function FileUploadArea(props: AnswerProps): JSX.Element {
     }
   
     const file = event.files[0];
-  
+
+    if(!acceptedFiles.includes(file.type))
+    {
+      setDownloadStatus('Napaka: Napačen tip datoteke');
+      console.warn('Wrong file type');
+      return;
+    }
+   
+
     const customMetadata: CustomMetadata = {
       realFileName: file.name,
       uploadedByUid: user.uid,
@@ -35,7 +45,7 @@ export default function FileUploadArea(props: AnswerProps): JSX.Element {
       customMetadata: customMetadata
     };
   
-    const storageRef = ref(fileStorage, 'AnswerFiles/'+props.answer.id);
+    const storageRef = ref(fileStorage, 'AnswerFiles/'+props.answer.id+'.'+file.name.split('.').pop());
     const uploadTask = uploadBytesResumable(storageRef, file, fileMetadata);
   
     uploadTask.on('state_changed', (snapshot) => { // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
@@ -43,10 +53,10 @@ export default function FileUploadArea(props: AnswerProps): JSX.Element {
       setDownloadStatus('Naloženih je že ' + Math.round(progress) + '%.');
     }, (error) => {
       switch (error.code) {
-        case 'storage/unauthorized': console.error("User doesn't have permission to access the object"); break;
-        case 'storage/canceled': console.error("User canceled the upload"); break;
-        case 'storage/unknown': console.error(error.serverResponse); break;
-        default : console.error('There was an error while trying to upload a file');
+        case 'storage/unauthorized': setDownloadStatus('Napaka: nimate dovoljenja'); console.error("User doesn't have permission to access the object"); break;
+        case 'storage/canceled': setDownloadStatus('Preklicano'); console.error("User canceled the upload"); break;
+        case 'storage/unknown': setDownloadStatus('Napaka'); console.error(error.serverResponse); break;
+        default : setDownloadStatus('Neznana napaka'); console.error('There was an error while trying to upload a file');
       }
     }, () => { // Upload completed successfully, now we can get the download URL
        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
@@ -69,9 +79,9 @@ export default function FileUploadArea(props: AnswerProps): JSX.Element {
     <>
       <FileUpload
         uploadHandler={handleUpload}
-        accept={undefined}
+        accept={acceptedFiles.join(',')}
         maxFileSize={1000000000}
-        emptyTemplate={<p className="m-0">Povlecite in spustite datoteke sem.</p>}
+        emptyTemplate={<p className="m-0">Povleči in spusti <strong>novo datoteko</strong> sem.</p>}
         chooseLabel='Izberi'
         uploadLabel='Naloži'
         cancelLabel="Prekliči"

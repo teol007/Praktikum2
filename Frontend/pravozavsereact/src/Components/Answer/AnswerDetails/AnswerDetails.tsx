@@ -9,13 +9,16 @@ import { questionsDBAtom } from "../../../Atoms/QuestionsDBAtom";
 import { usersDBAtom } from "../../../Atoms/UsersDBAtom";
 import DisplayResponse from "../Response/DisplayResponse/DisplayResponse";
 import { Accordion, AccordionTab } from "primereact/accordion";
-import { Chip } from 'primereact/chip';
 import { ScrollTop } from 'primereact/scrolltop';
 import { Carousel, CarouselResponsiveOption } from 'primereact/carousel';
 import './AnswerDetails.css'
+import FileDownloadButton from "../FIles/FileDownloadButton/FileDownloadButton";
+import DisplayAnswerTags from "./DisplayAnswerTags/DisplayAnswerTags";
 
 export interface AnswerDetailsProps{
   answer: AnswerWithId;
+  withPersonalData?: boolean;
+  withQuestionPersonalData?: boolean;
 }
 
 const carouselResponsiveOptions: CarouselResponsiveOption[] = [
@@ -43,18 +46,6 @@ const displayAnswerAuthorAssigned = (answer: AnswerWithId): JSX.Element => {
   return <>{toSlovenianDate(date.toDate())} ob {toSlovenianTime(date.toDate())}</>
 }
 
-const displayTags = (answer: AnswerWithId): JSX.Element => {
-  if(answer.tags.length <= 0)
-    return <i>Ni oznak</i>
-  return (
-    <>
-      {answer.tags.map((tag, index): JSX.Element => (
-        <span key={tag}><Chip label={tag} style={{display: 'inline-block'}} /> </span>
-      ))}
-    </>
-  );
-}
-
 const displayResponses = (answer: AnswerWithId): JSX.Element => {
   if(answer.responses.length <= 0)
     return <i style={{display: 'inline-block', paddingLeft: '1em'}}>Ni odzivov</i>
@@ -71,7 +62,11 @@ const displayResponses = (answer: AnswerWithId): JSX.Element => {
   );
 }
 
-
+/**
+ * withPersonalData?: boolean, withQuestionPersonalData?: boolean
+ * @param props 
+ * @returns button Podrobnosti, that shows answer details
+ */
 export default function AnswerDetails(props: PropsWithChildren<AnswerDetailsProps>): JSX.Element {
   const [questions] = useAtom(questionsDBAtom);
   const [users] = useAtom(usersDBAtom);
@@ -81,7 +76,7 @@ export default function AnswerDetails(props: PropsWithChildren<AnswerDetailsProp
     const questionOfAnswer = questions.find((question)=>(question.id === answer.questionId));
     if(!questionOfAnswer)
       return <i>Ni znano</i>;
-    return <QuestionDetails question={questionOfAnswer} />;
+    return <QuestionDetails question={questionOfAnswer} withPersonalData={props.withQuestionPersonalData} />;
   }
 
   const displayAnswerAuthor = (answer: AnswerWithId): JSX.Element => {
@@ -97,11 +92,11 @@ export default function AnswerDetails(props: PropsWithChildren<AnswerDetailsProp
       <Dialog header="Podrobnosti odgovora na vprašanje" visible={visible} style={{ width: '90vw' }} onHide={() => setVisible(false)} blockScroll={true} >
         <div>
           <div style={{marginTop: '1em', marginBottom: '1em'}}><b>Navezuje se na vprašanje: </b>{displayQuestionDetails(props.answer)}</div>
-          <p><b>Avtor odgovora na vprašanje: </b>{displayAnswerAuthor(props.answer)}</p>
-          <p><b>Avtor je bil določen: </b>{displayAnswerAuthorAssigned(props.answer)}</p>
-          <p><b>Datoteka: </b></p>
-          <div style={{marginTop: '1em', marginBottom: '1em'}}><b>Oznake (tags): </b>{displayTags(props.answer)}</div>
+          {props.withPersonalData && <p><b>Avtor odgovora na vprašanje: </b>{displayAnswerAuthor(props.answer)}</p>}
+          {props.withPersonalData && <p><b>Avtor je bil določen: </b>{displayAnswerAuthorAssigned(props.answer)}</p>}
           <p><b>Odgovorjeno (oddano): </b>{props.answer.answered ? `Da, ${toSlovenianDate(props.answer.answered.toDate())} ob ${toSlovenianTime(props.answer.answered.toDate())}` : 'Ne'}</p>
+          <p><b>Datoteka: </b>{props.answer.fileUrl!=='' ? <FileDownloadButton answer={props.answer} /> : <i>Datoteka ni oddana</i>}</p>
+          <div style={{marginTop: '1em', marginBottom: '1em'}}><b>Oznake (tags): </b><DisplayAnswerTags answer={props.answer} /></div>
           <Accordion style={{padding: 0, marginBottom: '1em'}} className="saveSpace">
             <AccordionTab header={`Odzivi (${props.answer.responses.length})`} style={{padding: 0}}>
               {displayResponses(props.answer)}
