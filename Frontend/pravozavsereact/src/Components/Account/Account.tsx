@@ -1,15 +1,15 @@
 import React from "react";
 import SignOut from "./SignOut/SignOut";
-import { useAuthState } from "react-firebase-hooks/auth";
-import { firebaseAuth } from "../../Config/Firebase";
 import SignInWithGoogle from "./SignInWithGoogle/SignInWithGoogle";
-import { ProgressSpinner } from 'primereact/progressspinner';
+import { useAtom } from "jotai";
+import { userAuthentication } from "../../Atoms/UserAuthentication";
 
 
 export default function Account(): JSX.Element {
-  const [user, loading, error] = useAuthState(firebaseAuth);
+  //const [user, loading, error] = useAuthState(firebaseAuth);
+  const [loggedInUser] = useAtom(userAuthentication);
 
-  if(loading)
+  /* if(loading)
   {
     return (
       <>
@@ -39,6 +39,25 @@ export default function Account(): JSX.Element {
         <h2>Prišlo je do težave</h2>
         <p>Poskusi ponovno</p>
         <SignInWithGoogle />
+      </>
+    );
+  }
+
+  return (
+    <>
+      <br />
+      <h2>Prijava</h2>
+      <SignInWithGoogle />
+    </>
+  ); */
+
+  if(loggedInUser)
+  {
+    return (
+      <>
+        <br />
+        <h2>Pozdravljen {loggedInUser.fullName}!</h2>
+        <SignOut />
       </>
     );
   }

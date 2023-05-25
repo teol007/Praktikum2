@@ -3,7 +3,7 @@ import './App.css';
 import "primereact/resources/themes/lara-light-indigo/theme.css";     
 import "primereact/resources/primereact.min.css";     
 import 'primeicons/primeicons.css';
-import { Routes, Route } from 'react-router';
+import { Routes, Route, Navigate } from 'react-router';
 import Greetings from './Components/Greetings/Greetings';
 import AddQuestion from './Components/Questions/AddQuestion/AddQuestion';
 import Navbar from './Components/Navbar/Navbar';
@@ -15,11 +15,15 @@ import PageNotFound from './Components/PageNotFound/PageNotFound';
 import Account from './Components/Account/Account';
 import DisplayQuestions from './Components/Questions/DisplayQuestions/DisplayQuestions';
 import ManagerPage from './Components/ManagerPage/ManagerPage';
-import PendingAnswerActions from './Components/AuthorPage/PendingAnswers/PendingAnswerActions/PendingAnswerActions';
 import AuthorPage from './Components/AuthorPage/AuthorPage';
 import Inicialization from './Components/Inicialization/Inicialization';
+import { useAtom } from 'jotai';
+import { userAuthentication } from './Atoms/UserAuthentication';
+import { Group } from './Modules/Interfaces/UserCustomInfo';
 
 function App() {
+  const [loggedInUser] = useAtom(userAuthentication);
+
   return (
     <div className="App">
       <Inicialization />
@@ -44,13 +48,13 @@ function App() {
           <Route path='/tests'
               element={<Tests />}/>
           <Route path='/urednik/*'
-              element={<ManagerPage />}/>
+            element={loggedInUser&&loggedInUser.group===Group.Manager ? <ManagerPage /> : <Navigate to={'/racun'} />}
+          />
           <Route path='/avtor/*'
-              element={<AuthorPage />}/>
+              element={loggedInUser&&(loggedInUser.group===Group.Manager||loggedInUser.group===Group.Author) ? <AuthorPage /> : <Navigate to={'/racun'} />}
+          />
           <Route path='/*'
               element={<PageNotFound />}/>
-          
-          
       </Routes>
       <Footer />
     </div>

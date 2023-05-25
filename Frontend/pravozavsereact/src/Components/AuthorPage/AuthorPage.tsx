@@ -1,24 +1,14 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { MenuItem } from "primereact/menuitem";
 import { Menubar } from "primereact/menubar";
 import PageNotFound from "../PageNotFound/PageNotFound";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import DisplayAnswersToEvaluate from "./DisplayAnswersToEvaluate/DisplayAnswersToEvaluate";
-import { firebaseAuth } from "../../Config/Firebase";
-import { useAuthState } from "react-firebase-hooks/auth";
 import { PendingAnswers } from "./PendingAnswers/PendingAnswers";
 import OldComments from "./OldComments/OldComments";
 
 export default function AuthorPage(): JSX.Element {
-  const [user] = useAuthState(firebaseAuth);
   const navigate = useNavigate();
-
-  
-  useEffect(() => {
-    if (!user){
-      navigate("/racun");
-    }
-  }, [user, navigate]);
 
   const pages: MenuItem[] = [
     {

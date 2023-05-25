@@ -2,27 +2,15 @@ import React from "react";
 import { Card } from 'primereact/card';
 import { useAtom } from "jotai";
 import { answersDBAtom } from "../../../Atoms/AnswersDBAtom";
-import { usersDBAtom } from "../../../Atoms/UsersDBAtom";
-import { AnswerWithId } from "../../../Modules/Interfaces/Answer";
-import { useAuthState } from "react-firebase-hooks/auth";
-import { firebaseAuth } from "../../../Config/Firebase";
 import EditComment from "./EditComments.tsx/EditComments";
 import AnswerDetails from "../../Answer/AnswerDetails/AnswerDetails";
+import { userAuthentication } from "../../../Atoms/UserAuthentication";
 
-
-// ...
 
 export default function OldComments(): JSX.Element {
-  const [user] = useAuthState(firebaseAuth);
+  const [user] = useAtom(userAuthentication);
   const [answers] = useAtom(answersDBAtom);
-  const [users] = useAtom(usersDBAtom);
 
-  const answerAuthor = (answer: AnswerWithId): JSX.Element => {
-    let text = '';
-    text += users.find((user) => user.uid === answer.authorUid)?.academicTitle + ' ';
-    text += users.find((user) => user.uid === answer.authorUid)?.fullName;
-    return <>{text}</>;
-  };
 
   const filteredAnswers = answers.filter((answer) =>
     answer.responses.some((response) => response.commenterUid === user?.uid)

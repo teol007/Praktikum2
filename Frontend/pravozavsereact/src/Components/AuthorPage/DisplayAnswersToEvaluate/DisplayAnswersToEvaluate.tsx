@@ -6,12 +6,11 @@ import { usersDBAtom } from "../../../Atoms/UsersDBAtom";
 import { AnswerWithId } from "../../../Modules/Interfaces/Answer";
 import ResponseToAnswer from "./Response/ResponseToAnswer";
 import AnswerDetails from "../../Answer/AnswerDetails/AnswerDetails";
-import { useAuthState } from "react-firebase-hooks/auth";
-import { firebaseAuth } from "../../../Config/Firebase";
+import { userAuthentication } from "../../../Atoms/UserAuthentication";
 
 
 export default function DisplayAnswersToEvaluate(): JSX.Element {
-  const [user] = useAuthState(firebaseAuth);
+  const [user] = useAtom(userAuthentication);
   const [answers] = useAtom(answersDBAtom);
   const [users] = useAtom(usersDBAtom);
 
@@ -22,8 +21,7 @@ export default function DisplayAnswersToEvaluate(): JSX.Element {
     return <>{text}</>;
   };
 
-  const answersCommenterUid = answers.filter((answer) =>
-  answer.responses.every((response) => response.commenterUid !== user?.uid)
+  const answersCommenterUid = answers.filter((answer) => (answer.responses.every((response) => response.commenterUid !== user?.uid))
 );
 
 

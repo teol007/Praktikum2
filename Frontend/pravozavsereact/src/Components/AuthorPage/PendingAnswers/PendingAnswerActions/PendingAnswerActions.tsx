@@ -31,7 +31,7 @@ export default function PendingAnswerActions(props: AnswerProps): JSX.Element {
         <SetTags answer={props.answer} />
         <br />
         <Steps model={toDo} activeIndex={1} />
-        <p style={{width: '100%', marginTop: '1em'}}><strong>Trenutno oddana datoteka: </strong><FileDownloadButton answer={props.answer} /></p>
+        <p style={{width: '100%', marginTop: '1em'}}><strong>Trenutno oddana datoteka: </strong>{props.answer.fileUrl!=='' ? <FileDownloadButton answer={props.answer} /> : <i>Datoteka ni oddana</i>}</p>
         <FileUploadArea answer={props.answer} />
       </Dialog>
     </>

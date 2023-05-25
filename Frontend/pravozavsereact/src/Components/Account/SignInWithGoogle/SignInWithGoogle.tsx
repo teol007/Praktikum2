@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { Button } from "primereact/button";
 import { signInWithPopup } from "@firebase/auth";
 import { db, firebaseAuth, firebaseAuthGoogleProvider } from "../../../Config/Firebase";
@@ -6,10 +6,14 @@ import { Toast } from 'primereact/toast';
 import { getAdditionalUserInfo } from "firebase/auth";
 import { Timestamp, doc, setDoc } from "firebase/firestore";
 import { Group, UserCustomInfo } from "../../../Modules/Interfaces/UserCustomInfo";
+import { ProgressSpinner } from 'primereact/progressspinner';
 
 export default function SignInWithGoogle(): JSX.Element {
   const toast = useRef<Toast>(null);
+  const [loading, setLoading] = useState<boolean>(false);
+
   const signUpWithGoogle = async () => {
+    setLoading(true);
     try {
       const logedInAccount = await signInWithPopup(firebaseAuth, firebaseAuthGoogleProvider);
       const isNewUser: boolean = getAdditionalUserInfo(logedInAccount)!.isNewUser; //it should always be defined
@@ -65,6 +69,10 @@ export default function SignInWithGoogle(): JSX.Element {
             <div>
               <p><strong>*Prijava je le za osebje organizacije Pravo za vse</strong></p>
               <Button onClick={signUpWithGoogle} severity="warning" label="Prijava z Google računom" icon="pi pi-user" className="w-full" />
+              {loading ? 
+                <><br /><strong>Avtentikacija:</strong><br /><ProgressSpinner style={{width: '3em', height: '3em'}} strokeWidth="8" fill="var(--surface-ground)" animationDuration=".5s" /></>
+                :<></>
+              }
             </div>
           </div>
         </div>

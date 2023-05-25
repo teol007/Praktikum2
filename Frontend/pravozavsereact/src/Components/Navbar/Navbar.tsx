@@ -3,38 +3,52 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { TabMenu, TabMenuTabChangeEvent } from 'primereact/tabmenu';
 import { MenuItem } from 'primereact/menuitem';
 import './Navbar.css'
+import { useAtom } from 'jotai';
+import { userAuthentication } from '../../Atoms/UserAuthentication';
+import { Group } from '../../Modules/Interfaces/UserCustomInfo';
 
-const buttons: MenuItem[] = [
-    {label: 'Home', icon: 'pi pi-fw pi-home'},
-    {label: 'Zastavi vprašanje', icon: 'pi pi-fw pi-question-circle'},
-    {label: 'O\u00A0nas', icon: 'pi pi-fw pi-building'},
-    {label: 'Človekove pravice', icon: 'pi pi-fw pi-id-card'},
-    {label: 'Račun', icon: 'pi pi-fw pi-user'},
-    {label: 'Stran za urednika', icon: 'pi pi-fw pi-user'},
-    {label: 'Stran za avtorja', icon: 'pi pi-fw pi-user'},
-
+const everyoneButtons: MenuItem[] = [
+    {label: 'Home', icon: 'pi pi-fw pi-home', target: '/'},
+    {label: 'Zastavi vprašanje', icon: 'pi pi-fw pi-question-circle', target: '/zastaviVprasanje'},
+    {label: 'O\u00A0nas', icon: 'pi pi-fw pi-building', target: '/oNas'},
+    {label: 'Človekove pravice', icon: 'pi pi-fw pi-id-card', target: '/clovekovePravice'},
+    {label: 'Račun', icon: 'pi pi-fw pi-user', target: '/racun'},
 ];
 
-const pages: string[] = [
-    '/', '/zastaviVprasanje', '/oNas', '/clovekovePravice', '/racun', '/urednik', '/avtor'
+const onlyAuthorButtons: MenuItem[] = [
+    {label: 'Stran za avtorja', icon: 'pi pi-fw pi-user', target: '/avtor'},
 ];
+
+const onlyManagerButtons: MenuItem[] = [
+    {label: 'Stran za urednika', icon: 'pi pi-fw pi-user', target: '/urednik'},
+];
+
 
 export default function Navbar() {
     const location = useLocation();
     const [currentPage, setCurrentPage] = useState<number>(0);
     const navigate = useNavigate();
+    const [user] = useAtom(userAuthentication);
+
+    let showedButtons = everyoneButtons;
+    if(user && user.group===Group.Author)
+        showedButtons = [...showedButtons, ...onlyAuthorButtons];
+        
+    if(user && user.group===Group.Manager)
+        showedButtons = [...showedButtons, ...onlyAuthorButtons, ...onlyManagerButtons];
 
     useEffect(() => {
-        setCurrentPage(pages.indexOf('/'+location.pathname.split('/')[1]));
+        setCurrentPage(everyoneButtons.findIndex((button)=>(button.target==='/'+location.pathname.split('/')[1])));
     }, [location.pathname]);
 
     const goToPage = (event: TabMenuTabChangeEvent):void => {
         const buttonIndex = event.index;
+        const page = event.value.target;
         setCurrentPage(buttonIndex);
-        navigate(pages[buttonIndex]);
+        navigate(page ?? '/');
     };
 
     return (
-        <TabMenu model={buttons} activeIndex={currentPage} onTabChange={goToPage} className='dynamicResizing' />
+        <TabMenu model={showedButtons} activeIndex={currentPage} onTabChange={goToPage} className='dynamicResizing' />
     )
 }

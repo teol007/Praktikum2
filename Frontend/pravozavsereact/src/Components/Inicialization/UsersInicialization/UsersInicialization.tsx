@@ -23,7 +23,7 @@ export default function UsersInicialization(): JSX.Element {
       });
       setAtom(data);
     }, (error) => {
-      console.error(error)
+      console.warn(error)
     });
 
     return () => {unsubscribe()}; //To nujno more bit drugace bodo klici v neskoncnost pri onSnapshot()!

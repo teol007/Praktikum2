@@ -4,9 +4,9 @@ import { AnswerWithId } from "../../../../Modules/Interfaces/Answer";
 import { Button } from "primereact/button";
 import { InputTextarea } from "primereact/inputtextarea";
 import { doc, updateDoc } from "firebase/firestore";
-import { useAuthState } from "react-firebase-hooks/auth";
-import { firebaseAuth, db } from "../../../../Config/Firebase";
-import { Dropdown } from "primereact/dropdown";
+import { db } from "../../../../Config/Firebase";
+import { useAtom } from "jotai";
+import { userAuthentication } from "../../../../Atoms/UserAuthentication";
 
 export interface EditCommentProps{
     answer: AnswerWithId;
@@ -14,10 +14,9 @@ export interface EditCommentProps{
   }
 
   export default function EditComment(props: EditCommentProps): JSX.Element {
-    const [user] = useAuthState(firebaseAuth);
+    const [user] = useAtom(userAuthentication); 
     const [visible, setVisible] = useState(false);
     const [value, setValue] = useState<string>(props.responseDescription);
-    const [selectedStatus, setSelectedStatus] = useState();
   
     const addResponse = async (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
       event.preventDefault(); 
@@ -44,14 +43,6 @@ export interface EditCommentProps{
     const handleClick = () => {
       setVisible(true);
     }
-
-    const statuses = [
-      { name: 'Močno se ne strinjam', icon:'pi-cloud' },
-      { name: 'Ne strinjam se ', code: 'RM' },
-      { name: 'Močno se ne strinjam', code: 'LDN' },
-      
-  ];
-   
   
     return (
       <>

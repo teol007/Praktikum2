@@ -4,15 +4,16 @@ import { AnswerWithId, Response, Status } from "../../../../Modules/Interfaces/A
 import { Dialog } from "primereact/dialog";
 import { InputTextarea } from "primereact/inputtextarea";
 import { doc, updateDoc, Timestamp, arrayUnion } from "firebase/firestore";
-import { db, firebaseAuth } from "../../../../Config/Firebase";
-import { useAuthState } from "react-firebase-hooks/auth";
+import { db } from "../../../../Config/Firebase";
+import { userAuthentication } from "../../../../Atoms/UserAuthentication";
+import { useAtom } from "jotai";
 
 export interface ResponseProps{
   answer: AnswerWithId
 }
 
 export default function ResponseToAnswer(props: ResponseProps): JSX.Element {
-  const [user] = useAuthState(firebaseAuth);
+  const [user] = useAtom(userAuthentication);
   const [visible, setVisible] = useState(false);
   const [value, setValue] = useState<string>('');
   const [status, setStatus] = useState<Status>(Status.VeryBad);

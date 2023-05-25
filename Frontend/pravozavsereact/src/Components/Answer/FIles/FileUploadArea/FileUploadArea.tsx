@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import { FileUpload, FileUploadHandlerEvent } from 'primereact/fileupload';
 import { UploadMetadata, getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
-import { db, fileStorage, firebaseAuth } from "../../../../Config/Firebase";
-import { useAuthState } from "react-firebase-hooks/auth";
+import { db, fileStorage } from "../../../../Config/Firebase";
 import { CustomMetadata } from "../../../../Modules/Interfaces/StorageFile";
 import { AnswerWithId } from "../../../../Modules/Interfaces/Answer";
 import { updateDoc, Timestamp, doc } from "firebase/firestore";
+import { useAtom } from "jotai";
+import { userAuthentication } from "../../../../Atoms/UserAuthentication";
+import { Group } from "../../../../Modules/Interfaces/UserCustomInfo";
 
 interface AnswerProps {
   answer: AnswerWithId;
@@ -14,13 +16,21 @@ interface AnswerProps {
 const acceptedFiles: string[] = ['application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
 
 export default function FileUploadArea(props: AnswerProps): JSX.Element {
-  const [user] = useAuthState(firebaseAuth);
+  const [user] = useAtom(userAuthentication);
   const [downloadStatus, setDownloadStatus] = useState<string>('');
 
   const handleUpload = (event: FileUploadHandlerEvent) => {
     if(!user)
     {
-      console.error('Za nalaganje datotek moraš biti prijavljen');
+      console.error('For file upload you have to be signed in');
+      setDownloadStatus('Za nalaganje datotek moraš biti prijavljen')
+      return;
+    }
+
+    if(user.group!==Group.Manager && user.group!==Group.Author)
+    {
+      console.error('You do not have permission for file uploads');
+      setDownloadStatus('Nimaš dovoljenja za nalaganje');
       return;
     }
   

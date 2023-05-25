@@ -2,16 +2,15 @@ import React from "react";
 import { useAtom } from "jotai";
 import { answersDBAtom } from "../../../Atoms/AnswersDBAtom";
 import { Card } from 'primereact/card';
-import { useAuthState } from "react-firebase-hooks/auth";
-import { firebaseAuth } from "../../../Config/Firebase";
 import TimeUntilAnswered from "../../Answer/TimeUntilAnswered/TimeUntilAnswered";
 import ResponsesStatusesCount from "../../Answer/Response/ResponsesStatusesCount/ResponseStatuses";
 import PendingAnswerActions from "./PendingAnswerActions/PendingAnswerActions";
 import { AnswerWithId } from "../../../Modules/Interfaces/Answer";
+import { userAuthentication } from "../../../Atoms/UserAuthentication";
 
 export function PendingAnswers(): JSX.Element {
   const [answers] = useAtom(answersDBAtom);
-  const [user] = useAuthState(firebaseAuth);
+  const [user] = useAtom(userAuthentication); 
 
   const answersForAuthor = ():AnswerWithId[] => {
     if(!user)

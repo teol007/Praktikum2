@@ -10,14 +10,14 @@ import { answersDBAtom } from "../../../Atoms/AnswersDBAtom";
 
 export default function DisplayUnassignedQuestions(): JSX.Element {
   const [questions] = useAtom(questionsDBAtom);
-  const [answer] = useAtom(answersDBAtom);
+  const [answers] = useAtom(answersDBAtom);
 
   const unassignedQuestionActions = (question: QuestionWithId): JSX.Element => (
     <UnassignedQuestionActions question={question} />
   );
 
   const filterUnassignedQuestions = (questions: QuestionWithId[]): QuestionWithId[] => {
-    const assignedQuestionsIDs = answer.map((answer)=>(answer.questionId));
+    const assignedQuestionsIDs = answers.map((answer)=>(answer.questionId));
     return questions.filter((question)=>(!assignedQuestionsIDs.includes(question.id)));
   }
 
