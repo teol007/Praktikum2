@@ -7,10 +7,10 @@ import UserLoggedInInicialization from "./UserLoggedInInicialization/UserLoggedI
 export default function Inicialization(): JSX.Element {
   return (
 		<>
+      <UserLoggedInInicialization />
       <QuestionsInicialization />
       <AnswersInicialization />
       <UsersInicialization />
-      <UserLoggedInInicialization />
     </>
   );
 }

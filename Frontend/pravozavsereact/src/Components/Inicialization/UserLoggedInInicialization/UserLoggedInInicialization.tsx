@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { useAtom } from "jotai";
 import { userAuthentication } from "../../../Atoms/UserAuthentication";
@@ -7,14 +7,16 @@ import { db } from "../../../Config/Firebase";
 import { UserCustomInfo } from "../../../Modules/Interfaces/UserCustomInfo";
 
 export default function UserLoggedInInicialization(): JSX.Element {
-  const [, setLoggedInUser] = useAtom(userAuthentication)
-
+  const [, setLoggedInUser] = useAtom(userAuthentication);
   const auth = getAuth();
-    onAuthStateChanged(auth, (user) => {
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         const getUserData = async () => {
           const currentUserDbRef = doc(db, 'Users', user.uid);
           const userDataSnapshot = await getDoc(currentUserDbRef);
+
           if (!userDataSnapshot.exists()) {
             console.log('Unknown user');
             setLoggedInUser(undefined);
@@ -33,14 +35,16 @@ export default function UserLoggedInInicialization(): JSX.Element {
 
           setLoggedInUser(currentUserData);
         }
-
         getUserData();
       } else {
         setLoggedInUser(undefined);
       }
-  }, (error)=>{
-    console.warn(error);
-  });
+    }, (error) => {
+      console.warn(error);
+    });
+
+    return () => {unsubscribe()}; //To nujno more bit drugace bodo klici v neskoncnost pri onAuthStateChanged()!
+  }, [auth, setLoggedInUser]);
 
 
   return (
