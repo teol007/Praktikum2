@@ -1,0 +1,21 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    match /{allPaths=**} {
+      //allow read, delete: if
+          //request.time < timestamp.date(2023, 7, 11);
+      //allow create, update: if isFiletypeValid();
+      allow read, write: if false;
+    }
+    
+    match /AnswerFiles/{fileId} {
+      allow read: if true;
+      allow create, update: if isFiletypeValid() && request.auth.uid!=null && (firestore.get(/databases/(default)/documents/Users/$(request.auth.uid)).data.group=='Manager' || firestore.get(/databases/(default)/documents/Users/$(request.auth.uid)).data.group=='Author');
+    	allow delete: if request.auth.uid!=null && firestore.get(/databases/(default)/documents/Users/$(request.auth.uid)).data.group=='Manager';
+    }
+  }
+}
+
+function isFiletypeValid() {
+	return (request.resource.contentType.matches('application/vnd.openxmlformats-officedocument.wordprocessingml.document'));
+}

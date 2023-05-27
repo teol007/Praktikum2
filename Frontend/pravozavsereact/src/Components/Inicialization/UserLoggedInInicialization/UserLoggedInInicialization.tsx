@@ -32,7 +32,6 @@ export default function UserLoggedInInicialization(): JSX.Element {
             inactive: userDataSnapshot.data().inactive,
             uid: userDataSnapshot.data().uid
           }
-
           setLoggedInUser(currentUserData);
         }
         getUserData();
