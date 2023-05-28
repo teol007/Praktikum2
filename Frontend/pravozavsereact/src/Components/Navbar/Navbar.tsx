@@ -14,7 +14,7 @@ const everyoneButtons: MenuItem[] = [
     {label: 'Človekove pravice', icon: 'pi pi-fw pi-id-card', target: '/clovekovePravice'},
     {label: 'Račun', icon: 'pi pi-fw pi-user', target: '/racun'},
     {label: 'Arhiv', icon: 'pi pi-fw pi-user', target: '/arhiv'},
-
+    {label: 'StatistikaTest', icon: 'pi pi-fw pi-chart-line', target: '/statistika/osebnaStatistika'},
 ];
 
 const onlyAuthorButtons: MenuItem[] = [

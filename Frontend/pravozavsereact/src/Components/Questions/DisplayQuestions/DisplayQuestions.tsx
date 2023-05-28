@@ -11,7 +11,6 @@ export default function DisplayQuestions(): JSX.Element {
     const navigate = useNavigate();
 
     const selectQuestionToAnswer = (questionId: string) => {
-      console.log("hej");
       navigate("/odgovor/" + questionId);
     }
 

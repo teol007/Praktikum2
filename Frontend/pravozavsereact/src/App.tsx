@@ -21,6 +21,7 @@ import { useAtom } from 'jotai';
 import { userAuthentication } from './Atoms/UserAuthentication';
 import { Group } from './Modules/Interfaces/UserCustomInfo';
 import Archive from './Components/Archive/Archive';
+import StatisticsPage from './Components/Statistics/StatisticsPage';
 
 function App() {
   const [loggedInUser] = useAtom(userAuthentication);
@@ -46,8 +47,11 @@ function App() {
               element={<Account />}/>
           <Route path='/vprasanja'
               element={<DisplayQuestions />}/>
+
           <Route path='/tests'
               element={<Tests />}/>
+          <Route path='/statistika/*'
+              element={<StatisticsPage />}/>
           <Route path='/urednik/*'
             element={loggedInUser&&loggedInUser.group===Group.Manager ? <ManagerPage /> : <Navigate to={'/racun'} />}
           />
