@@ -20,6 +20,7 @@ import Inicialization from './Components/Inicialization/Inicialization';
 import { useAtom } from 'jotai';
 import { userAuthentication } from './Atoms/UserAuthentication';
 import { Group } from './Modules/Interfaces/UserCustomInfo';
+import Archive from './Components/Archive/Archive';
 
 function App() {
   const [loggedInUser] = useAtom(userAuthentication);
@@ -53,6 +54,8 @@ function App() {
           <Route path='/avtor/*'
               element={loggedInUser&&(loggedInUser.group===Group.Manager||loggedInUser.group===Group.Author) ? <AuthorPage /> : <Navigate to={'/racun'} />}
           />
+          <Route path='/arhiv'
+              element={<Archive />}/>
           <Route path='/*'
               element={<PageNotFound />}/>
       </Routes>

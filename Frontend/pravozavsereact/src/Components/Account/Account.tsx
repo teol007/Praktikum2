@@ -3,6 +3,8 @@ import SignOut from "./SignOut/SignOut";
 import SignInWithGoogle from "./SignInWithGoogle/SignInWithGoogle";
 import { useAtom } from "jotai";
 import { userAuthentication } from "../../Atoms/UserAuthentication";
+import { Card } from "primereact/card";
+import { Chip } from "primereact/chip";
 
 
 export default function Account(): JSX.Element {
@@ -51,13 +53,29 @@ export default function Account(): JSX.Element {
     </>
   ); */
 
+  
+
   if(loggedInUser)
   {
     return (
       <>
-        <br />
-        <h2>Pozdravljen {loggedInUser.fullName}!</h2>
-        <SignOut />
+       <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+  <Card title={<>Pozdravljen, {loggedInUser.fullName}!</>} footer={<></>} style={{ margin: '20px', width: '500px' }}>
+    <p><b>Ime in priimek:</b> {loggedInUser.fullName}</p>
+    <p><b>Email:</b> {loggedInUser.email}</p>
+    <p><b>Vloga:</b> {loggedInUser.group}</p>
+    <p><b>Pravna področja:</b>
+      {loggedInUser.lawFields.map((field, index) => (
+        <React.Fragment key={index}>
+          <Chip label={field} style={{ display: 'inline-block' }} />
+        </React.Fragment>
+      ))}
+    </p>
+    <SignOut />
+  </Card>
+</div>
+
+        
       </>
     );
   }

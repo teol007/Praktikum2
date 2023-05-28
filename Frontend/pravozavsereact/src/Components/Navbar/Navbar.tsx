@@ -13,6 +13,8 @@ const everyoneButtons: MenuItem[] = [
     {label: 'O\u00A0nas', icon: 'pi pi-fw pi-building', target: '/oNas'},
     {label: 'Človekove pravice', icon: 'pi pi-fw pi-id-card', target: '/clovekovePravice'},
     {label: 'Račun', icon: 'pi pi-fw pi-user', target: '/racun'},
+    {label: 'Arhiv', icon: 'pi pi-fw pi-user', target: '/arhiv'},
+
 ];
 
 const onlyAuthorButtons: MenuItem[] = [
