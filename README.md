@@ -15,7 +15,7 @@ Dokumentacija vzpostavitve:
      - Ustvarjen Firebase račun in firebase projekt
     
   2. Koraki:
-     1. Znotraj \Praktikum2\Praktikum2\Frontend\pravozavsereact (CLI ukaz): npm install
+     1. Znotraj \Praktikum2\Frontend\pravozavsereact (CLI ukaz): npm install
      2. Pridobi firebase-tools (CLI ukaz): npm install -g firebase-tools
      3. Prijavi se na Firebase znotraj CLI (CLI ukaz): firebase login
         - Če je napaka "firebase.ps1 cannot be loaded because running scripts is disabled on this system." potem samo izbriši datoteko "firebase.ps1" (pot piše zraven) in ponovno izvedi korak 3
@@ -45,6 +45,8 @@ Dokumentacija vzpostavitve:
 - Vzpostavitev Firebase Backend-a:
   1. Predpogoji: 
      - Ustvarjen Firebase račun in firebase projekt
+     - Pridobljen ta git repozitorij na sistem
+     - Na Firebase projektu izbran paket Blaze (potrebno dati bančno kartico, vendar je vse zastonj, če ne prekoračiš limitov) (drugače Firebase Functions ne bodo delovale)
 
   2. Koraki: 
      1. Na Firebase projektu (spletni strani) omogoči Firestore Database in Storage
@@ -54,4 +56,13 @@ Dokumentacija vzpostavitve:
      3. Pod zavihkom "Storage" pojdi na "Rules"
         1. Kopiraj vsebino datoteke "/Backend/Rules/Firebase Storage rules.txt" v Edit rules vnosno polje
         2. Potrdi spremembe s klikom na "Publish"
-
+     4. Inicializiraj Firebase Functions na poti "Praktikum2\Backend\Functions" (CLI ukaz): firebase init
+        - Pazi, da si res na poti "Praktikum2\Backend\Functions"
+        1. Označi možnost (s presledkom (space) in potrdi z enter): "Functions: Configure a Cloud Functions directory and its files"
+        2. "Please select an option": Use an existing project
+        3. "Select a default Firebase project for this directory": (Izberi svoj Firebase projekt)
+        4. "What language would you like to use to write Cloud Functions?": TypeScript
+        5. Če bo sedaj napisalo, da nekatere datoteke že obstajajo (in Overwrite) pri vsaki napiši: n
+        6. "Do you want to use ESLint to catch probable bugs and enforce style?": n
+        7. "Do you want to install dependencies with npm now?": Y
+     5. Naloži funkcije na Firebase server (CLI ukaz): firebase deploy

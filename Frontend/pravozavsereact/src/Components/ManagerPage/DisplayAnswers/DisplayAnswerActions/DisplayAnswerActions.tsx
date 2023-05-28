@@ -89,7 +89,11 @@ export default function DisplayAnswerActions(props: AnswerActionsProps): JSX.Ele
         icon: 'pi pi-exclamation-triangle',
         acceptClassName: 'p-button-danger',
         async accept() {
-          await deleteDoc(doc(db, "Answers", props.answer.id));
+          try {
+            await deleteDoc(doc(db, "Answers", props.answer.id));
+          } catch (error) {
+            console.warn(error);
+          }
         },
     });
   };

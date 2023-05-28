@@ -3,6 +3,7 @@ import QuestionsInicialization from "./QuestionsInicialization/QuestionsIniciali
 import UsersInicialization from "./UsersInicialization/UsersInicialization";
 import AnswersInicialization from "./AnswersInicialization/AnswersInicialization";
 import UserLoggedInInicialization from "./UserLoggedInInicialization/UserLoggedInInicialization";
+import OrganizationsInicialization from "./OrganizationsInicialization/OrganizationsInicialization";
 
 export default function Inicialization(): JSX.Element {
   return (
@@ -11,6 +12,7 @@ export default function Inicialization(): JSX.Element {
       <QuestionsInicialization />
       <AnswersInicialization />
       <UsersInicialization />
+      <OrganizationsInicialization />
     </>
   );
 }

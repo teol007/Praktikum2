@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { PropsWithChildren, useState } from "react";
 import { Button } from 'primereact/button';
 import { Dialog } from 'primereact/dialog';
 import { QuestionWithId } from "../../../Modules/Interfaces/Question";
@@ -21,7 +21,7 @@ const lawFieldsArray = [ 'Stvarno pravo', 'Kazensko pravo', 'Prekrškovno pravo'
  * @param props 
  * @returns button Podrobnosti, that shows question details
  */
-export default function QuestionDetails(props: QuestionDetailsProps): JSX.Element {
+export default function QuestionDetails(props: PropsWithChildren<QuestionDetailsProps>): JSX.Element {
   const [visible, setVisible] = useState<boolean>(false);
   const [showEdit, setShowEdit] = useState(false);
   const [newLawField, setNewLawField] = useState(props.question.lawField)
@@ -70,6 +70,7 @@ export default function QuestionDetails(props: QuestionDetailsProps): JSX.Elemen
           </div>}
           <p><b>Postavljeno vprašanje: </b>{props.question.description}</p>
           <p><b>Razrešeno: </b>{props.question.closed ? '\u2713' : 'X'}</p>
+          {props.children && <div>Dodatne možnosti:<br />{props.children}</div>}
         </div>
       </Dialog>
     </div>

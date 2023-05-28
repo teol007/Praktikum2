@@ -6,11 +6,22 @@ import UnassignedQuestionActions from "./UnassignedQuestionActions/UnassignedQue
 import { useAtom } from "jotai";
 import { questionsDBAtom } from "../../../Atoms/QuestionsDBAtom";
 import { answersDBAtom } from "../../../Atoms/AnswersDBAtom";
+import { ToggleButton, ToggleButtonChangeEvent } from 'primereact/togglebutton';
+import { doc, setDoc, updateDoc } from "firebase/firestore";
+import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog';
+import { db } from "../../../Config/Firebase";
+import { organizationsDBAtom } from "../../../Atoms/OrganizationsDBAtom";
+import { organizationDocumentId } from "../../../Config/OrganizationDocumentId";
+import { Button } from "primereact/button";
+import { Organization } from "../../../Modules/Interfaces/Organizations";
 
 
 export default function DisplayUnassignedQuestions(): JSX.Element {
   const [questions] = useAtom(questionsDBAtom);
   const [answers] = useAtom(answersDBAtom);
+  const [organizations] = useAtom(organizationsDBAtom);
+  const mainOrganizationDocument = organizations.find((organization)=>(organization.id === organizationDocumentId));
+  const isAutoAssignOn = mainOrganizationDocument?.autoAssignQuestions;
 
   const unassignedQuestionActions = (question: QuestionWithId): JSX.Element => (
     <UnassignedQuestionActions question={question} />
@@ -21,9 +32,53 @@ export default function DisplayUnassignedQuestions(): JSX.Element {
     return questions.filter((question)=>(!assignedQuestionsIDs.includes(question.id)));
   }
 
+  const confirmChangeAutoAssignQuestions = (message: JSX.Element, value: boolean) => {
+    confirmDialog({
+        header: 'Potrditev',
+        message: message,
+        icon: 'pi pi-exclamation-triangle',
+        async accept() {
+          try {
+            await updateDoc(doc(db, "Organizations/"+organizationDocumentId), {autoAssignQuestions: value});
+          } catch (error) {
+            console.warn(error);
+          }
+        },
+    });
+  };
+
+  const createOrganizationDocumentId = async () => {
+    if(mainOrganizationDocument)
+      return;
+    
+    try {
+      const mainOrganizationDocument: Organization = {
+				autoAssignQuestions: false,
+				autoSendAnswers: false
+			};
+      await setDoc(doc(db, "Organizations/"+organizationDocumentId), mainOrganizationDocument);
+    } catch (error) {
+      console.warn(error);
+    }
+  }
+
+  const handleOnChange = (e: ToggleButtonChangeEvent) => {
+    if(e.value)
+      confirmChangeAutoAssignQuestions(<>Ali res želiš <strong>vklopiti</strong> avtomatsko dodeljevanje novih vprašanj avtorjem?</>, e.value);
+    else
+      confirmChangeAutoAssignQuestions(<>Ali res želiš <strong>izklopiti</strong> avtomatsko dodeljevanje novih vprašanj avtorjem?</>, e.value);
+  }
+
   return (
     <div className="container">
       <h2 style={{marginTop: '1em'}}>Nedodeljena vprašanja</h2>
+      { !mainOrganizationDocument ? <div><i>V podatkovni bazi manjka podatek o avtomatskem dodeljevanju vprašanj</i><br /><Button label="Nastavi" onClick={createOrganizationDocumentId} icon="pi pi-flag" severity="warning" /></div> :
+        <>
+          <ConfirmDialog />
+          <ToggleButton onLabel="Avtomatsko dodeljevanje novih vprašanj" offLabel="Samo ročno dodeljevanje novih vprašanj" onIcon="pi pi-eject" offIcon="pi pi-inbox" 
+                    checked={isAutoAssignOn} onChange={handleOnChange} className="w-9rem" />
+        </>
+      }
       <div className="row">
       {filterUnassignedQuestions(questions).map(question => (
           <div key={question.id} className="col flex justify-content-center" style={{ paddingTop: '1rem', paddingBottom: '1rem' }} >

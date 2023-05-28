@@ -89,7 +89,7 @@ export default function AnswerDetails(props: PropsWithChildren<AnswerDetailsProp
   return (
     <div className="flex justify-content-center">
       <Button label="Podrobnosti" icon="pi pi-external-link" className="p-button-outlined p-button-primary" size="small" onClick={() => setVisible(true)} style={{width: '100%', margin: '1px'}} />
-      <Dialog header="Podrobnosti odgovora na vprašanje" visible={visible} style={{ width: '90vw' }} onHide={() => setVisible(false)} blockScroll={true} >
+      <Dialog header="Podrobnosti odgovora na vprašanje" visible={visible} style={{ width: '90vw' }} onHide={() => setVisible(false)} >
         <div>
           <div style={{marginTop: '1em', marginBottom: '1em'}}><b>Navezuje se na vprašanje: </b>{displayQuestionDetails(props.answer)}</div>
           {props.withPersonalData && <p><b>Avtor odgovora na vprašanje: </b>{displayAnswerAuthor(props.answer)}</p>}

@@ -21,5 +21,9 @@ service cloud.firestore {
       allow write: if request.auth.uid!=null && get(/databases/$(database)/documents/Users/$(request.auth.uid)).data.group=='Manager';
       allow update: if request.auth.uid!=null && get(/databases/$(database)/documents/Users/$(request.auth.uid)).data.group=='Author' && (!request.resource.data.diff(resource.data).affectedKeys().hasAny(['questionId', 'authorUid', 'published', 'authorAssigned']));
     }
+    
+    match /Organizations/{organizationId} {      
+      allow read, create, update: if request.auth.uid!=null && get(/databases/$(database)/documents/Users/$(request.auth.uid)).data.group=='Manager';
+    }
   }
 }
