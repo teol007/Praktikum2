@@ -10,8 +10,6 @@ import { Group } from '../../Modules/Interfaces/UserCustomInfo';
 const everyoneButtons: MenuItem[] = [
     {label: 'Home', icon: 'pi pi-fw pi-home', target: '/'},
     {label: 'Zastavi vprašanje', icon: 'pi pi-fw pi-question-circle', target: '/zastaviVprasanje'},
-    {label: 'O\u00A0nas', icon: 'pi pi-fw pi-building', target: '/oNas'},
-    {label: 'Človekove pravice', icon: 'pi pi-fw pi-id-card', target: '/clovekovePravice'},
     {label: 'Račun', icon: 'pi pi-fw pi-user', target: '/racun'},
     {label: 'Arhiv', icon: 'pi pi-fw pi-user', target: '/arhiv'},
     {label: 'StatistikaTest', icon: 'pi pi-fw pi-chart-line', target: '/statistika/osebnaStatistika'},
