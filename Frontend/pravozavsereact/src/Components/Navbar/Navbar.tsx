@@ -12,7 +12,7 @@ const everyoneButtons: MenuItem[] = [
     {label: 'Zastavi vprašanje', icon: 'pi pi-fw pi-question-circle', target: '/zastaviVprasanje'},
     {label: 'Račun', icon: 'pi pi-fw pi-user', target: '/racun'},
     {label: 'Arhiv', icon: 'pi pi-fw pi-user', target: '/arhiv'},
-    {label: 'StatistikaTest', icon: 'pi pi-fw pi-chart-line', target: '/statistika/osebnaStatistika'},
+    {label: 'Statistika', icon: 'pi pi-fw pi-chart-line', target: '/statistika/osebnaStatistika'},
 ];
 
 const onlyAuthorButtons: MenuItem[] = [
