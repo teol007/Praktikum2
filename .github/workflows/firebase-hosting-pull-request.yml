@@ -14,3 +14,4 @@ jobs:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_PRAVO_ZA_VSE_DB }}'
           projectId: pravo-za-vse-db
+          path: "./Frontend/pravozavsereact"
