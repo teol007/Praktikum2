@@ -42,7 +42,6 @@ export default function PersonalStatistics(): JSX.Element {
             var counter = 0;
             for (var j = 0; j < questions.length; j++){
                 var selectedAnswerIndex = answers.findIndex(answer => answer.questionId === questions[j].id);
-                console.log(selectedAnswerIndex);
                 if (selectedAnswerIndex > -1){
                     if (answers[selectedAnswerIndex].authorUid === user?.uid && questions[j].lawField === lawFieldsArray[i]){
                         counter++;
