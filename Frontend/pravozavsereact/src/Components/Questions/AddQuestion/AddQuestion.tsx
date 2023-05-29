@@ -2,15 +2,15 @@ import React, { useState } from "react";
 import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
 import { InputTextarea } from "primereact/inputtextarea";
-import { Dropdown } from 'primereact/dropdown';
 import { collection, addDoc } from "firebase/firestore";
 import { db } from "../../../Config/Firebase";
 import { Timestamp } from "@firebase/firestore";
 import { Question } from "../../../Modules/Interfaces/Question";
 import { useNavigate } from "react-router";
+import { MultiSelect } from "primereact/multiselect";
 
 export default function AddQuestion(): JSX.Element {
-    const [lawField, setLawField] = useState('');
+    const [lawFields, setLawFields] = useState<string[]>([]);
     const [email, setEmail] = useState('');
     const [description, setDescription] = useState('');
 
@@ -25,13 +25,13 @@ export default function AddQuestion(): JSX.Element {
                 customerEmail: email,
                 description: description,
                 relatesToQuestionId: null, //! TODO, ce uporabnik vpise id prejsnjega vprasanja, ga dodaj sem
-                lawField: lawField,
+                lawFields: lawFields,
                 closed: false,
             }
 
             await addDoc(collection(db, "Questions"), newQuestion);
 
-            setLawField('');
+            setLawFields([]);
             setEmail('');
             setDescription('');
             navigate("/oNas")
@@ -73,7 +73,7 @@ export default function AddQuestion(): JSX.Element {
 
         <div className="card flex justify-content-center"> <br /> <br />
             <label htmlFor="opis">Pravno področje</label>
-            <Dropdown value={lawField} onChange={(e) => setLawField(e.value)} options={lawFieldsArray} 
+            <MultiSelect value={lawFields} onChange={(e) => setLawFields(e.value)} options={lawFieldsArray} 
             placeholder="Izberi pravno področje problema" className="w-full md:w-14rem" required />
             <small id="opis-help">
                     Izberite pravno področje vašega problema

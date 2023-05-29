@@ -4,6 +4,7 @@ import { Button } from 'primereact/button';
 import { useNavigate } from "react-router";
 import { useAtom } from "jotai";
 import { questionsDBAtom } from "../../../Atoms/QuestionsDBAtom";
+import DisplayLawFields from "../DisplayLawFields/DisplayLawFields";
 
 export default function DisplayQuestions(): JSX.Element {
     const [questions] = useAtom(questionsDBAtom);
@@ -30,7 +31,7 @@ export default function DisplayQuestions(): JSX.Element {
         <div className="row">
           { questions.map(question => (
             <div key={question.id} className="col flex justify-content-center" style={{paddingTop: '1rem', paddingBottom: '1rem'}}>
-            <Card title={question.lawField} subTitle={question.customerEmail} footer={footer} header={header} className="md:w-25rem">
+            <Card title={<DisplayLawFields lawFields={question.lawFields} />} subTitle={question.customerEmail} footer={footer} header={header} className="md:w-25rem">
               <p className="m-0">{question.description}</p>
               <Button label="Test" icon="pi pi-check" onClick={() => selectQuestionToAnswer(question.id)} />
             </Card>

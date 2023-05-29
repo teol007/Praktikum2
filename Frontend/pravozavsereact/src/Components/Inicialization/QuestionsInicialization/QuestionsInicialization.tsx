@@ -20,7 +20,7 @@ export default function QuestionsInicialization(): JSX.Element {
             customerEmail: doc.data().customerEmail,
             description: doc.data().description,
             relatesToQuestionId: doc.data().relatesToQuestionId,
-            lawField: doc.data().lawField,
+            lawFields: doc.data().lawFields,
             created: doc.data().created,
             closed: doc.data().closed
           }

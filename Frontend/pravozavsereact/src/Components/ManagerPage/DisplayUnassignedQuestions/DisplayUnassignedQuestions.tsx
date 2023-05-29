@@ -14,6 +14,7 @@ import { organizationsDBAtom } from "../../../Atoms/OrganizationsDBAtom";
 import { organizationDocumentId } from "../../../Config/OrganizationDocumentId";
 import { Button } from "primereact/button";
 import { Organization } from "../../../Modules/Interfaces/Organizations";
+import DisplayLawFields from "../../Questions/DisplayLawFields/DisplayLawFields";
 
 
 export default function DisplayUnassignedQuestions(): JSX.Element {
@@ -82,7 +83,7 @@ export default function DisplayUnassignedQuestions(): JSX.Element {
       <div className="row">
       {filterUnassignedQuestions(questions).map(question => (
           <div key={question.id} className="col flex justify-content-center" style={{ paddingTop: '1rem', paddingBottom: '1rem' }} >
-              <Card title={question.lawField} subTitle={question.customerEmail} footer={()=>(unassignedQuestionActions(question))} className="md:w-25rem">
+              <Card title={<DisplayLawFields lawFields={question.lawFields} />} subTitle={question.customerEmail} footer={()=>(unassignedQuestionActions(question))} className="md:w-25rem">
                 <p className="m-0">
                   Ustvarjeno:<br />
                   {toSlovenianDate(question.created.toDate())} ob {toSlovenianTime(question.created.toDate())}

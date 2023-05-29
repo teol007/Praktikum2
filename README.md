@@ -1,5 +1,4 @@
-# Praktikum2
-Informacijski sistem Pravo za vse
+# Informacijski sistem Pravo za vse
 
 - Link do nameščene storitve: https://pravo-za-vse-db.web.app
 

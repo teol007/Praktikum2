@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 import { QuestionWithId } from "../../../../Modules/Interfaces/Question";
-import { Group, UserCustomInfo } from "../../../../Modules/Interfaces/UserCustomInfo";
+import { UserCustomInfo } from "../../../../Modules/Interfaces/UserCustomInfo";
 import { Timestamp, addDoc, collection, deleteDoc, doc, updateDoc } from "firebase/firestore";
 import { DropdownChangeEvent } from "primereact/dropdown";
 import { OverlayPanel } from "primereact/overlaypanel";
@@ -13,23 +13,12 @@ import { answersDBAtom } from "../../../../Atoms/AnswersDBAtom";
 import { usersDBAtom } from "../../../../Atoms/UsersDBAtom";
 import { Answer } from "../../../../Modules/Interfaces/Answer";
 import { ConfirmPopup, confirmPopup } from "primereact/confirmpopup";
+import { groupedUsers } from "../../../../Modules/Functions/GroupedUsers";
 
 
 interface QuestionActionsProps {
   question: QuestionWithId;
 }
-
-interface DropdownGroup {
-  label: string;
-  items: DropdownItem[];
-}
-
-interface DropdownItem {
-  label: string;
-  value: UserCustomInfo;
-}
-
-
 
 export default function UnassignedQuestionActions(props: QuestionActionsProps): JSX.Element {
   const [selectedAuthor, setSelectedAuthor] = useState<UserCustomInfo|undefined>(undefined);
@@ -84,19 +73,7 @@ export default function UnassignedQuestionActions(props: QuestionActionsProps): 
       defineAnwser(selectedAuthor);
   }
 
-  const authors = () => (users.filter((user)=>(user.group===Group.Author)));
-  const authorsOfLawField = (lawField: string) => (authors().filter((author)=>(author.lawFields.includes(lawField))));
-  const authorsNotOfLawField = (lawField: string) => (authors().filter((author)=>(!author.lawFields.includes(lawField))));
-  const grupedAuthors = (): DropdownGroup[] => ([
-    {
-      label: props.question.lawField,
-      items: authorsOfLawField(props.question.lawField).map((author)=>({label: author.academicTitle+' '+author.fullName, value: author}))
-    },
-    {
-      label: 'Ostali',
-      items: authorsNotOfLawField(props.question.lawField).map((author)=>({label: author.academicTitle+' '+author.fullName, value: author}))
-    }
-  ]);
+  
 
   const confirmDelete = (event: React.MouseEvent<HTMLButtonElement>) => {
     const existingAnswer = answers.find((answer)=>(answer.questionId === props.question.id));
@@ -141,7 +118,7 @@ export default function UnassignedQuestionActions(props: QuestionActionsProps): 
         <OverlayPanel ref={overlayPanelRef} showCloseIcon >
           <form onSubmit={handleSubmit}>
             <span style={{marginBottom: '0.5em'}}>Določi avtorja odgovora</span><br />
-            <Dropdown value={selectedAuthor} onChange={handleChange} options={grupedAuthors()} placeholder="Določi avtorja odgovora"  className="w-full md:w-14rem" style={{width: 'min-content'}} optionLabel="label" optionGroupLabel="label" optionGroupChildren="items" filter required />
+            <Dropdown value={selectedAuthor} onChange={handleChange} options={groupedUsers(users, props.question)} placeholder="Določi avtorja odgovora"  className="w-full md:w-14rem" style={{width: 'min-content'}} optionLabel="label" optionGroupLabel="label" optionGroupChildren="items" filter required />
             <Button type="submit" label="Potrdi" icon="pi pi-check" />
           </form>
         </OverlayPanel>

@@ -53,29 +53,28 @@ export default function Account(): JSX.Element {
     </>
   ); */
 
-  
 
-  if(loggedInUser)
-  {
+
+  if (loggedInUser) {
     return (
       <>
-       <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-  <Card title={<>Pozdravljen, {loggedInUser.fullName}!</>} footer={<></>} style={{ margin: '20px', width: '500px' }}>
-    <p><b>Ime in priimek:</b> {loggedInUser.fullName}</p>
-    <p><b>Email:</b> {loggedInUser.email}</p>
-    <p><b>Vloga:</b> {loggedInUser.group}</p>
-    <p><b>Pravna področja:</b>
-      {loggedInUser.lawFields.map((field, index) => (
-        <React.Fragment key={index}>
-          <Chip label={field} style={{ display: 'inline-block' }} />
-        </React.Fragment>
-      ))}
-    </p>
-    <SignOut />
-  </Card>
-</div>
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+          <Card title={<>Pozdravljen, {loggedInUser.fullName}!</>} footer={<></>} style={{ margin: '20px', width: '500px' }}>
+            <p><b>Ime in priimek:</b> {loggedInUser.fullName}</p>
+            <p><b>Email:</b> {loggedInUser.email}</p>
+            <p><b>Vloga:</b> {loggedInUser.group}</p>
+            <div style={{marginBottom: '1em'}}><b>Pravna področja: </b>
+              {loggedInUser.lawFields.map((field, index) => (
+                <React.Fragment key={index}>
+                  <Chip label={field} style={{ display: 'inline-block' }} />
+                </React.Fragment>
+              ))}
+            </div>
+            <SignOut />
+          </Card>
+        </div>
 
-        
+
       </>
     );
   }

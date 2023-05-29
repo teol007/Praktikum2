@@ -12,14 +12,14 @@ export default function PersonalStatistics(): JSX.Element {
     const [user] = useAtom(userAuthentication);
     const [questions] = useAtom(questionsDBAtom);
     const [answers] = useAtom(answersDBAtom);
-    var dataStrinjamSe = 0;
-    var dataNeStrinjamSe = 0;
-    var dataMocnoNeStrinjamSe = 0;
-    var questionsData = [];
+    let dataStrinjamSe = 0;
+    let dataNeStrinjamSe = 0;
+    let dataMocnoNeStrinjamSe = 0;
+    let questionsData = [];
 
-    for (var i = 0; i<answers.length; i++){
+    for (let i = 0; i<answers.length; i++){
         if (answers[i].responses.length > 0){
-            for (var j = 0; j<answers[i].responses.length; j++) {
+            for (let j = 0; j<answers[i].responses.length; j++) {
                 if (answers[i].responses[j].commenterUid === user?.uid){   
                     switch (answers[i].responses[j].status) {
                         case "Good":
@@ -38,13 +38,13 @@ export default function PersonalStatistics(): JSX.Element {
     }
 
     if (lawFieldsArray.length>0){
-        for (var i = 0; i< lawFieldsArray.length; i++){
-            var counter = 0;
-            for (var j = 0; j < questions.length; j++){
-                var selectedAnswerIndex = answers.findIndex(answer => answer.questionId === questions[j].id);
+        for (let i = 0; i< lawFieldsArray.length; i++){
+            let counter = 0;
+            for (let j = 0; j < questions.length; j++) {
+                let selectedAnswerIndex = answers.findIndex(answer => answer.questionId === questions[j].id);
                 console.log(selectedAnswerIndex);
-                if (selectedAnswerIndex > -1){
-                    if (answers[selectedAnswerIndex].authorUid === user?.uid && questions[j].lawField === lawFieldsArray[i]){
+                if (selectedAnswerIndex > -1) {
+                    if (answers[selectedAnswerIndex].authorUid === user?.uid && questions[j].lawFields.includes(lawFieldsArray[i])) {
                         counter++;
                     }
                 }

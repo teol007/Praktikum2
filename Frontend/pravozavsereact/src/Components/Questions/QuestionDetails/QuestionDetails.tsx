@@ -2,10 +2,11 @@ import React, { PropsWithChildren, useState } from "react";
 import { Button } from 'primereact/button';
 import { Dialog } from 'primereact/dialog';
 import { QuestionWithId } from "../../../Modules/Interfaces/Question";
-import { Dropdown, DropdownChangeEvent } from "primereact/dropdown";
 import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../../../Config/Firebase";
 import { toSlovenianDate, toSlovenianTime } from "../../../Modules/Functions/DateConverters";
+import DisplayLawFields from "../DisplayLawFields/DisplayLawFields";
+import { MultiSelect, MultiSelectChangeEvent } from "primereact/multiselect";
 
 
 export interface QuestionDetailsProps{
@@ -23,31 +24,31 @@ const lawFieldsArray = [ 'Stvarno pravo', 'Kazensko pravo', 'Prekrškovno pravo'
  */
 export default function QuestionDetails(props: PropsWithChildren<QuestionDetailsProps>): JSX.Element {
   const [visible, setVisible] = useState<boolean>(false);
-  const [showEdit, setShowEdit] = useState(false);
-  const [newLawField, setNewLawField] = useState(props.question.lawField)
+  const [showEdit, setShowEdit] = useState<boolean>(false);
+  const [selectedLawFields, setSelectedLawFields] = useState<string[]>(props.question.lawFields)
 
-  const updateLawField = async (questionLawField: String) => {
-    if(questionLawField === props.question.lawField)
+  const updateLawFields = async (questionLawFields: string[]) => {
+    if(questionLawFields === props.question.lawFields)
       return;
   
     const questionRef = doc(db, "Questions", props.question.id);
     try {
       await updateDoc(questionRef, {
-        lawField: questionLawField
+        lawFields: questionLawFields
       });
     } catch (error) {
       console.error(error);
     }
   }
   
-  const handleSelectLawField = (e: DropdownChangeEvent):void => {
-    setNewLawField(e.target.value);
+  const handleSelectLawFields = (e: MultiSelectChangeEvent):void => {
+    setSelectedLawFields([...e.target.value]);
   }
   
   const shrani = (e: React.MouseEvent<HTMLButtonElement>):void => {
     e.preventDefault();
-    if(newLawField)
-      updateLawField(newLawField);
+    if(selectedLawFields)
+      updateLawFields(selectedLawFields);
     setShowEdit(false);
   }
 
@@ -59,11 +60,11 @@ export default function QuestionDetails(props: PropsWithChildren<QuestionDetails
         <div>
           {props.withPersonalData && <p><b>Avtor vprašanja: </b>{props.question.customerEmail}</p>}
           {props.withPersonalData && <p><b>Datum nastanka: </b>{toSlovenianDate(props.question.created.toDate())} ob {toSlovenianTime(props.question.created.toDate())}</p>}
-          <p><b>Pravno področje: </b>{props.question.lawField}</p>
+          <div style={{marginBottom: '1em'}}><b>Pravna področja: </b><DisplayLawFields lawFields={props.question.lawFields} /></div>
           {props.withPersonalData && <div style={{marginBottom: '1em'}}>
             {showEdit ? 
                 <div>
-                <Dropdown value={newLawField} options={lawFieldsArray} onChange={handleSelectLawField} placeholder="Izberi pravno področje problema"  className="w-full md:w-14rem" filter required />
+                <MultiSelect value={selectedLawFields} options={lawFieldsArray} onChange={handleSelectLawFields} placeholder="Izberi pravno področje problema"  className="w-full md:w-14rem" display="chip" filter required />
                 <Button label="shrani" icon="pi pi-external-link" className="p-button-outlined p-button-primary" size="small" onClick={shrani} />
                 </div> : <Button label="Uredi pravno področje" icon="pi pi-external-link" className="p-button-outlined p-button-primary" size="small" onClick={() => setShowEdit(true)} />
             }

@@ -8,7 +8,7 @@ export interface Question {
     customerEmail: string;
     description: string;
     relatesToQuestionId: string | null;
-    lawField: string;
+    lawFields: string[];
     created: Timestamp;
     closed: boolean;
 }

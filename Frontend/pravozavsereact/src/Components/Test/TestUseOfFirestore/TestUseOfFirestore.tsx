@@ -20,7 +20,7 @@ export default function TestUseOfFirestore(): JSX.Element {
             customerEmail: doc.data().customerEmail,
             description: doc.data().description,
             relatesToQuestionId: doc.data().relatesToQuestionId,
-            lawField: doc.data().lawField,
+            lawFields: doc.data().lawFields,
             created: doc.data().created,
             closed: doc.data().closed
           }
@@ -41,7 +41,8 @@ export default function TestUseOfFirestore(): JSX.Element {
         <Column field="id" header="Id" />
         <Column field="customerEmail" header="Email" sortable />
         <Column field="description" header="Opis pravnega problema" sortable />
-        <Column field="lawField" header="Pravno področje" sortable />
+        <Column field="lawField" header="Pravno področje" sortable >
+        </Column>
       </DataTable>
     </>
   );

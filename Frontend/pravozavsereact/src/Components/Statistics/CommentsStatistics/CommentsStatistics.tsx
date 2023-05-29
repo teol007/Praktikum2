@@ -24,13 +24,13 @@ export default function CommentsStatistics(props: CommentsStatisticsProps): JSX.
 
     if (props.users !== null && props.users?.length > 0 && props.lawFields === null){
 
-        for (var i = 0; i<props.users.length; i++){
-            var strinjamSeCounter = 0;
-            var neStrinjamSeCounter = 0;
-            var mocnoNeStrinjamSeCounter = 0;
-            for (var j = 0; j < answers.length; j++){
+        for (let i = 0; i<props.users.length; i++){
+            let strinjamSeCounter = 0;
+            let neStrinjamSeCounter = 0;
+            let mocnoNeStrinjamSeCounter = 0;
+            for (let j = 0; j < answers.length; j++){
                 if (answers[j].responses.length > 0){
-                    for (var u = 0; u < answers[j].responses.length; u++){
+                    for (let u = 0; u < answers[j].responses.length; u++){
                         if (answers[j].responses[u].commenterUid === props.users[i].uid){
                             switch (answers[j].responses[u].status) {
                                 case "Good":
@@ -58,18 +58,18 @@ export default function CommentsStatistics(props: CommentsStatisticsProps): JSX.
             labelsUsers.push(props.users[i].fullName)
         }
     } else if (props.users !== null && props.lawFields !== null && props.lawFields.length > 0 && props.users.length > 0){
-        for (var i = 0; i<props.users.length; i++){
-            var strinjamSeCounter = 0;
-            var neStrinjamSeCounter = 0;
-            var mocnoNeStrinjamSeCounter = 0;
+        for (let i = 0; i<props.users.length; i++){
+            let strinjamSeCounter = 0;
+            let neStrinjamSeCounter = 0;
+            let mocnoNeStrinjamSeCounter = 0;
 
-            for (var j = 0; j < answers.length; j++){
+            for (let j = 0; j < answers.length; j++){
                 if (answers[j].responses.length > 0){
-                    for (var u = 0; u < answers[j].responses.length; u++){
-                        for (var o = 0; o < props.lawFields.length; o++){
-                            var selectedQuestionIndex = questions.findIndex(question => question.id === answers[j].questionId);
+                    for (let u = 0; u < answers[j].responses.length; u++){
+                        for (let o = 0; o < props.lawFields.length; o++){
+                            let selectedQuestionIndex = questions.findIndex(question => question.id === answers[j].questionId);
                             if (selectedQuestionIndex > -1){
-                                if (answers[j].responses[u].commenterUid === props.users[i].uid && questions[selectedQuestionIndex].lawField === props.lawFields[o]){
+                                if (answers[j].responses[u].commenterUid === props.users[i].uid && questions[selectedQuestionIndex].lawFields.includes(props.lawFields[o])){
                                     switch (answers[j].responses[u].status) {
                                         case "Good":
                                             strinjamSeCounter++

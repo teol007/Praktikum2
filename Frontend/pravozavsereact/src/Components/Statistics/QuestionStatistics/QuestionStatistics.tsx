@@ -14,48 +14,49 @@ export default function QuestionStatistics(props: QuestionStatisticsProps): JSX.
 
     const [answers] = useAtom(answersDBAtom);
     const [questions] = useAtom(questionsDBAtom);
-    const data: number[] = [];
-    var dataLabels: string[] = [];
+    let data: number[] = [];
+    let dataLabels: string[] = [];
 
     if (props.users === null && props.lawFields !== null && props.lawFields.length > 0){
-        for (var i = 0; i < props.lawFields.length; i++){
-            var counter = 0;
-            for (var j = 0; j < answers.length; j++){
-                var selectedQuestionIndex = questions.findIndex(question => question.id === answers[j].questionId);
-                if (selectedQuestionIndex >= 0){
-                    if (questions[selectedQuestionIndex].lawField === props.lawFields[i]){
-                        counter++;
-                    }
+        data = props.lawFields.map(lawField => {
+            let counter = 0;
+          
+            answers.forEach(answer => {
+              const selectedQuestionIndex = questions.findIndex(question => question.id === answer.questionId);
+              if (selectedQuestionIndex >= 0) {
+                if (questions[selectedQuestionIndex].lawFields.includes(lawField)) {
+                  counter++;
                 }
-            }
-            data.push(counter);
-            counter = 0;
-        }
+              }
+            });
+          
+            return counter;
+          });
         dataLabels = props.lawFields;
     } else if (props.users !== null && props.lawFields !== null && props.users.length > 0) {
-        for (var i = 0; i < props.lawFields.length; i++){
-            var counter = 0;
-            for (var j = 0; j < answers.length; j++){
-                var selectedQuestionIndex = questions.findIndex(question => question.id === answers[j].questionId);
-                if (selectedQuestionIndex > -1){
-                    if (questions[selectedQuestionIndex].lawField === props.lawFields[i]){
-                        for (var u = 0; u < props.users.length; u++){
-                            if (answers[j].authorUid === props.users[u].uid){
+        props.lawFields.forEach((lawField) => {
+            let counter = 0;
+            answers.forEach((answer) => {
+                const selectedQuestionIndex = questions.findIndex((question) => question.id === answer.questionId);
+                if (selectedQuestionIndex > -1) {
+                    const questionLawFields = questions[selectedQuestionIndex].lawFields;
+                    if (questionLawFields.includes(lawField)) {
+                        props.users?.forEach((user) => {
+                            if (answer.authorUid === user.uid) {
                                 counter++;
                             }
-                        }
+                        });
                     }
                 }
-            }
+            });
             data.push(counter);
-            counter = 0;
-        }
+        });
         dataLabels = props.lawFields;
     } else if (props.users !== null && props.lawFields === null && props.users.length > 0){
-        for (var i = 0; i < props.users.length; i++){
-            var counter = 0;
-            for (var j = 0; j < answers.length; j++){
-                var selectedQuestionIndex = questions.findIndex(question => question.id === answers[j].questionId);
+        for (let i = 0; i < props.users.length; i++){
+            let counter = 0;
+            for (let j = 0; j < answers.length; j++){
+                let selectedQuestionIndex = questions.findIndex(question => question.id === answers[j].questionId);
                 if (selectedQuestionIndex > -1){
                     if (answers[j].authorUid === props.users[i].uid){
                         counter++;

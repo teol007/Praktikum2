@@ -44,7 +44,7 @@ export default function Archive(): JSX.Element {
     }
     if (selectedLawField) {
       const question: QuestionWithId | undefined = questions.find((q) => q.id === answer.questionId);
-      if (!question || question.lawField !== selectedLawField) {
+      if (!question || !question.lawFields.includes(selectedLawField)) {
         return false;
       }
     }
@@ -60,20 +60,7 @@ export default function Archive(): JSX.Element {
   const lawFieldsArray = [ 'Stvarno pravo', 'Kazensko pravo', 'Prekrškovno pravo', 'Obligacijsko pravo', 'Odškodnina',
   'Delovno pravo', 'Socialno pravo', 'Družinsko pravo', 'Dedno pravo', 'Izvršilno pravo', 'Stečaj', 'Davčno pravo', 'Drugo'];
 
-const months = [
-    'January',
-    'February',
-    'March',
-    'April',
-    'May',
-    'June',
-    'July',
-    'August',
-    'September',
-    'October',
-    'November',
-    'December',
-  ];
+  const months = ['januar', 'februar', 'marec', 'april', 'maj', 'junij', 'julij', 'avgust', 'september', 'oktober', 'november', 'december'];
 
   
   return (

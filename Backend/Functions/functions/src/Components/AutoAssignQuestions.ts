@@ -80,7 +80,7 @@ export const autoAssignQuestions = onDocumentCreated("Questions/{questionId}", a
 			customerEmail: snapshot.data().customerEmail,
 			description: snapshot.data().description,
 			relatesToQuestionId: snapshot.data().relatesToQuestionId,
-			lawField: snapshot.data().lawField,
+			lawFields: snapshot.data().lawFields,
 			created: snapshot.data().created,
 			closed: snapshot.data().closed
 		}
@@ -111,7 +111,7 @@ export const autoAssignQuestions = onDocumentCreated("Questions/{questionId}", a
 
 		const compatibleAuthors = users.filter((user) => (
 			user.group===Group.Author && 
-			user.lawFields.includes(createdQuestionData.lawField) && 
+			user.lawFields.some((lawfield) => (createdQuestionData.lawFields.includes(lawfield))) && 
 			isAuthorActive(user.inactive)
 		));
 
