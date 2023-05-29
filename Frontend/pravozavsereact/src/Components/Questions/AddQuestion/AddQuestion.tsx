@@ -8,6 +8,13 @@ import { db } from "../../../Config/Firebase";
 import { Timestamp } from "@firebase/firestore";
 import { Question } from "../../../Modules/Interfaces/Question";
 import { useNavigate } from "react-router";
+import { Checkbox, CheckboxChangeEvent } from "primereact/checkbox";
+
+
+interface Category {
+    name: string; 
+    key: string;
+}
 
 export default function AddQuestion(): JSX.Element {
     const [lawField, setLawField] = useState('');
@@ -42,6 +49,25 @@ export default function AddQuestion(): JSX.Element {
 
     const lawFieldsArray = [ 'Stvarno pravo', 'Kazensko pravo', 'Prekrškovno pravo', 'Obligacijsko pravo', 'Odškodnina',
     'Delovno pravo', 'Socialno pravo', 'Družinsko pravo', 'Dedno pravo', 'Izvršilno pravo', 'Stečaj', 'Davčno pravo', 'Drugo'];
+
+    const categories: Category[] = [
+        { name: 'Accounting', key: 'A' },
+        { name: 'Marketing', key: 'M' },
+        { name: 'Production', key: 'P' },
+        { name: 'Research', key: 'R' }
+    ];
+    const [selectedCategories, setSelectedCategories] = useState<Category[]>([categories[1]]);
+
+    const onCategoryChange = (e: CheckboxChangeEvent) => {
+        let _selectedCategories = [...selectedCategories];
+
+        if (e.checked)
+            _selectedCategories.push(e.value);
+        else
+            _selectedCategories = _selectedCategories.filter(category => category.key !== e.value.key);
+
+        setSelectedCategories(_selectedCategories);
+    };
 
   return (
     <div className="container">
@@ -80,6 +106,21 @@ export default function AddQuestion(): JSX.Element {
             </small>  <br /> <br />
         </div>
         <br />
+
+        <div className="card flex justify-content-center">
+            <div className="flex flex-column gap-3">
+                {categories.map((category) => {
+                    return (
+                        <div key={category.key} className="flex align-items-center">
+                            <Checkbox inputId={category.key} name="category" value={category} onChange={onCategoryChange} checked={selectedCategories.some((item) => item.key === category.key)} />
+                            <label htmlFor={category.key} className="ml-2">
+                                {category.name}
+                            </label>
+                        </div>
+                    );
+                })}
+            </div>
+        </div>
 
         <Button label="Pošlji vprašanje" className="w-full" severity="success" raised />
       
