@@ -11,8 +11,7 @@ const everyoneButtons: MenuItem[] = [
     {label: 'Home', icon: 'pi pi-fw pi-home', target: '/'},
     {label: 'Zastavi vprašanje', icon: 'pi pi-fw pi-question-circle', target: '/zastaviVprasanje'},
     {label: 'Račun', icon: 'pi pi-fw pi-user', target: '/racun'},
-    {label: 'Arhiv', icon: 'pi pi-fw pi-user', target: '/arhiv'},  //! To bi moglo bit pod onlyManagerButtons
-    {label: 'Statistika', icon: 'pi pi-fw pi-chart-line', target: '/statistika/osebnaStatistika'}, //! To bi moglo bit pod onlyManagerButtons
+    {label: 'Arhiv', icon: 'pi pi-fw pi-user', target: '/arhiv'},
 ];
 
 const onlyAuthorButtons: MenuItem[] = [

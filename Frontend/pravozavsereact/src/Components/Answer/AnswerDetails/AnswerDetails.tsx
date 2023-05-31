@@ -51,9 +51,10 @@ const displayResponses = (answer: AnswerWithId): JSX.Element => {
     return <i style={{display: 'inline-block', paddingLeft: '1em'}}>Ni odzivov</i>
   return (
     <div>
-      <Carousel className="m-0 p-0"
+      <Carousel className="m-0 p-0" 
         value={answer.responses}
-        numVisible={3} 
+        orientation="vertical"
+        numVisible={1} 
         numScroll={1} 
         itemTemplate={(item: Response)=>(<DisplayResponse response={item} />) /* key={props.answer.id+'/'+response} */ }
         responsiveOptions={carouselResponsiveOptions}
@@ -61,6 +62,8 @@ const displayResponses = (answer: AnswerWithId): JSX.Element => {
     </div>
   );
 }
+
+
 
 /**
  * withPersonalData?: boolean, withQuestionPersonalData?: boolean
@@ -97,8 +100,8 @@ export default function AnswerDetails(props: PropsWithChildren<AnswerDetailsProp
           <p><b>Odgovorjeno (oddano): </b>{props.answer.answered ? `Da, ${toSlovenianDate(props.answer.answered.toDate())} ob ${toSlovenianTime(props.answer.answered.toDate())}` : 'Ne'}</p>
           <p><b>Datoteka: </b>{props.answer.fileUrl!=='' ? <FileDownloadButton answer={props.answer} /> : <i>Datoteka ni oddana</i>}</p>
           <div style={{marginTop: '1em', marginBottom: '1em'}}><b>Oznake (tags): </b><DisplayAnswerTags answer={props.answer} /></div>
-          <Accordion style={{padding: 0, marginBottom: '1em'}} className="saveSpace">
-            <AccordionTab header={`Odzivi (${props.answer.responses.length})`} style={{padding: 0}}>
+          <Accordion style={{padding: 0, marginBottom: '1em'}} className="saveSpace" >
+            <AccordionTab header={`Odzivi (${props.answer.responses.length})`} style={{padding: 0}} >
               {displayResponses(props.answer)}
             </AccordionTab>
           </Accordion>
