@@ -7,21 +7,18 @@ import { useAtom } from "jotai";
 import { questionsDBAtom } from "../../../Atoms/QuestionsDBAtom";
 import { answersDBAtom } from "../../../Atoms/AnswersDBAtom";
 import { ToggleButton, ToggleButtonChangeEvent } from 'primereact/togglebutton';
-import { doc, setDoc, updateDoc } from "firebase/firestore";
+import { doc, updateDoc } from "firebase/firestore";
 import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog';
 import { db } from "../../../Config/Firebase";
 import { organizationsDBAtom } from "../../../Atoms/OrganizationsDBAtom";
-import { organizationDocumentId } from "../../../Config/OrganizationDocumentId";
-import { Button } from "primereact/button";
-import { Organization } from "../../../Modules/Interfaces/Organizations";
-import DisplayLawFields from "../../Questions/DisplayLawFields/DisplayLawFields";
+import { settingsOrganizationDocId } from "../../../Config/OrganizationDocuments";
+import DisplayLawFieldsText from "../../Questions/DisplayLawFields/DisplayLawFieldsText/DisplayLawFieldsText";
 
 
 export default function DisplayUnassignedQuestions(): JSX.Element {
   const [questions] = useAtom(questionsDBAtom);
   const [answers] = useAtom(answersDBAtom);
-  const [organizations] = useAtom(organizationsDBAtom);
-  const mainOrganizationDocument = organizations.find((organization)=>(organization.id === organizationDocumentId));
+  const [mainOrganizationDocument] = useAtom(organizationsDBAtom);
   const isAutoAssignOn = mainOrganizationDocument?.autoAssignQuestions;
 
   const unassignedQuestionActions = (question: QuestionWithId): JSX.Element => (
@@ -40,28 +37,13 @@ export default function DisplayUnassignedQuestions(): JSX.Element {
         icon: 'pi pi-exclamation-triangle',
         async accept() {
           try {
-            await updateDoc(doc(db, "Organizations/"+organizationDocumentId), {autoAssignQuestions: value});
+            await updateDoc(doc(db, "Organizations/"+settingsOrganizationDocId), {autoAssignQuestions: value});
           } catch (error) {
             console.warn(error);
           }
         },
     });
   };
-
-  const createOrganizationDocumentId = async () => {
-    if(mainOrganizationDocument)
-      return;
-    
-    try {
-      const mainOrganizationDocument: Organization = {
-				autoAssignQuestions: false,
-				autoSendAnswers: false
-			};
-      await setDoc(doc(db, "Organizations/"+organizationDocumentId), mainOrganizationDocument);
-    } catch (error) {
-      console.warn(error);
-    }
-  }
 
   const handleOnChange = (e: ToggleButtonChangeEvent) => {
     if(e.value)
@@ -73,17 +55,12 @@ export default function DisplayUnassignedQuestions(): JSX.Element {
   return (
     <div className="container">
       <h2 style={{marginTop: '1em'}}>Nedodeljena vprašanja</h2>
-      { !mainOrganizationDocument ? <div><i>V podatkovni bazi manjka podatek o avtomatskem dodeljevanju vprašanj</i><br /><Button label="Nastavi" onClick={createOrganizationDocumentId} icon="pi pi-flag" severity="warning" /></div> :
-        <>
-          <ConfirmDialog />
-          <ToggleButton onLabel="Avtomatsko dodeljevanje novih vprašanj" offLabel="Samo ročno dodeljevanje novih vprašanj" onIcon="pi pi-eject" offIcon="pi pi-inbox" 
-                    checked={isAutoAssignOn} onChange={handleOnChange} className="w-9rem" />
-        </>
-      }
+      <ConfirmDialog />
+      <ToggleButton onLabel="Avtomatsko dodeljevanje novih vprašanj" offLabel="Samo ročno dodeljevanje novih vprašanj" onIcon="pi pi-eject" offIcon="pi pi-inbox" checked={isAutoAssignOn} onChange={handleOnChange} className="w-9rem" />
       <div className="row">
       {filterUnassignedQuestions(questions).map(question => (
           <div key={question.id} className="col flex justify-content-center" style={{ paddingTop: '1rem', paddingBottom: '1rem' }} >
-              <Card title={<DisplayLawFields lawFields={question.lawFields} />} subTitle={question.customerEmail} footer={()=>(unassignedQuestionActions(question))} className="md:w-25rem">
+              <Card title={<DisplayLawFieldsText lawFields={question.lawFields} />} subTitle={question.customerEmail} footer={()=>(unassignedQuestionActions(question))} className="md:w-25rem">
                 <p className="m-0">
                   Ustvarjeno:<br />
                   {toSlovenianDate(question.created.toDate())} ob {toSlovenianTime(question.created.toDate())}

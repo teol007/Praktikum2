@@ -6,7 +6,7 @@ import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../../../Config/Firebase";
 import { toSlovenianDate, toSlovenianTime } from "../../../Modules/Functions/DateConverters";
 import DisplayLawFields from "../DisplayLawFields/DisplayLawFields";
-import { MultiSelect, MultiSelectChangeEvent } from "primereact/multiselect";
+import { MultiSelect, MultiSelectChangeEvent } from 'primereact/multiselect';
 
 
 export interface QuestionDetailsProps{
@@ -54,9 +54,9 @@ export default function QuestionDetails(props: PropsWithChildren<QuestionDetails
 
 
   return (
-    <div className="flex justify-content-center">
+    <div className="flex justify-content-center" style={{textAlign: 'center', marginTop: '1em'}}>
       <Button label="Podrobnosti" icon="pi pi-external-link" className="p-button-outlined p-button-primary" size="small" onClick={() => setVisible(true)} style={{width: '100%', margin: '1px'}} />
-      <Dialog header="Podrobnosti vprašanja" visible={visible} style={{ width: '50vw' }} onHide={() => setVisible(false)} blockScroll={true} >
+      <Dialog header="Podrobnosti vprašanja" visible={visible} style={{ width: '50vw', minWidth: 'fit-content' }} onHide={() => setVisible(false)} blockScroll={true} >
         <div>
           {props.withPersonalData && <p><b>Avtor vprašanja: </b>{props.question.customerEmail}</p>}
           {props.withPersonalData && <p><b>Datum nastanka: </b>{toSlovenianDate(props.question.created.toDate())} ob {toSlovenianTime(props.question.created.toDate())}</p>}
@@ -64,8 +64,8 @@ export default function QuestionDetails(props: PropsWithChildren<QuestionDetails
           {props.withPersonalData && <div style={{marginBottom: '1em'}}>
             {showEdit ? 
                 <div>
-                <MultiSelect value={selectedLawFields} options={lawFieldsArray} onChange={handleSelectLawFields} placeholder="Izberi pravno področje problema"  className="w-full md:w-14rem" display="chip" filter required />
-                <Button label="shrani" icon="pi pi-external-link" className="p-button-outlined p-button-primary" size="small" onClick={shrani} />
+                  <MultiSelect value={selectedLawFields} options={lawFieldsArray} onChange={handleSelectLawFields} placeholder="Izberi pravno področje problema" className="w-full md:w-20rem" display="chip" filter style={{width: '100%', marginBottom: '0.5em'}} />
+                  <Button label="shrani" icon="pi pi-external-link" className="p-button-outlined p-button-primary" size="small" onClick={shrani} />
                 </div> : <Button label="Uredi pravno področje" icon="pi pi-external-link" className="p-button-outlined p-button-primary" size="small" onClick={() => setShowEdit(true)} />
             }
           </div>}

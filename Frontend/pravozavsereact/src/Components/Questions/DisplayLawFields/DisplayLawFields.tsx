@@ -9,7 +9,7 @@ export default function DisplayLawFields(props: LawFieldsProps): JSX.Element {
   return (
     <>
       {props.lawFields.map((lawField) => (
-        <Chip key={lawField} label={lawField} style={{display: 'inline-block', marginRight: '0.2em'}} />
+        <Chip key={lawField} label={lawField} style={{display: 'inline-block', marginBottom: '0.2em', marginRight: '0.2em'}} />
       ))}
     </>
   );

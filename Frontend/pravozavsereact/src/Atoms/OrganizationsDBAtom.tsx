@@ -1,6 +1,6 @@
 import { atom } from 'jotai';
-import { OrganizationWithId } from '../Modules/Interfaces/Organizations';
+import { SettingsOrganizationDocWithId } from '../Modules/Interfaces/OrganizationsDocs';
 
-const organizationsDBAtom = atom<OrganizationWithId[]>([]);
+const organizationsDBAtom = atom<SettingsOrganizationDocWithId|undefined>(undefined);
 
 export { organizationsDBAtom };
