@@ -1,0 +1,12 @@
+- pri komentarjih gre vn iz screena (po potrebi treba popravit?)
+- komentarji so en nad drugim (najnovejši spodaj, najstarejši zgoraj)
+- izpisovanje področij pri vprašanjih, kot "naslov" uporabimo področje
+- odgovor lahko ima več področij
+- ne glede na to, kdaj v dnevu pride vprašanje, začnemo štet od naslednjega dneva naprej (00:00)
+- zadnje dva dni je vprašanje rdeče (da bolj izstopa - takrat ko čaka, da ga avtorji ocenijo)
+- življenski cikel vprašanja naj bi bil 14 dni (7 dni da se odgovori + 7 dni da se oceni)
+- beležimo statistiko zamude - samo za ODGOVORE! za komentarje se NE beleži zamuda
+- vprašanje se lahko pošlje stranki tudi če še nima 3 "se strinjam" (v tem primeru, ko manager klikne "pošlji" se odpre nek dialog v smislu
+"vprašanje še nima 3x DA, ste prepričani?"
+- vsak avtor lahko večkrat komentira na isto vprašanje
+- mail reminders - 1 dan do oddaje, opomnik za zamudo, ko prejmeš vprašanje, ko pride komentar,...
