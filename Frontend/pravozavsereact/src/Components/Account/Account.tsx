@@ -5,11 +5,16 @@ import { useAtom } from "jotai";
 import { userAuthentication } from "../../Atoms/UserAuthentication";
 import { Card } from "primereact/card";
 import { Chip } from "primereact/chip";
+import EditAccount from "./EditAccount/EditAccount";
+import { PropaneSharp } from "@mui/icons-material";
+import { Timestamp, doc } from "firebase/firestore";
 
 
 export default function Account(): JSX.Element {
   //const [user, loading, error] = useAuthState(firebaseAuth);
   const [loggedInUser] = useAtom(userAuthentication);
+  const [user] = useAtom(userAuthentication);
+
 
   /* if(loading)
   {
@@ -53,16 +58,22 @@ export default function Account(): JSX.Element {
     </>
   ); */
 
+ 
+  
+  
+
 
 
   if (loggedInUser) {
     return (
       <>
         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-          <Card title={<>Pozdravljen, {loggedInUser.fullName}!</>} footer={<></>} style={{ margin: '20px', width: '500px' }}>
+          <Card title={<>Pozdravljeni, {loggedInUser.fullName}!</>} footer={<></>} style={{ margin: '20px', width: '500px' }}>
             <p><b>Ime in priimek:</b> {loggedInUser.fullName}</p>
+            <p><b>Naziv:</b> {loggedInUser.academicTitle}</p>
             <p><b>Email:</b> {loggedInUser.email}</p>
             <p><b>Vloga:</b> {loggedInUser.group}</p>
+
             <div style={{marginBottom: '1em'}}><b>Pravna področja: </b>
               {loggedInUser.lawFields.map((field, index) => (
                 <React.Fragment key={index}>
@@ -70,7 +81,9 @@ export default function Account(): JSX.Element {
                 </React.Fragment>
               ))}
             </div>
+            <EditAccount user={loggedInUser} />
             <SignOut />
+
           </Card>
         </div>
 
