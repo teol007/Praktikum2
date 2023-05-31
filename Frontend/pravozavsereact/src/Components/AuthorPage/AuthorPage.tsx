@@ -6,6 +6,7 @@ import { Route, Routes, useNavigate } from "react-router-dom";
 import DisplayAnswersToEvaluate from "./DisplayAnswersToEvaluate/DisplayAnswersToEvaluate";
 import { PendingAnswers } from "./PendingAnswers/PendingAnswers";
 import OldComments from "./OldComments/OldComments";
+import PersonalStatistics from "../Statistics/PersonalStatistics/PersonalStatistics";
 
 export default function AuthorPage(): JSX.Element {
   const navigate = useNavigate();
@@ -26,6 +27,11 @@ export default function AuthorPage(): JSX.Element {
       icon: 'pi pi-fw pi-info-circle',
       command: () => {navigate('/avtor/mojiKomentarji')}
     },
+    {
+      label: 'Moja\u00A0statistika',
+      icon: 'pi pi-fw pi-chart-line',
+      command: () => {navigate('/avtor/mojaStatistika')}
+    },
   ];
   
   return (
@@ -40,6 +46,9 @@ export default function AuthorPage(): JSX.Element {
         />
          <Route path='/mojiKomentarji'
           element={<OldComments />}
+        />
+        <Route path='/mojaStatistika'
+          element={<PersonalStatistics />}
         />
         <Route path='/*'
           element={<PageNotFound />}/>
