@@ -9,13 +9,13 @@ import { useAtom } from "jotai";
 import { userAuthentication } from "../../../../Atoms/UserAuthentication";
 import { Dropdown } from "primereact/dropdown";
 
-export interface EditCommentsProps{
+export interface EditCommentProps{
     answer: AnswerWithId;
     responseDescription: string;
     responseStatus: Status;
   }
 
-  export default function EditComments(props: EditCommentsProps): JSX.Element {
+  export default function EditComment(props: EditCommentProps): JSX.Element {
     const [user] = useAtom(userAuthentication);
     const [visible, setVisible] = useState(false);
     const [value, setValue] = useState<string>(props.responseDescription);
