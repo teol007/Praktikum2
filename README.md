@@ -1,6 +1,6 @@
 # Informacijski sistem Pravo za vse
 
-- Link do nameščene storitve: https://pravo-za-vse-db.web.app
+Link do nameščene storitve: https://pravo-za-vse-db.web.app
 
 
 Dokumentacija vzpostavitve:
@@ -9,7 +9,7 @@ Dokumentacija vzpostavitve:
 
 - Vzpostavitev React frontend-a:
   1. Predpogoji:
-     - Nameščen NodeJS
+     - Nameščen NodeJS (v18.14.2)
      - Pridobljen ta git repozitorij na sistem
      - Ustvarjen Firebase račun in firebase projekt
     

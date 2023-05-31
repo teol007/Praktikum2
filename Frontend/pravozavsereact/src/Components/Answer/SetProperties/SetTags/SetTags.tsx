@@ -69,8 +69,7 @@ export default function SetTags(props: AnswerProps): JSX.Element {
       {editTags && 
         <div style={{textAlign: 'center'}}>
           Izbrane oznake (tags):
-          <MultiSelect value={selectedTags} onChange={(e: MultiSelectChangeEvent) => setSelectedTags(e.value)} options={allTags} display="chip"
-                    placeholder="Ni izbranih oznak" className="w-full md:w-20rem" style={{width: '100%', marginBottom: '0.5em'}} filter />
+          <MultiSelect value={selectedTags} onChange={(e: MultiSelectChangeEvent) => setSelectedTags(e.value)} options={allTags} display="chip" placeholder="Ni izbranih oznak" className="w-full md:w-20rem" style={{width: '100%', marginBottom: '0.5em'}} filter />
           Dodaj oznako: <InputText value={newTag} onChange={handleChange} />
           <Button label="Dodaj oznako" onClick={handleAddTag} icon="pi pi-plus" severity="secondary" />
           <Button label="Potrdi izbrane oznake" onClick={handleSubmitTags} icon="pi pi-check" />

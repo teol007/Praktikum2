@@ -2,76 +2,113 @@ import { logger } from "firebase-functions";
 import { onDocumentCreated } from "firebase-functions/v2/firestore";
 import { Timestamp, getFirestore } from 'firebase-admin/firestore';
 import { Group, Inactive, UserCustomInfo } from "../Modules/Interfaces/UserCustomInfo";
-import { Answer, AnswerWithId } from "../Modules/Interfaces/Answer";
+import { Answer } from "../Modules/Interfaces/Answer";
 import { QuestionWithId } from "../Modules/Interfaces/Question";
-import { organizationDocumentId } from "../Config/OrganizationDocumentId";
-import { Organization } from "../Modules/Interfaces/Organizations";
+import { memoryOrganizationDocId, settingsOrganizationDocId } from "../Config/OrganizationDocuments";
+import { MemoryOrganizationDoc, MemoryOrganizationDocWithId, SettingsOrganizationDoc, SettingsOrganizationDocWithId } from "../Modules/Interfaces/OrganizationsDocs";
 const db = getFirestore();
 
-const getAuthorWithLeastAnswers = (authors: UserCustomInfo[], answers: AnswerWithId[]): UserCustomInfo|undefined => {
-	const authorHasAnswersCounts: {[authorId: string]: number} = {};
 
-  	// Count the number of answers for each author
-  	answers.forEach(answer => {
-			if(!answer.authorUid)
-				return;
-
-  	  const authorId = answer.authorUid;
-  	  authorHasAnswersCounts[authorId] = (authorHasAnswersCounts[authorId] ?? 0) + 1;
-  	});
-
-  	// Find the author with the least number of answers
-  	let leastAnswers = Infinity;
-  	let authorWithLeastAnswers: UserCustomInfo | undefined;
-
-  	authors.forEach(author => {
-  	  const authorId = author.uid;
-  	  const answerCount = authorHasAnswersCounts[authorId] ?? 0;
-
-  	  if (answerCount < leastAnswers) {
-  	    	leastAnswers = answerCount;
-  	    	authorWithLeastAnswers = author;
-  	  }
-  	});
-
-  	return authorWithLeastAnswers;
-}
-
-const isAuthorActive = (authorInactive: Inactive): boolean => {
+const isUserActive = (authorInactive: Inactive): boolean => {
 	const turningPoint = new Date();
 	turningPoint.setDate(turningPoint.getDate() - 1); //inactive until 5th day means 5th day is still considered inactive
-
 	return (
-		turningPoint.getTime() > authorInactive.to.toDate().getTime() || (
-			turningPoint.getTime() < authorInactive.to.toDate().getTime() &&
-			new Date().getTime() < authorInactive.from.toDate().getTime()
-		)
-	)
+    turningPoint.getTime() > authorInactive.to.toDate().getTime() || (
+      turningPoint.getTime() < authorInactive.to.toDate().getTime() && 
+      new Date().getTime() < authorInactive.from.toDate().getTime() 
+    )
+  );
+}
+
+const sortByUid = (a: UserCustomInfo, b: UserCustomInfo): -1 | 0 | 1 => {
+  if (a.uid < b.uid)
+    return -1;
+
+  if (a.uid > b.uid)
+    return 1;
+
+  return 0;
+};
+
+const getSettings = async (organizations: FirebaseFirestore.DocumentData[]): Promise<SettingsOrganizationDocWithId> => {  
+  const wantedDocId = settingsOrganizationDocId;
+  const settingsDoc = organizations.find((organization) => (organization.id === wantedDocId));
+  const settings: SettingsOrganizationDocWithId = {
+    id: wantedDocId,
+    autoAssignQuestions: false,
+    autoSendAnswers: false
+  };
+
+	if(!settingsDoc) {
+    const newSettings: SettingsOrganizationDoc = {
+      autoAssignQuestions: settings.autoAssignQuestions,
+      autoSendAnswers: settings.autoSendAnswers
+    } 
+		await db.collection('Organizations').doc(wantedDocId).set(newSettings);
+  }
+  else {
+    settings.autoAssignQuestions = settingsDoc.autoAssignQuestions;
+    settings.autoSendAnswers = settingsDoc.autoSendAnswers;
+  }
+
+  return settings;
+}
+
+const getMemory = async (organizations: FirebaseFirestore.DocumentData[]): Promise<MemoryOrganizationDocWithId> => {
+  const wantedDocId = memoryOrganizationDocId;
+  const memoryDoc = organizations.find((organization) => (organization.id === wantedDocId));
+  const memory: MemoryOrganizationDocWithId = {
+    id: wantedDocId,
+    lastAssignedUid: ""
+  };
+
+  if(!memoryDoc) {
+    const newMemory: MemoryOrganizationDoc = {
+      lastAssignedUid: memory.lastAssignedUid
+    }
+    await db.collection('Organizations').doc(wantedDocId).set(newMemory);
+  }
+  else {
+    memory.lastAssignedUid = memoryDoc.lastAssignedUid;
+  }
+
+  return memory;
+}
+
+const get1stAfterLastAssignedOne = (lastAssignedUid: string, queue: UserCustomInfo[]): UserCustomInfo|null => {
+  if(queue.length <= 0)
+    return null;
+
+  queue.sort(sortByUid);
+  for(let i=0; i<queue.length; i++)
+    if(queue[i].uid > lastAssignedUid) //First one with bigger uid
+      return queue[i];
+
+  return queue[0];
 }
 
 /**
- * Automatically assigns question to active author with specified lawField that has the least amount of answers assigned.
+ * Automatically assigns question to active authors in queue
  * Works only if autoAssignQuestions===true in document inside "Questions" collection with id specified "config/organizationDocumentId.ts".
  * This does not include authors that are inactive
  */
 export const autoAssignQuestions = onDocumentCreated("Questions/{questionId}", async (event) => {
   try {
 		const snapshot = event.data;
-  		if (!snapshot) {
-  		    logger.warn("autoAssignQuestions: No data associated with the event");
-  		    return;
-  		}
+  	if (!snapshot) {
+  	  logger.warn("autoAssignQuestions: No data associated with the event");
+  	  return;
+  	}
 
-		const organizationData = await db.doc('Organizations/'+organizationDocumentId).get();
-		if(!organizationData.exists) {
-			const mainOrganizationDocument: Organization = {
-				autoAssignQuestions: false,
-				autoSendAnswers: false
-			};
-			await db.collection('Organizations').doc(organizationDocumentId).set(mainOrganizationDocument);
-		}
+    const organizations: FirebaseFirestore.DocumentData[] = [];
+    const organizationsSnapshot = await db.collection('Organizations').get();
+    organizationsSnapshot.forEach(doc => {
+       const document = { id: doc.id, ...doc.data() };
+       organizations.push(document);
+    });
 
-	  const isAutoAssignOn = organizationData.data()?.autoAssignQuestions;
+    const settings = await getSettings(organizations);
+	  const isAutoAssignOn = settings.autoAssignQuestions;
 	  if(isAutoAssignOn != true)
     	return;
 
@@ -95,42 +132,27 @@ export const autoAssignQuestions = onDocumentCreated("Questions/{questionId}", a
 				uid: doc.data().uid,
 			}
 		});
-		const answers: AnswerWithId[] = (await db.collection('Answers').get()).docs.map((doc): AnswerWithId => {
-			return {
-				id: doc.id, 
-				questionId: doc.data().questionId, 
-				authorUid: doc.data().authorUid, 
-				authorAssigned: doc.data().authorAssigned,
-				tags: doc.data().tags, 
-				answered: doc.data().answered, 
-				responses: doc.data().responses, 
-				published: doc.data().published,
-				fileUrl: doc.data().fileUrl
-			}
-		});
 
-		const compatibleAuthors = users.filter((user) => (
-			user.group===Group.Author && 
-			user.lawFields.some((lawfield) => (createdQuestionData.lawFields.includes(lawfield))) && 
-			isAuthorActive(user.inactive)
-		));
+		const compatibleAuthors = users.filter((user) => (user.group===Group.Author && isUserActive(user.inactive)));
 
-		const chosenAuthor = getAuthorWithLeastAnswers(compatibleAuthors, answers);
+    const memory = await getMemory(organizations);
+		const chosenAuthor = get1stAfterLastAssignedOne(memory.lastAssignedUid, compatibleAuthors);
 		if(!chosenAuthor)
-			return;
+      return;
+    
+    const newAnswer: Answer = {
+      questionId: createdQuestionData.id,
+      authorUid: chosenAuthor.uid,
+      authorAssigned: Timestamp.now(),
+      tags: [],
+      answered: null,
+      responses: [],
+      published: null,
+      fileUrl: ""
+    };
 
-		const newAnswer: Answer = {
-			questionId: createdQuestionData.id,
-			authorUid: chosenAuthor.uid,
-			authorAssigned: Timestamp.now(),
-			tags: [],
-			answered: null,
-			responses: [],
-			published: null,
-			fileUrl: ""
-		};
-		await db.collection('Answers').add(newAnswer);
-		
+    await db.collection('Organizations').doc(memoryOrganizationDocId).update({lastAssignedUid: chosenAuthor.uid});
+    await db.collection('Answers').add(newAnswer);
 	} catch(error) {
 		logger.error(error);
 	}
