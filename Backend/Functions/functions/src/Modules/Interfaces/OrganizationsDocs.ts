@@ -4,6 +4,7 @@ export interface SettingsOrganizationDocWithId extends SettingsOrganizationDoc {
 export interface SettingsOrganizationDoc {
     autoAssignQuestions: boolean;
     autoSendAnswers: boolean;
+    autoSendAuthors: boolean;
 }
 
 
@@ -14,3 +15,9 @@ export interface MemoryOrganizationDoc {
     lastAssignedUid: string;
 }
 
+export interface PublishOrganizationDocWithId extends PublishOrganizationDoc {
+    id: string;
+}
+export interface PublishOrganizationDoc {
+    lastPublishedAnswerId: string;
+}
