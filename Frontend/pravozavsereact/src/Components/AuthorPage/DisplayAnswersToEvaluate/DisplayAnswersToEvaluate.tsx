@@ -16,9 +16,13 @@ export default function DisplayAnswersToEvaluate(): JSX.Element {
 
   const answerAuthor = (answer: AnswerWithId): JSX.Element => {
     let text = '';
+    console.log(answer.answered)
+    console.log(answer.authorUid)
+
     text += users.find((user)=>(user.uid===answer.authorUid))?.academicTitle+' ';
     text += users.find((user)=>(user.uid===answer.authorUid))?.fullName;
     return <>{text}</>;
+    
   };
 
   const answersCommenterUid = answers.filter((answer) => (answer.responses.every((response) => response.commenterUid !== user?.uid))

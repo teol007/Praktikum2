@@ -14,6 +14,7 @@ import { questionsDBAtom } from "../../../../Atoms/QuestionsDBAtom";
 import AnswerDetails from "../../../Answer/AnswerDetails/AnswerDetails";
 import { ConfirmPopup, confirmPopup } from 'primereact/confirmpopup';
 import { groupedUsers } from "../../../../Modules/Functions/GroupedUsers";
+import { Dialog } from "primereact/dialog";
 
 interface AnswerActionsProps {
   answer: AnswerWithId;
@@ -70,6 +71,24 @@ export default function DisplayAnswerActions(props: AnswerActionsProps): JSX.Ele
     });
   };
 
+  const [showDialog, setShowDialog] = useState(false);
+
+  const handleSend = () => {
+    if (props.answer.responses.filter(response => response.status === 'Good').length < 3) {
+      setShowDialog(true);
+    } else {
+      // TODO: poslji
+    }
+  };
+
+  const handleConfirmSend = () => {
+    setShowDialog(false);
+    // TODO: poslji
+  };
+
+  const handleCancelSend = () => {
+    setShowDialog(false);
+  };
   
   return (
     <>
@@ -80,8 +99,27 @@ export default function DisplayAnswerActions(props: AnswerActionsProps): JSX.Ele
             <ConfirmPopup />
             <Button label="Izbriši odgovor na vprašanje" icon="pi pi-times" onClick={confirmDelete} size="small" style={{display: 'inline-block', margin: '1px'}} severity="danger" />
           </AnswerDetails>
-          <Button label="Pošlji uporabniku" icon="pi pi-send" size="small" onClick={() => {console.log('TODO')/* //! */}} style={{width: '100%', margin: '1px'}} disabled={props.answer.answered&&props.answer.responses.filter((response)=>(response.status===Status.Good)).length>=3 ? false : true} />
-        </div>
+          <Button
+        label="Pošlji uporabniku"
+        icon="pi pi-send"
+        size="small"
+        onClick={handleSend}
+        style={{ width: '100%', margin: '1px' }}
+      />
+      <Dialog
+        visible={showDialog}
+        onHide={() => setShowDialog(false)}
+        header="Potrditev"
+        footer={
+          <>
+            <Button label="Yes" onClick={handleConfirmSend} className="p-button-primary" outlined />
+            <Button label="No" onClick={handleCancelSend} className="p-button-secondary" />
+          </>
+        }
+      >
+        <p>Ste prepričani, da želite poslati odgovor?</p>
+      </Dialog>
+      </div>
 
         <OverlayPanel ref={overlayPanelRef} showCloseIcon >
           <form onSubmit={handleSubmit}>
