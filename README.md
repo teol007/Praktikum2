@@ -46,6 +46,7 @@ Dokumentacija vzpostavitve:
      - Ustvarjen Firebase račun in firebase projekt
      - Pridobljen ta git repozitorij na sistem
      - Na Firebase projektu izbran paket Blaze (potrebno dati bančno kartico, vendar je vse zastonj, če ne prekoračiš limitov) (drugače Firebase Functions ne bodo delovale)
+     - Vzpostavljen SMTP server (priporočena uporaba: https://sendgrid.com/)
 
   2. Koraki: 
      1. Na Firebase projektu (spletni strani) omogoči Firestore Database in Storage
@@ -55,7 +56,10 @@ Dokumentacija vzpostavitve:
      3. Pod zavihkom "Storage" pojdi na "Rules"
         1. Kopiraj vsebino datoteke "/Backend/Rules/Firebase Storage rules.txt" v Edit rules vnosno polje
         2. Potrdi spremembe s klikom na "Publish"
-     4. Inicializiraj Firebase Functions na poti "Praktikum2\Backend\Functions" (CLI ukaz): firebase init
+     4. Na Firebase projektu namesti razširitev "Trigger Email from Firestore"
+        - Pod "Configure extension" pri nastavitvi "Email documents collection" vpiši: AutoEmails
+        - Druge opcijske nastavitve lahko pustiš prazne
+     5. Inicializiraj Firebase Functions na poti "Praktikum2\Backend\Functions" (CLI ukaz): firebase init
         - Pazi, da si res na poti "Praktikum2\Backend\Functions"
         1. Označi možnost (s presledkom (space) in potrdi z enter): "Functions: Configure a Cloud Functions directory and its files"
         2. "Please select an option": Use an existing project
@@ -64,4 +68,4 @@ Dokumentacija vzpostavitve:
         5. Če bo sedaj napisalo, da nekatere datoteke že obstajajo (in Overwrite) pri vsaki napiši: n
         6. "Do you want to use ESLint to catch probable bugs and enforce style?": n
         7. "Do you want to install dependencies with npm now?": Y
-     5. Naloži funkcije na Firebase server (CLI ukaz): firebase deploy
+     6. Naloži funkcije na Firebase server (CLI ukaz): firebase deploy

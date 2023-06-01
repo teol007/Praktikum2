@@ -12,7 +12,6 @@ const everyoneButtons: MenuItem[] = [
     {label: 'Zastavi vprašanje', icon: 'pi pi-fw pi-question-circle', target: '/zastaviVprasanje'},
     {label: 'Račun', icon: 'pi pi-fw pi-user', target: '/racun'},
     {label: 'Arhiv', icon: 'pi pi-fw pi-user', target: '/arhiv'},
-    {label: 'Statistika', icon: 'pi pi-fw pi-chart-line', target: '/statistika/osebnaStatistika'},
 ];
 
 const onlyAuthorButtons: MenuItem[] = [
@@ -38,7 +37,7 @@ export default function Navbar() {
         showedButtons = [...showedButtons, ...onlyAuthorButtons, ...onlyManagerButtons];
 
     useEffect(() => {
-        setCurrentPage(everyoneButtons.findIndex((button)=>(button.target==='/'+location.pathname.split('/')[1])));
+        setCurrentPage([...everyoneButtons, ...onlyAuthorButtons, ...onlyManagerButtons].findIndex((button)=>(button.target==='/'+location.pathname.split('/')[1])));
     }, [location.pathname]);
 
     const goToPage = (event: TabMenuTabChangeEvent):void => {

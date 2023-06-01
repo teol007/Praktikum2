@@ -5,6 +5,7 @@ import { Menubar } from "primereact/menubar";
 import PageNotFound from "../PageNotFound/PageNotFound";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import DisplayAnswers from "./DisplayAnswers/DisplayAnswers";
+import TotalStatistics from "../Statistics/TotalStatistics/TotalStatistics";
 
 export default function ManagerPage(): JSX.Element {
   const navigate = useNavigate();
@@ -20,6 +21,11 @@ export default function ManagerPage(): JSX.Element {
       icon: 'pi pi-fw pi-info-circle',
       command: () => {navigate('/urednik/dodeljenaVprasanja')}
     },
+    {
+      label: 'Skupna\u00A0statistika',
+      icon: 'pi pi-fw pi-chart-line',
+      command: () => {navigate('/urednik/skupnaStatistika')}
+    },
   ];
   
   return (
@@ -31,6 +37,9 @@ export default function ManagerPage(): JSX.Element {
         />
         <Route path='/dodeljenaVprasanja'
           element={<DisplayAnswers />}
+        />
+        <Route path='/skupnaStatistika'
+          element={<TotalStatistics />}
         />
         <Route path='/*'
           element={<PageNotFound />}/>

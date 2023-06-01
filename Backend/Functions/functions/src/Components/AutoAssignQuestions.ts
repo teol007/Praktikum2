@@ -4,8 +4,8 @@ import { Timestamp, getFirestore } from 'firebase-admin/firestore';
 import { Group, Inactive, UserCustomInfo } from "../Modules/Interfaces/UserCustomInfo";
 import { Answer } from "../Modules/Interfaces/Answer";
 import { QuestionWithId } from "../Modules/Interfaces/Question";
-import { memoryOrganizationDocId, settingsOrganizationDocId } from "../Config/OrganizationDocuments";
-import { MemoryOrganizationDoc, MemoryOrganizationDocWithId, SettingsOrganizationDoc, SettingsOrganizationDocWithId } from "../Modules/Interfaces/OrganizationsDocs";
+import { memoryOrganizationDocId } from "../Config/OrganizationDocuments";
+import { getMemory, getSettings } from "../Modules/Functions/GetOrganizationsSpecificDoc";
 const db = getFirestore();
 
 
@@ -30,51 +30,6 @@ const sortByUid = (a: UserCustomInfo, b: UserCustomInfo): -1 | 0 | 1 => {
   return 0;
 };
 
-const getSettings = async (organizations: FirebaseFirestore.DocumentData[]): Promise<SettingsOrganizationDocWithId> => {  
-  const wantedDocId = settingsOrganizationDocId;
-  const settingsDoc = organizations.find((organization) => (organization.id === wantedDocId));
-  const settings: SettingsOrganizationDocWithId = {
-    id: wantedDocId,
-    autoAssignQuestions: false,
-    autoSendAnswers: false
-  };
-
-	if(!settingsDoc) {
-    const newSettings: SettingsOrganizationDoc = {
-      autoAssignQuestions: settings.autoAssignQuestions,
-      autoSendAnswers: settings.autoSendAnswers
-    } 
-		await db.collection('Organizations').doc(wantedDocId).set(newSettings);
-  }
-  else {
-    settings.autoAssignQuestions = settingsDoc.autoAssignQuestions;
-    settings.autoSendAnswers = settingsDoc.autoSendAnswers;
-  }
-
-  return settings;
-}
-
-const getMemory = async (organizations: FirebaseFirestore.DocumentData[]): Promise<MemoryOrganizationDocWithId> => {
-  const wantedDocId = memoryOrganizationDocId;
-  const memoryDoc = organizations.find((organization) => (organization.id === wantedDocId));
-  const memory: MemoryOrganizationDocWithId = {
-    id: wantedDocId,
-    lastAssignedUid: ""
-  };
-
-  if(!memoryDoc) {
-    const newMemory: MemoryOrganizationDoc = {
-      lastAssignedUid: memory.lastAssignedUid
-    }
-    await db.collection('Organizations').doc(wantedDocId).set(newMemory);
-  }
-  else {
-    memory.lastAssignedUid = memoryDoc.lastAssignedUid;
-  }
-
-  return memory;
-}
-
 const get1stAfterLastAssignedOne = (lastAssignedUid: string, queue: UserCustomInfo[]): UserCustomInfo|null => {
   if(queue.length <= 0)
     return null;
@@ -94,20 +49,13 @@ const get1stAfterLastAssignedOne = (lastAssignedUid: string, queue: UserCustomIn
  */
 export const autoAssignQuestions = onDocumentCreated("Questions/{questionId}", async (event) => {
   try {
-		const snapshot = event.data;
+	const snapshot = event.data;
   	if (!snapshot) {
   	  logger.warn("autoAssignQuestions: No data associated with the event");
   	  return;
   	}
 
-    const organizations: FirebaseFirestore.DocumentData[] = [];
-    const organizationsSnapshot = await db.collection('Organizations').get();
-    organizationsSnapshot.forEach(doc => {
-       const document = { id: doc.id, ...doc.data() };
-       organizations.push(document);
-    });
-
-    const settings = await getSettings(organizations);
+    const settings = await getSettings();
 	  const isAutoAssignOn = settings.autoAssignQuestions;
 	  if(isAutoAssignOn != true)
     	return;
@@ -135,7 +83,7 @@ export const autoAssignQuestions = onDocumentCreated("Questions/{questionId}", a
 
 		const compatibleAuthors = users.filter((user) => (user.group===Group.Author && isUserActive(user.inactive)));
 
-    const memory = await getMemory(organizations);
+    const memory = await getMemory();
 		const chosenAuthor = get1stAfterLastAssignedOne(memory.lastAssignedUid, compatibleAuthors);
 		if(!chosenAuthor)
       return;

@@ -1,13 +1,8 @@
 import React, { useState } from "react";
 import { Dialog } from "primereact/dialog";
 import { Button } from "primereact/button";
-import { InputTextarea } from "primereact/inputtextarea";
 import { doc, updateDoc } from "firebase/firestore";
-import { useAtom } from "jotai";
-import { userAuthentication } from "../../../Atoms/UserAuthentication";
 import { db } from "../../../Config/Firebase";
-import { AnswerWithId } from "../../../Modules/Interfaces/Answer";
-import { EditCommentProps } from "../../AuthorPage/OldComments/EditComments.tsx/EditComments";
 import { UserCustomInfo } from "../../../Modules/Interfaces/UserCustomInfo";
 import { Chip } from "primereact/chip";
 import { InputText } from "primereact/inputtext";

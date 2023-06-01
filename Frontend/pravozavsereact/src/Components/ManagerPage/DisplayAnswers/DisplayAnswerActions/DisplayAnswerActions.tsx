@@ -1,7 +1,7 @@
 import React, { useRef, useState } from "react";
 import { QuestionWithId } from "../../../../Modules/Interfaces/Question";
 import { UserCustomInfo } from "../../../../Modules/Interfaces/UserCustomInfo";
-import { Timestamp, deleteDoc, doc, updateDoc } from "firebase/firestore";
+import { Timestamp, deleteDoc, doc, setDoc, updateDoc } from "firebase/firestore";
 import { DropdownChangeEvent } from "primereact/dropdown";
 import { OverlayPanel } from "primereact/overlaypanel";
 import { Button } from "primereact/button";
@@ -14,7 +14,7 @@ import { questionsDBAtom } from "../../../../Atoms/QuestionsDBAtom";
 import AnswerDetails from "../../../Answer/AnswerDetails/AnswerDetails";
 import { ConfirmPopup, confirmPopup } from 'primereact/confirmpopup';
 import { groupedUsers } from "../../../../Modules/Functions/GroupedUsers";
-import { Dialog } from "primereact/dialog";
+import { publishOrganizationDocId } from "../../../../Config/OrganizationDocuments";
 
 interface AnswerActionsProps {
   answer: AnswerWithId;
@@ -71,55 +71,44 @@ export default function DisplayAnswerActions(props: AnswerActionsProps): JSX.Ele
     });
   };
 
-  const [showDialog, setShowDialog] = useState(false);
-
-  const handleSend = () => {
-    if (props.answer.responses.filter(response => response.status === 'Good').length < 3) {
-      setShowDialog(true);
-    } else {
-      // TODO: poslji
-    }
+  const confirmPublish = (event: React.MouseEvent<HTMLButtonElement>) => {
+    let message: JSX.Element = <>Zaključi in pošlji ta odgovor tistemu, ki je postavil vprašanje?</>;
+    let positiveReactions = 0;
+    props.answer.responses.forEach((response) => {if(response.status === Status.Good) positiveReactions++;})
+    if(positiveReactions < 3)
+      message = <><strong style={{color: 'red'}}>Pozor, to vprašanje je kot dobro ocenilo le {positiveReactions}/3 drugih avtorjev.</strong><br />Ali res želiš zaključiti in poslati ta odgovor tistemu, ki je postavil vprašanje?</>;
+    
+    confirmPopup({
+      target: event.currentTarget,
+      message: message,
+      icon: 'pi pi-exclamation-triangle',
+      async accept() {
+        try {
+          const PublishOrganizationDocRef = doc(db, "Organizations", publishOrganizationDocId);
+          await setDoc(PublishOrganizationDocRef, {lastPublishedAnswerId: props.answer.id}, {merge:true});
+        } catch (error) {
+          console.warn(error);
+        }
+      },
+    });
   };
 
-  const handleConfirmSend = () => {
-    setShowDialog(false);
-    // TODO: poslji
-  };
+  const handlePublish = (e: React.MouseEvent<HTMLButtonElement>) => {
+    confirmPublish(e);
+  }
 
-  const handleCancelSend = () => {
-    setShowDialog(false);
-  };
   
   return (
     <>
       <div className="flex flex-wrap justify-content-end gap-2">
         <div style={{marginLeft: '3em', marginRight: '3em'}}>
+        <ConfirmPopup />
           <AnswerDetails answer={props.answer} withPersonalData={true} withQuestionPersonalData={true} >
             <Button label="Spremeni avtorja odgovora" icon="pi pi-user-edit" onClick={(e) => overlayPanelRef.current?.toggle(e)} size="small" style={{display: 'inline-block', margin: '1px'}} disabled={props.answer.answered ? true : false} />
-            <ConfirmPopup />
             <Button label="Izbriši odgovor na vprašanje" icon="pi pi-times" onClick={confirmDelete} size="small" style={{display: 'inline-block', margin: '1px'}} severity="danger" />
           </AnswerDetails>
-          <Button
-        label="Pošlji uporabniku"
-        icon="pi pi-send"
-        size="small"
-        onClick={handleSend}
-        style={{ width: '100%', margin: '1px' }}
-      />
-      <Dialog
-        visible={showDialog}
-        onHide={() => setShowDialog(false)}
-        header="Potrditev"
-        footer={
-          <>
-            <Button label="Yes" onClick={handleConfirmSend} className="p-button-primary" outlined />
-            <Button label="No" onClick={handleCancelSend} className="p-button-secondary" />
-          </>
-        }
-      >
-        <p>Ste prepričani, da želite poslati odgovor?</p>
-      </Dialog>
-      </div>
+          <Button label={props.answer.published ? 'Že zaključeno' : 'Pošlji uporabniku'} icon="pi pi-send" size="small" onClick={handlePublish} style={{width: '100%', margin: '1px'}} disabled={props.answer.published ? true : false} />
+        </div>
 
         <OverlayPanel ref={overlayPanelRef} showCloseIcon >
           <form onSubmit={handleSubmit}>
