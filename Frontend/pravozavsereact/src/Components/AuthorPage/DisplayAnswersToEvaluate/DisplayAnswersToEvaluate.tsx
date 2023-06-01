@@ -32,9 +32,30 @@ export default function DisplayAnswersToEvaluate(): JSX.Element {
   const findLawField = (answer: AnswerWithId) => {
     const question: QuestionWithId | undefined = questions.find((q) => q.id === answer.questionId);
     const lawField = question?.lawFields;
-    const joinedLawFields = lawField?.join(" & ");
+    const joinedLawFields = lawField?.join(" & ")
+    checkDate(answer)
     return joinedLawFields;
   };
+
+  const checkDate = (answer: AnswerWithId) => {
+    const storedDate = answer.authorAssigned?.toDate()
+    const todayDate = new Date()
+
+
+    if(storedDate){
+      const differenceInTime = todayDate.getTime() - storedDate?.getTime();
+      const differenceInDays = Math.floor(differenceInTime / (1000 * 3600 * 24));
+
+      if (differenceInDays >= 12) {
+        return "#ff9991";
+      }
+    } else {
+      console.log('No date');
+    }
+  }
+  
+    
+  
 
   const sortedAnswers = [...answers].sort((b, a) => countResponsesByAnswer(b) - countResponsesByAnswer(a));
 
@@ -44,7 +65,8 @@ export default function DisplayAnswersToEvaluate(): JSX.Element {
       <div className="row">
         {sortedAnswers.map(answer => (
           <div key={answer.id} className="col flex justify-content-center" style={{ paddingTop: '1rem', paddingBottom: '1rem' }} >
-            <Card title={() => findLawField(answer)} subTitle={<><span>Avtor odgovora: </span><span>{answerAuthor(answer)}</span></>} className="md:w-25rem">
+            <Card title={() => findLawField(answer)} subTitle={<><span>Avtor odgovora: </span><span>{answerAuthor(answer)}</span></>} 
+              className="md:w-25rem" style={{backgroundColor: checkDate(answer)}}>
               <div style={{ marginLeft: '3em', marginRight: '3em' }}>
                 <AnswerDetails answer={answer} />
                 <ResponseToAnswer answer={answer} />

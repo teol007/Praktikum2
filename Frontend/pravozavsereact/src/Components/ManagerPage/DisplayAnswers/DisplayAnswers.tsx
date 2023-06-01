@@ -7,6 +7,7 @@ import { AnswerWithId } from "../../../Modules/Interfaces/Answer";
 import TimeUntilAnswered from "../../Answer/TimeUntilAnswered/TimeUntilAnswered";
 import DisplayAnswerActions from "./DisplayAnswerActions/DisplayAnswerActions";
 import ResponsesStatusesCount from "../../Answer/Response/ResponsesStatusesCount/ResponseStatuses";
+import AutoEmailSettings from "./AutoEmailSettings/AutoEmailSettings";
 
 export default function DisplayAnswers(): JSX.Element {
   const [answers] = useAtom(answersDBAtom);
@@ -22,6 +23,7 @@ export default function DisplayAnswers(): JSX.Element {
   return (
     <div className="container">
       <h2 style={{marginTop: '1em'}}>Dodeljena vprašanja</h2>
+      <AutoEmailSettings />
       <div className="row">
       {answers.map(answer => (
         <div key={answer.id} className="col flex justify-content-center" style={{ paddingTop: '1rem', paddingBottom: '1rem' }} >

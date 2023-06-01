@@ -21,5 +21,11 @@ initializeApp();
 // import { getFirestore } from "firebase-admin/firestore";
 
 import { autoAssignQuestions } from "./Components/AutoAssignQuestions";
+import { sendEmailOnCreateAnswer } from "./Components/SendEmail/OnCreateAnswer/SendEmailOnCreateAnswer";
+import { sendEmailOnPublishAnswer } from "./Components/SendEmail/OnPublishAnswer/SendEmailOnPublishAnswer";
+import { sendEmailOnCreatePublishAnswer } from "./Components/SendEmail/OnPublishAnswer/SendEmailOnCreatePublishAnswer";
 
 exports.autoAssignQuestions = autoAssignQuestions;
+exports.sendEmailOnCreateAnswer = sendEmailOnCreateAnswer;
+exports.sendEmailOnPublishAnswer = sendEmailOnPublishAnswer;
+exports.sendEmailOnCreatePublishAnswer = sendEmailOnCreatePublishAnswer;

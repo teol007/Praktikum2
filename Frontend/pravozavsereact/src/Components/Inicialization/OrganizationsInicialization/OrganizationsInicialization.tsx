@@ -3,7 +3,7 @@ import { onSnapshot, doc, setDoc } from "firebase/firestore";
 import { useAtom } from "jotai";
 import { db } from "../../../Config/Firebase";
 import { userAuthentication } from "../../../Atoms/UserAuthentication";
-import { organizationsDBAtom } from "../../../Atoms/OrganizationsDBAtom";
+import { settingsOrganizationsDBAtom } from "../../../Atoms/OrganizationsDBAtom";
 import { SettingsOrganizationDoc, SettingsOrganizationDocWithId } from "../../../Modules/Interfaces/OrganizationsDocs";
 import { settingsOrganizationDocId } from "../../../Config/OrganizationDocuments";
 
@@ -11,7 +11,8 @@ const createMainOrganizationDocumentId = async () => {
   try {
     const mainOrganizationDocument: SettingsOrganizationDoc = {
       autoAssignQuestions: false,
-      autoSendAnswers: false
+      autoSendAnswers: false,
+      autoSendAuthors: false
     };
     await setDoc(doc(db, "Organizations/"+settingsOrganizationDocId), mainOrganizationDocument);
   } catch (error) {
@@ -21,7 +22,7 @@ const createMainOrganizationDocumentId = async () => {
 
 export default function OrganizationsInicialization(): JSX.Element {
   const [user] = useAtom(userAuthentication);
-	const [, setOrganizations] = useAtom(organizationsDBAtom);
+	const [, setOrganizations] = useAtom(settingsOrganizationsDBAtom);
 
 	useEffect(() => {
     if(user) 
@@ -33,9 +34,10 @@ export default function OrganizationsInicialization(): JSX.Element {
         }
 
         const data: SettingsOrganizationDocWithId = {
-            id: document.id,
-            autoAssignQuestions: document.data()?.autoAssignQuestions,
-            autoSendAnswers: document.data()?.autoAssignQuestions,
+          id: document.id,
+          autoAssignQuestions: document.data()?.autoAssignQuestions,
+          autoSendAnswers: document.data()?.autoSendAnswers,
+          autoSendAuthors: document.data()?.autoSendAuthors
         };
         setOrganizations(data);
       }, (error) => {

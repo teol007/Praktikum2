@@ -37,7 +37,7 @@ export default function Navbar() {
         showedButtons = [...showedButtons, ...onlyAuthorButtons, ...onlyManagerButtons];
 
     useEffect(() => {
-        setCurrentPage(everyoneButtons.findIndex((button)=>(button.target==='/'+location.pathname.split('/')[1])));
+        setCurrentPage([...everyoneButtons, ...onlyAuthorButtons, ...onlyManagerButtons].findIndex((button)=>(button.target==='/'+location.pathname.split('/')[1])));
     }, [location.pathname]);
 
     const goToPage = (event: TabMenuTabChangeEvent):void => {

@@ -11,7 +11,6 @@ export default function Account(): JSX.Element {
   //const [user, loading, error] = useAuthState(firebaseAuth);
   const [loggedInUser] = useAtom(userAuthentication);
 
-
   /* if(loading)
   {
     return (
