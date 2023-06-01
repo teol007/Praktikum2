@@ -7,7 +7,6 @@ import { Routes, Route, Navigate } from 'react-router';
 import Greetings from './Components/Greetings/Greetings';
 import AddQuestion from './Components/Questions/AddQuestion/AddQuestion';
 import Navbar from './Components/Navbar/Navbar';
-import Footer from './Components/Footer/Footer';
 import Tests from './Components/Test/Tests/Tests';
 import HumanRights from './Components/HumanRights/HumanRights';
 import AboutUs from './Components/AboutUs/AboutUs';
@@ -60,7 +59,6 @@ function App() {
           <Route path='/*'
               element={<PageNotFound />}/>
       </Routes>
-      <Footer />
     </div>
   );
 }
