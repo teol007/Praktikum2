@@ -6,14 +6,10 @@ import { userAuthentication } from "../../Atoms/UserAuthentication";
 import { Card } from "primereact/card";
 import { Chip } from "primereact/chip";
 import EditAccount from "./EditAccount/EditAccount";
-import { PropaneSharp } from "@mui/icons-material";
-import { Timestamp, doc } from "firebase/firestore";
-
 
 export default function Account(): JSX.Element {
   //const [user, loading, error] = useAuthState(firebaseAuth);
   const [loggedInUser] = useAtom(userAuthentication);
-  const [user] = useAtom(userAuthentication);
 
 
   /* if(loading)
@@ -57,12 +53,6 @@ export default function Account(): JSX.Element {
       <SignInWithGoogle />
     </>
   ); */
-
- 
-  
-  
-
-
 
   if (loggedInUser) {
     return (
