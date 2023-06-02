@@ -3,25 +3,26 @@ import { Dialog } from "primereact/dialog";
 import { Button } from "primereact/button";
 import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../../../Config/Firebase";
-import { UserCustomInfo } from "../../../Modules/Interfaces/UserCustomInfo";
 import { Chip } from "primereact/chip";
 import { InputText } from "primereact/inputtext";
+import { useAtom } from "jotai";
+import { userAuthentication } from "../../../Atoms/UserAuthentication";
 
-export interface EditAccountProps {
-  user: UserCustomInfo;
-}
-
-export default function EditAccount(props: EditAccountProps): JSX.Element {
+export default function EditAccount(): JSX.Element {
+  const [loggedInUser] = useAtom(userAuthentication);
   const [visible, setVisible] = useState(false);
-  const [name, setName] = useState<string>(props.user.fullName);
-  const [title, setTitle] = useState<string>(props.user.academicTitle);
+  const [name, setName] = useState<string>(loggedInUser?.fullName ?? '');
+  const [title, setTitle] = useState<string>(loggedInUser?.academicTitle ?? '');
 
+  if(!loggedInUser)
+    return <i>Za urejanje profila moraš biti prijavljen</i>;
 
   const saveChanges = async (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     event.preventDefault();
+
     try {
-      const userDocRef = doc(db, "Users", props.user.uid);
-      await updateDoc(userDocRef, { fullName: name, academicTitle: title});
+      const userDocRef = doc(db, "Users", loggedInUser.uid);
+      await updateDoc(userDocRef, { fullName: name, academicTitle: (title.includes('/') ? '' : title)});
     } catch (error) {
       console.error(error);
     }
@@ -60,15 +61,15 @@ export default function EditAccount(props: EditAccountProps): JSX.Element {
           </p>
           <p>
             <b>Email:</b> 
-            <InputText value={props.user.email} onChange={(e) => setTitle(e.target.value)} disabled />
+            <InputText value={loggedInUser.email} disabled />
           </p>
           <p>
             <b>Vloga:</b>
-            <InputText value={props.user.group} onChange={(e) => setTitle(e.target.value)} disabled />
+            <InputText value={loggedInUser.group} disabled />
           </p>
           <div style={{ marginBottom: "1em" }}>
             <b>Pravna področja: </b>
-            {props.user.lawFields.map((field, index) => (
+            {loggedInUser.lawFields.map((field, index) => (
               <React.Fragment key={index}>
                 <Chip label={field} style={{ display: "inline-block" }} />
               </React.Fragment>

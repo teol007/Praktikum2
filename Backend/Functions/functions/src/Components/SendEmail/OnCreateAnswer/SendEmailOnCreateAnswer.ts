@@ -5,8 +5,9 @@ import { AnswerWithId } from "../../../Modules/Interfaces/Answer";
 import { Email, EmailMessage } from "../../../Modules/Interfaces/Email";
 import { UserCustomInfo } from "../../../Modules/Interfaces/UserCustomInfo";
 import { QuestionWithId } from "../../../Modules/Interfaces/Question";
-import { htmlTemplateQuestionAssigned } from "../../../Modules/Functions/HtmlTemplates/HtmlTemplateQuestionAssigned";
+import { htmlQuestionAssigned } from "../../../Modules/Functions/HtmlTemplates/HtmlQuestionAssigned";
 import { sendEmailAuthors } from "../SendEmail";
+import { v4 as uuidv4 } from "uuid";
 const db = getFirestore();
 
 const createEmail = async (user: UserCustomInfo, answer: AnswerWithId): Promise<Email|null> => {
@@ -30,12 +31,15 @@ const createEmail = async (user: UserCustomInfo, answer: AnswerWithId): Promise<
 
   const message: EmailMessage = {
     subject: "Dodeljeno novo vprašanje",
-    html: htmlTemplateQuestionAssigned(question.description, question.lawFields, user.academicTitle+' '+user.fullName, answer.authorAssigned?.toDate()),
+    html: htmlQuestionAssigned(question.description, question.lawFields, user.academicTitle+' '+user.fullName, answer.authorAssigned?.toDate()),
   };
 
   const email: Email = {
     to: user.email,
-    message: message
+    message: message,
+    headers: {
+      "Message-ID": `<${uuidv4()}@gmail.com>`,
+    }
   };
 
   return email;

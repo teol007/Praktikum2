@@ -14,7 +14,8 @@ import { questionsDBAtom } from "../../../../Atoms/QuestionsDBAtom";
 import AnswerDetails from "../../../Answer/AnswerDetails/AnswerDetails";
 import { ConfirmPopup, confirmPopup } from 'primereact/confirmpopup';
 import { groupedUsers } from "../../../../Modules/Functions/GroupedUsers";
-import { publishOrganizationDocId } from "../../../../Config/OrganizationDocuments";
+import { publishOrganizationDocId, reassignedAuthorOrganizationDocId } from "../../../../Config/OrganizationDocuments";
+import { ReassignedAuthorOrganizationDoc } from "../../../../Modules/Interfaces/OrganizationsDocs";
 
 interface AnswerActionsProps {
   answer: AnswerWithId;
@@ -31,11 +32,19 @@ export default function DisplayAnswerActions(props: AnswerActionsProps): JSX.Ele
       if(props.answer.authorUid===authorOfAnswer.uid)
         return;
 
+      const lastAuthorUid = props.answer.authorUid;
       const answerRef = doc(db, "Answers", props.answer.id);
       await updateDoc(answerRef, {
         authorUid: authorOfAnswer.uid,
         authorAssigned: Timestamp.now(),
       });
+      const reassignedAuthorOrganizationRef = doc(db, "Organizations", reassignedAuthorOrganizationDocId);
+      const reassignedAuthor: ReassignedAuthorOrganizationDoc = {
+        answerId: props.answer.id,
+        lastAssignedAnswerAuthorUid: lastAuthorUid ?? '',
+        newReassignedAnswerAuthorUid: authorOfAnswer.uid
+      };
+      await setDoc(reassignedAuthorOrganizationRef, reassignedAuthor);
       
       overlayPanelRef.current?.hide();
     } catch (error) {
@@ -103,11 +112,11 @@ export default function DisplayAnswerActions(props: AnswerActionsProps): JSX.Ele
       <div className="flex flex-wrap justify-content-end gap-2">
         <div style={{marginLeft: '3em', marginRight: '3em'}}>
         <ConfirmPopup />
-          <AnswerDetails answer={props.answer} withPersonalData={true} withQuestionPersonalData={true} >
-            <Button label="Spremeni avtorja odgovora" icon="pi pi-user-edit" onClick={(e) => overlayPanelRef.current?.toggle(e)} size="small" style={{display: 'inline-block', margin: '1px'}} disabled={props.answer.answered ? true : false} />
+          <AnswerDetails answer={props.answer} withPersonalData={true} withQuestionPersonalData={true} editQuestionLawFields={true} >
+            <Button label="Spremeni avtorja odgovora" icon="pi pi-user-edit" onClick={(e) => overlayPanelRef.current?.toggle(e)} size="small" style={{display: 'inline-block', margin: '1px'}} disabled={props.answer.published ? true : false} />
             <Button label="Izbriši odgovor na vprašanje" icon="pi pi-times" onClick={confirmDelete} size="small" style={{display: 'inline-block', margin: '1px'}} severity="danger" />
           </AnswerDetails>
-          <Button label={props.answer.published ? 'Že zaključeno' : 'Pošlji uporabniku'} icon="pi pi-send" size="small" onClick={handlePublish} style={{width: '100%', margin: '1px'}} disabled={props.answer.published ? true : false} />
+          <Button label={props.answer.published ? 'Že zaključeno' : (props.answer.fileUrl!=='' ? 'Pošlji uporabniku' : 'Odgovor je brez datoteke')} icon="pi pi-send" size="small" onClick={handlePublish} style={{width: '100%', margin: '1px'}} disabled={(props.answer.published || props.answer.fileUrl==='') ? true : false} />
         </div>
 
         <OverlayPanel ref={overlayPanelRef} showCloseIcon >

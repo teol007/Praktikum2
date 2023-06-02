@@ -22,26 +22,29 @@ export const getSettings = async (): Promise<SettingsOrganizationDocWithId> => {
     id: wantedDocId,
     autoAssignQuestions: false,
     autoSendAnswers: false,
-    autoSendAuthors: false
+    autoSendAuthors: false,
+    autoSendQuestionReceived: false
   };
 
   if(!settingsDoc) {
     const newSettings: SettingsOrganizationDoc = {
       autoAssignQuestions: settings.autoAssignQuestions,
       autoSendAnswers: settings.autoSendAnswers,
-      autoSendAuthors: settings.autoSendAuthors
+      autoSendAuthors: settings.autoSendAuthors,
+      autoSendQuestionReceived: settings.autoSendQuestionReceived
     };
     await db.collection('Organizations').doc(wantedDocId).set(newSettings);
+    return settings;
   }
-  else {
-    settings.autoAssignQuestions = settingsDoc.autoAssignQuestions;
-    settings.autoSendAnswers = settingsDoc.autoSendAnswers;
-    settings.autoSendAuthors = settingsDoc.autoSendAuthors;
-  }
+  
+  settings.autoAssignQuestions = settingsDoc.autoAssignQuestions;
+  settings.autoSendAnswers = settingsDoc.autoSendAnswers;
+  settings.autoSendAuthors = settingsDoc.autoSendAuthors;
+  settings.autoSendQuestionReceived = settingsDoc.autoSendQuestionReceived;
 
   return settings;
 }
-  
+
 export const getMemory = async (): Promise<MemoryOrganizationDocWithId> => {
   const organizations = await getOrganizations();
 

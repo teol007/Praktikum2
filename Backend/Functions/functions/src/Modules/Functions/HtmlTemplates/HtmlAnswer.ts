@@ -2,7 +2,7 @@ import { AnswerWithId } from "../../Interfaces/Answer";
 import { QuestionWithId } from "../../Interfaces/Question";
 import { toSlovenianDateTime } from "../DateConverters";
 
-export const htmlTemplateOfAnswer = (question: QuestionWithId, answer: AnswerWithId): string => {
+export const htmlAnswer = (question: QuestionWithId, answer: AnswerWithId): string => {
   const htmlTemplate = `<!DOCTYPE html>
     <html>
     <head>

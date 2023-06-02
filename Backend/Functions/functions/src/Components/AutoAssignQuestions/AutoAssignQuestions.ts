@@ -1,11 +1,11 @@
 import { logger } from "firebase-functions";
-import { onDocumentCreated } from "firebase-functions/v2/firestore";
+import { FirestoreEvent, QueryDocumentSnapshot } from "firebase-functions/v2/firestore";
 import { Timestamp, getFirestore } from 'firebase-admin/firestore';
-import { Group, Inactive, UserCustomInfo } from "../Modules/Interfaces/UserCustomInfo";
-import { Answer } from "../Modules/Interfaces/Answer";
-import { QuestionWithId } from "../Modules/Interfaces/Question";
-import { memoryOrganizationDocId } from "../Config/OrganizationDocuments";
-import { getMemory, getSettings } from "../Modules/Functions/GetOrganizationsSpecificDoc";
+import { Group, Inactive, UserCustomInfo } from "../../Modules/Interfaces/UserCustomInfo";
+import { Answer } from "../../Modules/Interfaces/Answer";
+import { QuestionWithId } from "../../Modules/Interfaces/Question";
+import { memoryOrganizationDocId } from "../../Config/OrganizationDocuments";
+import { getMemory, getSettings } from "../../Modules/Functions/GetOrganizationsSpecificDoc";
 const db = getFirestore();
 
 
@@ -44,12 +44,12 @@ const get1stAfterLastAssignedOne = (lastAssignedUid: string, queue: UserCustomIn
 
 /**
  * Automatically assigns question to active authors in queue
- * Works only if autoAssignQuestions===true in document inside "Questions" collection with id specified "config/organizationDocumentId.ts".
+ * Works only if autoAssignQuestions===true in document inside "Questions" collection with id specified in "config/organizationDocumentId.ts".
  * This does not include authors that are inactive
  */
-export const autoAssignQuestions = onDocumentCreated("Questions/{questionId}", async (event) => {
+export const autoAssignQuestions = async (event: FirestoreEvent<QueryDocumentSnapshot | undefined, {questionId: string}>) => {
   try {
-	const snapshot = event.data;
+	  const snapshot = event.data;
   	if (!snapshot) {
   	  logger.warn("autoAssignQuestions: No data associated with the event");
   	  return;
@@ -104,4 +104,4 @@ export const autoAssignQuestions = onDocumentCreated("Questions/{questionId}", a
 	} catch(error) {
 		logger.error(error);
 	}
-});
+};

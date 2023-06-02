@@ -8,7 +8,7 @@ import { userAuthentication } from "../../../Atoms/UserAuthentication";
 
 export default function UsersInicialization(): JSX.Element {
   const [user] = useAtom(userAuthentication);
-	const [, setAtom] = useAtom(usersDBAtom);
+	const [, setUsers] = useAtom(usersDBAtom);
 
 	useEffect(() => {
     if(user) 
@@ -25,14 +25,14 @@ export default function UsersInicialization(): JSX.Element {
             uid: doc.data().uid,
           }
         });
-        setAtom(data);
+        setUsers(data);
       }, (error) => {
         console.warn(error)
       });
 
       return () => {unsubscribe()}; //To nujno more bit drugace bodo klici v neskoncnost pri onSnapshot()!
     }
-  }, [setAtom, user]);
+  }, [setUsers, user]);
 
 
   return (

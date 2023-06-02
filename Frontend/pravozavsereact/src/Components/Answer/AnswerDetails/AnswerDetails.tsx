@@ -19,6 +19,7 @@ export interface AnswerDetailsProps{
   answer: AnswerWithId;
   withPersonalData?: boolean;
   withQuestionPersonalData?: boolean;
+  editQuestionLawFields?: boolean;
 }
 
 const carouselResponsiveOptions: CarouselResponsiveOption[] = [
@@ -79,7 +80,7 @@ export default function AnswerDetails(props: PropsWithChildren<AnswerDetailsProp
     const questionOfAnswer = questions.find((question)=>(question.id === answer.questionId));
     if(!questionOfAnswer)
       return <i>Ni znano</i>;
-    return <QuestionDetails question={questionOfAnswer} withPersonalData={props.withQuestionPersonalData} />;
+    return <QuestionDetails question={questionOfAnswer} withPersonalData={props.withQuestionPersonalData} editLawFields={props.editQuestionLawFields} />;
   }
 
   const displayAnswerAuthor = (answer: AnswerWithId): JSX.Element => {

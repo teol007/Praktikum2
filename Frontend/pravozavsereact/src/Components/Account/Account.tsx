@@ -59,7 +59,7 @@ export default function Account(): JSX.Element {
         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
           <Card title={<>Pozdravljeni, {loggedInUser.fullName}!</>} footer={<></>} style={{ margin: '20px', width: '500px' }}>
             <p><b>Ime in priimek:</b> {loggedInUser.fullName}</p>
-            <p><b>Naziv:</b> {loggedInUser.academicTitle}</p>
+            <p><b>Naziv:</b> {loggedInUser.academicTitle!=='' ? loggedInUser.academicTitle : <i>/</i>}</p>
             <p><b>Email:</b> {loggedInUser.email}</p>
             <p><b>Vloga:</b> {loggedInUser.group}</p>
 
@@ -70,7 +70,7 @@ export default function Account(): JSX.Element {
                 </React.Fragment>
               ))}
             </div>
-            <EditAccount user={loggedInUser} />
+            <EditAccount />
             <SignOut />
 
           </Card>

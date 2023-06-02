@@ -1,3 +1,7 @@
+interface EmailHeaders {
+  [key: string]: string;
+}
+
 export interface UrlAttachments {
   filename: string;
   path: string;
@@ -12,4 +16,5 @@ export interface EmailMessage {
 export interface Email {
   to: string | string[];
   message: EmailMessage;
+  headers?: EmailHeaders;
 }

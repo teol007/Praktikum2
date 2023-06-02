@@ -12,6 +12,7 @@ import { MultiSelect, MultiSelectChangeEvent } from 'primereact/multiselect';
 export interface QuestionDetailsProps{
   question: QuestionWithId;
   withPersonalData?: boolean;
+  editLawFields?: boolean;
 }
 
 const lawFieldsArray = [ 'Stvarno pravo', 'Kazensko pravo', 'Prekrškovno pravo', 'Obligacijsko pravo', 'Odškodnina',
@@ -61,7 +62,7 @@ export default function QuestionDetails(props: PropsWithChildren<QuestionDetails
           {props.withPersonalData && <p><b>Avtor vprašanja: </b>{props.question.customerEmail}</p>}
           {props.withPersonalData && <p><b>Datum nastanka: </b>{toSlovenianDate(props.question.created.toDate())} ob {toSlovenianTime(props.question.created.toDate())}</p>}
           <div style={{marginBottom: '1em'}}><b>Pravna področja: </b><DisplayLawFields lawFields={props.question.lawFields} /></div>
-          {props.withPersonalData && <div style={{marginBottom: '1em'}}>
+          {props.editLawFields && <div style={{marginBottom: '1em'}}>
             {showEdit ? 
                 <div>
                   <MultiSelect value={selectedLawFields} options={lawFieldsArray} onChange={handleSelectLawFields} placeholder="Izberi pravno področje problema" className="w-full md:w-20rem" display="chip" filter style={{width: '100%', marginBottom: '0.5em'}} />

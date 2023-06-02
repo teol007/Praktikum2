@@ -12,7 +12,8 @@ const createMainOrganizationDocumentId = async () => {
     const mainOrganizationDocument: SettingsOrganizationDoc = {
       autoAssignQuestions: false,
       autoSendAnswers: false,
-      autoSendAuthors: false
+      autoSendAuthors: false,
+      autoSendQuestionReceived: false
     };
     await setDoc(doc(db, "Organizations/"+settingsOrganizationDocId), mainOrganizationDocument);
   } catch (error) {
@@ -37,7 +38,8 @@ export default function OrganizationsInicialization(): JSX.Element {
           id: document.id,
           autoAssignQuestions: document.data()?.autoAssignQuestions,
           autoSendAnswers: document.data()?.autoSendAnswers,
-          autoSendAuthors: document.data()?.autoSendAuthors
+          autoSendAuthors: document.data()?.autoSendAuthors,
+          autoSendQuestionReceived: document.data()?.autoSendQuestionReceived
         };
         setOrganizations(data);
       }, (error) => {

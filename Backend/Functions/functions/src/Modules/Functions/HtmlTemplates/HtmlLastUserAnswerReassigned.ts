@@ -1,6 +1,6 @@
-import { toSlovenianDateTime } from "../DateConverters";
+import { Question, QuestionWithId } from "../../Interfaces/Question";
 
-export const htmlTemplateQuestionAssigned = (questionDescription: string,  lawFields: string[],  authorAssignedName: string, authorAssignedDate: Date|undefined|null): string => {
+export const htmlLastUserAnswerReassigned = (question: Question|QuestionWithId): string => {
   const htmlTemplate = `<!DOCTYPE html>
     <html>
     <head>
@@ -25,6 +25,9 @@ export const htmlTemplateQuestionAssigned = (questionDescription: string,  lawFi
           font-size: 18px;
           margin-bottom: 10px;
         }
+        .normalText {
+          margin-bottom: 10px;
+        }
         .law-fields {
           margin-bottom: 10px;
         }
@@ -35,18 +38,14 @@ export const htmlTemplateQuestionAssigned = (questionDescription: string,  lawFi
     </head>
     <body>
       <div class="email-container">
-        <p>Pozdravljeni.<br /><br />Dodeljeno vam je bilo novo vprašanje.</p>
+        <p class="normalText">Pozdravljeni.<br /><br />Obveščamo vas, da je vprašanje, ki je bilo dodeljeno vam, sedaj bilo dodeljeno drugi osebi. Vi niste več odgovorni za odgovor na to vprašanje.</p>
         <hr />
         <h2>Podrobnosti</h2>
-        <p class="question-description"><strong>Vprašanje:</strong> ${questionDescription}</p>
-        <p class="law-fields"><strong>Pravna področja:</strong> ${lawFields.join(", ").toLowerCase()}</p>
-        <div class="assigned-info">
-          <p><strong>Dodeljeno osebi:</strong> ${authorAssignedName}</p>
-          <p><strong>Datum dodelitve:</strong> ${authorAssignedDate ? toSlovenianDateTime(authorAssignedDate) : '<i>Ni navedeno</i>'}</p>
-        </div>
+        <p class="question-description"><strong>Vprašanje:</strong> ${question.description}</p>
+        <p class="law-fields"><strong>Pravna področja:</strong> ${question.lawFields.join(", ").toLowerCase()}</p>
         <hr />
         <br />
-        <p class="footer">Lep pozdrav<br />organizacija Pravo za vse</p>
+        <p class="footer normalText">Lep pozdrav<br />organizacija Pravo za vse</p>
       </div>
     </body>
     </html>`;

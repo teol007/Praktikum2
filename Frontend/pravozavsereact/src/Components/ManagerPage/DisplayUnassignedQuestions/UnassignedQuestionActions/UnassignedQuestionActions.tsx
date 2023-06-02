@@ -15,7 +15,6 @@ import { Answer } from "../../../../Modules/Interfaces/Answer";
 import { ConfirmPopup, confirmPopup } from "primereact/confirmpopup";
 import { groupedUsers } from "../../../../Modules/Functions/GroupedUsers";
 
-
 interface QuestionActionsProps {
   question: QuestionWithId;
 }
@@ -108,7 +107,7 @@ export default function UnassignedQuestionActions(props: QuestionActionsProps): 
     <>
       <div className="flex flex-wrap justify-content-end gap-2">
         <div style={{marginLeft: '3em', marginRight: '3em'}}>
-          <QuestionDetails question={props.question} withPersonalData={true} >
+          <QuestionDetails question={props.question} withPersonalData={true} editLawFields={true} >
             <ConfirmPopup />
             <Button label="Izbriši vprašanje" icon="pi pi-times" onClick={confirmDelete} size="small" style={{display: 'inline-block', margin: '1px'}} severity="danger" />
           </QuestionDetails>

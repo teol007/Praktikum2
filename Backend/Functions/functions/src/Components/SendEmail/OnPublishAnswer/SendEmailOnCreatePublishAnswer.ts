@@ -6,8 +6,9 @@ import { Email, EmailMessage, UrlAttachments } from "../../../Modules/Interfaces
 import { QuestionWithId } from "../../../Modules/Interfaces/Question";
 import { PublishOrganizationDoc } from "../../../Modules/Interfaces/OrganizationsDocs";
 import { sendEmailAnswer } from "../SendEmail";
-import { htmlTemplateOfAnswer } from "../../../Modules/Functions/HtmlTemplates/HtmlTemplateOfAnswer";
+import { htmlAnswer } from "../../../Modules/Functions/HtmlTemplates/HtmlAnswer";
 import { publishOrganizationDocId } from "../../../Config/OrganizationDocuments";
+import { v4 as uuidv4 } from "uuid";
 const db = getFirestore();
 
 const createAnswerEmail = async (question: QuestionWithId, answer: AnswerWithId): Promise<Email|null> => {
@@ -21,13 +22,16 @@ const createAnswerEmail = async (question: QuestionWithId, answer: AnswerWithId)
 
   const message: EmailMessage = {
     subject: "Odgovor na vaše pravno vprašanje",
-    html: htmlTemplateOfAnswer(question, answer),
+    html: htmlAnswer(question, answer),
     attachments: attachments
   };
 
   const email: Email = {
     to: question.customerEmail,
-    message: message
+    message: message,
+    headers: {
+      "Message-ID": `<${uuidv4()}@gmail.com>`,
+    }
   };
 
   return email;

@@ -20,12 +20,16 @@ initializeApp();
 
 // import { getFirestore } from "firebase-admin/firestore";
 
-import { autoAssignQuestions } from "./Components/AutoAssignQuestions";
 import { sendEmailOnCreateAnswer } from "./Components/SendEmail/OnCreateAnswer/SendEmailOnCreateAnswer";
 import { sendEmailOnPublishAnswer } from "./Components/SendEmail/OnPublishAnswer/SendEmailOnPublishAnswer";
 import { sendEmailOnCreatePublishAnswer } from "./Components/SendEmail/OnPublishAnswer/SendEmailOnCreatePublishAnswer";
+import { onCreateQuestion } from "./Components/OnCreateQuestion/OnCreateQuestion";
+import { sendEmailOnCreatedReassignedAnswerAuthor } from "./Components/SendEmail/OnReassignedAnswerAuthor/SendEmailOnCreatedReassignedAnswerAuthor";
+import { sendEmailOnUpdatedReassignedAnswerAuthor } from "./Components/SendEmail/OnReassignedAnswerAuthor/SendEmailOnUpdatedReassignedAnswerAuthor";
 
-exports.autoAssignQuestions = autoAssignQuestions;
+exports.onCreateQuestion = onCreateQuestion;
 exports.sendEmailOnCreateAnswer = sendEmailOnCreateAnswer;
-exports.sendEmailOnPublishAnswer = sendEmailOnPublishAnswer;
+exports.sendEmailOnCreatedReassignedAnswerAuthor = sendEmailOnCreatedReassignedAnswerAuthor;
+exports.sendEmailOnUpdatedReassignedAnswerAuthor = sendEmailOnUpdatedReassignedAnswerAuthor;
 exports.sendEmailOnCreatePublishAnswer = sendEmailOnCreatePublishAnswer;
+exports.sendEmailOnPublishAnswer = sendEmailOnPublishAnswer;

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Chart } from 'primereact/chart';
 
 interface StatisticsGraphProps {

@@ -5,6 +5,7 @@ export interface SettingsOrganizationDoc {
     autoAssignQuestions: boolean;
     autoSendAnswers: boolean;
     autoSendAuthors: boolean;
+    autoSendQuestionReceived: boolean;
 }
 
 
@@ -20,4 +21,13 @@ export interface PublishOrganizationDocWithId extends PublishOrganizationDoc {
 }
 export interface PublishOrganizationDoc {
     lastPublishedAnswerId: string;
+}
+
+export interface ReassignedAuthorOrganizationDocWithId extends ReassignedAuthorOrganizationDoc {
+    id: string;
+}
+export interface ReassignedAuthorOrganizationDoc {
+    answerId: string;
+    lastAssignedAnswerAuthorUid: string;
+    newReassignedAnswerAuthorUid: string;
 }

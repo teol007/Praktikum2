@@ -23,7 +23,7 @@ export default function PendingAnswerActions(props: AnswerProps): JSX.Element {
   
   return (
     <>
-      <AnswerDetails answer={props.answer} withPersonalData={true} />
+      <AnswerDetails answer={props.answer} withPersonalData={true} editQuestionLawFields={true} />
       <Button label="Oddaj" icon="pi pi-file" className="p-button p-button-primary" size="small" onClick={() => setVisible(true)} style={{width: '100%', margin: '1px'}} />
       
       <Dialog header="Oddaja" visible={visible} style={{ width: '50vw' }} onHide={() => setVisible(false)}>
