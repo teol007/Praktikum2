@@ -44,8 +44,8 @@ export const sendEmailOnUpdatedReassignedAnswerAuthor = onDocumentUpdated("Organ
       return;
 
     const settings = await getSettings();
-    const isautoSendAuthorsOn = settings.autoSendAuthors;
-    if(isautoSendAuthorsOn !== true)
+    const isAutoSendAuthorsOn = settings.autoSendAuthors;
+    if(isAutoSendAuthorsOn !== true)
     {
       logger.warn('sendEmailOnReassignedAnswerAuthor: autoSendAuthors setting is off - function ends without doing anything')
       return;

@@ -3,10 +3,12 @@ import { Button } from "primereact/button";
 import { AnswerWithId, Response, Status } from "../../../../Modules/Interfaces/Answer";
 import { Dialog } from "primereact/dialog";
 import { InputTextarea } from "primereact/inputtextarea";
-import { doc, updateDoc, Timestamp, arrayUnion } from "firebase/firestore";
+import { doc, updateDoc, Timestamp, arrayUnion, setDoc } from "firebase/firestore";
 import { db } from "../../../../Config/Firebase";
 import { userAuthentication } from "../../../../Atoms/UserAuthentication";
 import { useAtom } from "jotai";
+import { answerResponseOrganizationDocId } from "../../../../Config/OrganizationDocuments";
+import { AnswerResponseOrganizationDoc } from "../../../../Modules/Interfaces/OrganizationsDocs";
 
 export interface ResponseProps{
   answer: AnswerWithId
@@ -34,6 +36,13 @@ export default function ResponseToAnswer(props: ResponseProps): JSX.Element {
       await updateDoc(answerRef, {
         responses: arrayUnion(newResponse),
       });
+
+      const answerResponseOrganizationRef = doc(db, "Organizations", answerResponseOrganizationDocId);
+      const answerResponseSendEmail: AnswerResponseOrganizationDoc = {
+        answerId: props.answer.id,
+        lastResponse: newResponse
+      };
+      await setDoc(answerResponseOrganizationRef, {...answerResponseSendEmail});
     } catch (error) {
       console.error(error);
     }

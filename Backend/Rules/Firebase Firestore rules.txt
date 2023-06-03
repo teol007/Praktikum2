@@ -25,5 +25,8 @@ service cloud.firestore {
     match /Organizations/{organizationId} {      
       allow read, create, update: if request.auth.uid!=null && get(/databases/$(database)/documents/Users/$(request.auth.uid)).data.group=='Manager';
     }
+    match /Organizations/NeverDeleteThisDocument4JsSQkP {      
+      allow create, update: if request.auth.uid!=null && (get(/databases/$(database)/documents/Users/$(request.auth.uid)).data.group=='Manager' || get(/databases/$(database)/documents/Users/$(request.auth.uid)).data.group=='Author');
+    }
   }
 }

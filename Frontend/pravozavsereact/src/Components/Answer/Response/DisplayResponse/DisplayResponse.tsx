@@ -19,12 +19,12 @@ const getSeverity = (status: Status): 'success'|'warning'|'danger'|null => {
   }
 };
 
-const getSeverityName = (status: Status): 'Dobro'|'Slabo'|'Zelo slabo' => {
+const getSeverityName = (status: Status): 'Se strinjam'|'Ne strinjam se'|'Močno se ne strinjam'|'Neopredeljeno' => {
   switch (status) {
-      case Status.Good: return 'Dobro';
-      case Status.Bad: return 'Slabo';
-      case Status.VeryBad: return 'Zelo slabo';
-      //default: return null;
+      case Status.Good: return 'Se strinjam';
+      case Status.Bad: return 'Ne strinjam se';
+      case Status.VeryBad: return 'Močno se ne strinjam';
+      default: return 'Neopredeljeno';
   }
 };
 

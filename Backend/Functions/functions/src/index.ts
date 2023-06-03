@@ -26,10 +26,14 @@ import { sendEmailOnCreatePublishAnswer } from "./Components/SendEmail/OnPublish
 import { onCreateQuestion } from "./Components/OnCreateQuestion/OnCreateQuestion";
 import { sendEmailOnCreatedReassignedAnswerAuthor } from "./Components/SendEmail/OnReassignedAnswerAuthor/SendEmailOnCreatedReassignedAnswerAuthor";
 import { sendEmailOnUpdatedReassignedAnswerAuthor } from "./Components/SendEmail/OnReassignedAnswerAuthor/SendEmailOnUpdatedReassignedAnswerAuthor";
+import { sendEmailOnUpdatedAnswerResponse } from "./Components/SendEmail/OnAnswerResponse/OnEvent/SendEmailOnUpdatedAnswerResponse";
+import { sendEmailOnCreatedAnswerResponse } from "./Components/SendEmail/OnAnswerResponse/OnEvent/SendEmailOnCreatedAnswerResponse";
 
 exports.onCreateQuestion = onCreateQuestion;
 exports.sendEmailOnCreateAnswer = sendEmailOnCreateAnswer;
 exports.sendEmailOnCreatedReassignedAnswerAuthor = sendEmailOnCreatedReassignedAnswerAuthor;
 exports.sendEmailOnUpdatedReassignedAnswerAuthor = sendEmailOnUpdatedReassignedAnswerAuthor;
+exports.sendEmailOnCreatedAnswerResponse = sendEmailOnCreatedAnswerResponse;
+exports.sendEmailOnUpdatedAnswerResponse = sendEmailOnUpdatedAnswerResponse;
 exports.sendEmailOnCreatePublishAnswer = sendEmailOnCreatePublishAnswer;
 exports.sendEmailOnPublishAnswer = sendEmailOnPublishAnswer;

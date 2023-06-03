@@ -1,3 +1,5 @@
+import { Response } from "./Answer";
+
 export interface SettingsOrganizationDocWithId extends SettingsOrganizationDoc {
     id: string;
 }
@@ -30,4 +32,12 @@ export interface ReassignedAuthorOrganizationDoc {
     answerId: string;
     lastAssignedAnswerAuthorUid: string;
     newReassignedAnswerAuthorUid: string;
+}
+
+export interface AnswerResponseOrganizationDocWithId extends AnswerResponseOrganizationDoc {
+    id: string;
+}
+export interface AnswerResponseOrganizationDoc {
+    answerId: string;
+    lastResponse: Response;
 }
