@@ -83,9 +83,17 @@ export default function Account(): JSX.Element {
 
   return (
     <>
-      <br />
-      <h2>Prijava</h2>
-      <SignInWithGoogle />
-    </>
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+          <Card title="Prijava uporabnika" footer={<></>} style={{ margin: '20px', width: '400px' }}>
+            
+            <SignInWithGoogle />
+
+          </Card>
+        </div>
+
+
+      </>
+   
+    
   );
 }

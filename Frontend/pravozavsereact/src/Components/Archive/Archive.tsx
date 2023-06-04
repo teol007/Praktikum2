@@ -112,16 +112,20 @@ export default function Archive(): JSX.Element {
         </div>
       </div>
 
-      <div className="row">
+<div className="container">
+<div className="row">
       {filteredAnswers.map((answer) => (
           <div key={answer.id} className="col flex justify-content-center" style={{ paddingTop: '1rem', paddingBottom: '1rem' }}>
-            <Card title={() => findLawField(answer)} subTitle={() => answerAuthor(answer)} footer={<AnswerDetails answer={answer} />} className="md:w-25rem">
+            <Card title={() => findLawField(answer)} subTitle={() => answerAuthor(answer)} footer={<AnswerDetails answer={answer} />} className="md:w-25rem" style={{minWidth:'300px'}}>
               <hr />
               <ResponsesStatusesCount responses={answer.responses} />
             </Card>
           </div>
       ))} 
       </div>
+
+</div>
+      
 
     </div>
 

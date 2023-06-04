@@ -6,6 +6,7 @@ import PageNotFound from "../PageNotFound/PageNotFound";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import DisplayAnswers from "./DisplayAnswers/DisplayAnswers";
 import TotalStatistics from "../Statistics/TotalStatistics/TotalStatistics";
+import ManageAuthors from "./ManageAuthors/ManageAuthors";
 
 export default function ManagerPage(): JSX.Element {
   const navigate = useNavigate();
@@ -26,6 +27,11 @@ export default function ManagerPage(): JSX.Element {
       icon: 'pi pi-fw pi-chart-line',
       command: () => {navigate('/urednik/skupnaStatistika')}
     },
+    {
+      label: 'Upravljanje\u00A0avtorjev',
+      icon: 'pi pi-fw pi-pencil',
+      command: () => {navigate('/urednik/upravljanjeAvtorjev')}
+    },
   ];
   
   return (
@@ -40,6 +46,9 @@ export default function ManagerPage(): JSX.Element {
         />
         <Route path='/skupnaStatistika'
           element={<TotalStatistics />}
+        />
+        <Route path='/upravljanjeAvtorjev'
+          element={<ManageAuthors />}
         />
         <Route path='/*'
           element={<PageNotFound />}/>

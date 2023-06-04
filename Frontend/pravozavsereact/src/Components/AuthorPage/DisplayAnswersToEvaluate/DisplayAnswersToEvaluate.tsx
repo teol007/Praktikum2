@@ -8,6 +8,8 @@ import AnswerDetails from "../../Answer/AnswerDetails/AnswerDetails";
 import { userAuthentication } from "../../../Atoms/UserAuthentication";
 import { QuestionWithId } from "../../../Modules/Interfaces/Question";
 import { questionsDBAtom } from "../../../Atoms/QuestionsDBAtom";
+import ResponsesStatusesCount from '../../Answer/Response/ResponsesStatusesCount/ResponseStatuses';
+import TimeUntilAnswered from '../../Answer/TimeUntilAnswered/TimeUntilAnswered';
 
 export default function DisplayAnswersToEvaluate(): JSX.Element {
   const [questions] = useAtom(questionsDBAtom);
@@ -28,6 +30,7 @@ export default function DisplayAnswersToEvaluate(): JSX.Element {
     }
     return 0;
   };
+
 
   const findLawField = (answer: AnswerWithId) => {
     const question: QuestionWithId | undefined = questions.find((q) => q.id === answer.questionId);
@@ -59,18 +62,32 @@ export default function DisplayAnswersToEvaluate(): JSX.Element {
 
   const sortedAnswers = [...answers].sort((b, a) => countResponsesByAnswer(b) - countResponsesByAnswer(a));
 
+  const filteredAnswers = sortedAnswers.filter(answer => {
+    const goodResponsesCount = answer.responses.filter(response => response.status === 'Good').length;
+    const isAuthorLoggedInUser = answer.authorUid === loggedInUser?.uid;
+    const isAnswered = answer.answered != null;
+    return goodResponsesCount < 3 && !isAuthorLoggedInUser && !isAnswered;
+  });
+
   return (
     <div className="container">
       <h2 style={{ marginTop: '1em' }}>Vprašanja za oceniti</h2>
       <div className="row">
-        {sortedAnswers.map(answer => (
+        {filteredAnswers.map(answer => (
           <div key={answer.id} className="col flex justify-content-center" style={{ paddingTop: '1rem', paddingBottom: '1rem' }} >
             <Card title={() => findLawField(answer)} subTitle={<><span>Avtor odgovora: </span><span>{answerAuthor(answer)}</span></>} 
               className="md:w-25rem" style={{backgroundColor: checkDate(answer)}}>
+              <TimeUntilAnswered answer={answer} />
+              <br />
+
+
+              <ResponsesStatusesCount responses={answer.responses} />
+              <hr />
+
               <div style={{ marginLeft: '3em', marginRight: '3em' }}>
                 <AnswerDetails answer={answer} />
                 <ResponseToAnswer answer={answer} />
-                <div style={{color:"gray", fontSize:"15px"}}>Na to vprašanje si že odgovoril: {countResponsesByAnswer(answer)}x</div>
+                <div style={{color:"gray", fontSize:"13px"}}>Na to vprašanje si že odgovoril: {countResponsesByAnswer(answer)}x</div>
               </div>
             </Card>
           </div>
