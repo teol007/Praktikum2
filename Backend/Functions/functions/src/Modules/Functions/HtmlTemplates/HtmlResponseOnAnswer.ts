@@ -1,7 +1,7 @@
 import { Answer, AnswerWithId, Response, Status } from "../../Interfaces/Answer";
 import { Question, QuestionWithId } from "../../Interfaces/Question";
 import { UserCustomInfo } from "../../Interfaces/UserCustomInfo";
-import { toSlovenianDateTime } from "../DateConverters";
+import { toSlovenianDateTimePlusTimezoneDifference } from "../DateConverters";
 
 const mnenjeHtml = (status: Status): string => {
   let text: string = 'Neopredeljeno';
@@ -60,7 +60,7 @@ export const htmlResponseOnAnswer = (question: Question|QuestionWithId, answer: 
         ${response.description!=='' ? `<p class="question-description"><strong>Komentar:</strong> ${response.description}</p>` : ''}
         <div class="assigned-info">
           <p><strong>Odziv podal:</strong> ${commenter.academicTitle+' '+commenter.fullName}</p>
-          <p><strong>Datum:</strong> ${toSlovenianDateTime(response.created.toDate())}</p>
+          <p><strong>Datum:</strong> ${toSlovenianDateTimePlusTimezoneDifference(response.created.toDate())}</p>
           ${isFileAttached ? '<p>V priponki je stanje vašega oddanega odgovora ob odzivu</p>' : ''}
         </div>
         <hr />
@@ -70,8 +70,9 @@ export const htmlResponseOnAnswer = (question: Question|QuestionWithId, answer: 
         <p class="law-fields"><strong>Oznake:</strong> ${answer.tags.join(", ").toLowerCase()}</p>
         <div class="assigned-info">
           <p><strong>Dodeljena oseba za odgovor:</strong> ${answerAuthor.academicTitle+' '+answerAuthor.fullName}</p>
-          <p><strong>Datum dodelitve:</strong> ${answer.authorAssigned ? toSlovenianDateTime(answer.authorAssigned.toDate()) : '<i>Ni navedeno</i>'}</p>
+          <p><strong>Datum dodelitve:</strong> ${answer.authorAssigned ? toSlovenianDateTimePlusTimezoneDifference(answer.authorAssigned.toDate()) : '<i>Ni navedeno</i>'}</p>
         </div>
+        <p class="law-fields"><strong>Število odzivov:</strong> ${answer.responses.length}</p>
         <hr />
         <br />
         <p class="footer normalText">Lep pozdrav<br />organizacija Pravo za vse</p>

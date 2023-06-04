@@ -1,4 +1,4 @@
-import { toSlovenianDateTime } from "../DateConverters";
+import { toSlovenianDateTimePlusTimezoneDifference } from "../DateConverters";
 
 export const htmlQuestionAssigned = (questionDescription: string,  lawFields: string[],  authorAssignedName: string, authorAssignedDate: Date|undefined|null): string => {
   const htmlTemplate = `<!DOCTYPE html>
@@ -45,7 +45,7 @@ export const htmlQuestionAssigned = (questionDescription: string,  lawFields: st
         <p class="law-fields"><strong>Pravna področja:</strong> ${lawFields.join(", ").toLowerCase()}</p>
         <div class="assigned-info">
           <p><strong>Dodeljeno osebi:</strong> ${authorAssignedName}</p>
-          <p><strong>Datum dodelitve:</strong> ${authorAssignedDate ? toSlovenianDateTime(authorAssignedDate) : '<i>Ni navedeno</i>'}</p>
+          <p><strong>Datum dodelitve:</strong> ${authorAssignedDate ? toSlovenianDateTimePlusTimezoneDifference(authorAssignedDate) : '<i>Ni navedeno</i>'}</p>
         </div>
         <hr />
         <br />

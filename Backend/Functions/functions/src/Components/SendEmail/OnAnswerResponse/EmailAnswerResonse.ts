@@ -20,7 +20,7 @@ const createResponseOnAnswerEmail = async (question: QuestionWithId, answer: Ans
     html: htmlResponseOnAnswer(question, answer, answerAuthor, commenter, response, fileExists)
   };
 
-  const newUserEmail: Email = {
+  const email: Email = {
     to: answerAuthor.email,
     message: message,
     headers: {
@@ -38,7 +38,7 @@ const createResponseOnAnswerEmail = async (question: QuestionWithId, answer: Ans
     message.attachments = attachments;
   }
 
-  return newUserEmail;
+  return email;
 }
 
 const isEqualResponse = (response1: Response, response2: Response): boolean => {

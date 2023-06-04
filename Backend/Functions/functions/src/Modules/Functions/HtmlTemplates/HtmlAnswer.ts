@@ -1,6 +1,6 @@
 import { AnswerWithId } from "../../Interfaces/Answer";
 import { QuestionWithId } from "../../Interfaces/Question";
-import { toSlovenianDateTime } from "../DateConverters";
+import { toSlovenianDateTimePlusTimezoneDifference } from "../DateConverters";
 
 export const htmlAnswer = (question: QuestionWithId, answer: AnswerWithId): string => {
   const htmlTemplate = `<!DOCTYPE html>
@@ -45,7 +45,7 @@ export const htmlAnswer = (question: QuestionWithId, answer: AnswerWithId): stri
         <h2>Podrobnosti vprašanja</h2>
         <p class="question-description"><strong>Vaše vprašanje:</strong> ${question.description}</p>
         <div class="assigned-info">
-          <p><strong>Vprašanje smo prejeli:</strong> ${toSlovenianDateTime(question.created.toDate())}</p>
+          <p><strong>Vprašanje smo prejeli:</strong> ${toSlovenianDateTimePlusTimezoneDifference(question.created.toDate())}</p>
         </div>
         <p class="law-fields"><strong>Spada med pravna področja:</strong> ${question.lawFields.join(", ").toLowerCase()}</p>
         <p class="law-fields"><strong>Oznake:</strong> ${answer.tags.join(", ").toLowerCase()}</p>

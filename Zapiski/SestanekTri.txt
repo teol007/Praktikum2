@@ -22,6 +22,6 @@
 - postavi vprašanje
 - dodan timer na odgovoru za ocenit
 - maili za poslat: stranka odda vprašanje (se pošle stranki) ✔, avtor dobi vprašanje za odgovorit (avtor) ✔, ko je vprašanje za komentirat
- (vsem avtorjem), ko je zamuda (za odgovorit - avtor ko ma vprašanje za odgovorit), 2 dni pred iztekom roka oddaje (avtor), stranka dobi odgovor ✔,
+ (vsem avtorjem), ko je zamuda (za odgovorit - avtor ko ma vprašanje za odgovorit) ✔, 2 dni pred iztekom roka oddaje (avtor) ✔, stranka dobi odgovor ✔,
 ko nekdo komentira tvoj odgovor (avtor) ✔
 - odzivi se vidijo že na strani za odgovorit

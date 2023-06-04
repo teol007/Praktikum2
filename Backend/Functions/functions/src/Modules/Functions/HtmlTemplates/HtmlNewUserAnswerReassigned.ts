@@ -1,5 +1,5 @@
 import { Question, QuestionWithId } from "../../Interfaces/Question";
-import { toSlovenianDateTime } from "../DateConverters";
+import { toSlovenianDateTimePlusTimezoneDifference } from "../DateConverters";
 
 export const htmlNewUserAnswerReassigned = (question: Question|QuestionWithId, authorAssignedName: string, authorReassignedDate: Date|undefined|null, isFileAttached: boolean): string => {
   const htmlTemplate = `<!DOCTYPE html>
@@ -46,7 +46,7 @@ export const htmlNewUserAnswerReassigned = (question: Question|QuestionWithId, a
         <p class="law-fields"><strong>Pravna področja:</strong> ${question.lawFields.join(", ").toLowerCase()}</p>
         <div class="assigned-info">
           <p><strong>Predodeljeno osebi:</strong> ${authorAssignedName}</p>
-          <p><strong>Datum predodelitve:</strong> ${authorReassignedDate ? toSlovenianDateTime(authorReassignedDate) : '<i>Ni navedeno</i>'}</p>
+          <p><strong>Datum predodelitve:</strong> ${authorReassignedDate ? toSlovenianDateTimePlusTimezoneDifference(authorReassignedDate) : '<i>Ni navedeno</i>'}</p>
           ${isFileAttached ? '<p>Predhodno dodeljena oseba je že <strong>oddala datoteko z (delnim) odgovorom</strong>, s katero lahko nadaljujete. Datoteka je v priponki.</p>' : ''}
         </div>
         <hr />

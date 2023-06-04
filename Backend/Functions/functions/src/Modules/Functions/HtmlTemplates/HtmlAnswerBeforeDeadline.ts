@@ -1,7 +1,9 @@
+import { Answer, AnswerWithId } from "../../Interfaces/Answer";
 import { Question, QuestionWithId } from "../../Interfaces/Question";
-import { toSlovenianDateTimePlusTimezoneDifference } from "../DateConverters";
+import { UserCustomInfo } from "../../Interfaces/UserCustomInfo";
+import { getAnswerDeadlineDate, toSlovenianDateTime } from "../DateConverters";
 
-export const htmlQuestionReceived = (question: QuestionWithId|Question): string => {
+export const htmlAnswerBeforeDeadline = (question: Question|QuestionWithId, answer: Answer|AnswerWithId, author: UserCustomInfo, isFileAttached: boolean): string => {
   const htmlTemplate = `<!DOCTYPE html>
     <html>
     <head>
@@ -39,16 +41,17 @@ export const htmlQuestionReceived = (question: QuestionWithId|Question): string 
     </head>
     <body>
       <div class="email-container">
-        <p class="normalText">Pozdravljeni.<br /><br />Vaše pravno vprašanje smo prejeli. Odgovorili vam bomo v roku 15 dni.</p>
+        <p class="normalText">Pozdravljeni.<br /><br />Rok za oddajo odgovora na vprašanje za katerega ste odgovorni se bliža.</p>
         <hr />
-        <h2>Podrobnosti vprašanja</h2>
+        <h2>Podrobnosti</h2>
         <p class="question-description"><strong>Vprašanje:</strong> ${question.description}</p>
-        <p class="law-fields"><strong>Pravna področja:</strong> ${question.lawFields.join(", ").toLowerCase()}</p>
+        <p class="law-fields"><strong>Rok oddaje:</strong> <span style="color: orange;">${answer.authorAssigned ? toSlovenianDateTime(getAnswerDeadlineDate(answer.authorAssigned.toDate())) : '<i>Neznano</i>'}</span></p>
         <div class="assigned-info">
-          <p><strong>Datum prejema:</strong> ${question.created ? toSlovenianDateTimePlusTimezoneDifference(question.created.toDate()) : '<i>Ni navedeno</i>'}</p>
+          <p><strong>Dodeljeno osebi:</strong> ${author.academicTitle+' '+author.fullName}</p>
+          <p><strong>Datum dodelitve:</strong> ${answer.authorAssigned ? toSlovenianDateTime(answer.authorAssigned.toDate()) : '<i>Ni navedeno</i>'}</p>
+          ${isFileAttached ? '<p>V priponki je priložena datoteka, ki ste jo nazadnje oddali.</p>' : ''}
         </div>
         <hr />
-        <p><i>Če niste postavili nobenega vprašanja ali ne veste zakaj ste prejeli to sporočilo, ga ignorirajte.</i><br /><i>If you have not asked any questions or do not know why you received this message, ignore it.</i></p>
         <br />
         <p class="footer normalText">Lep pozdrav<br />organizacija Pravo za vse</p>
       </div>

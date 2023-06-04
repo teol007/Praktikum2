@@ -16,8 +16,21 @@ const toSlovenianTime = (date: Date): string => {
     return slovenianTime;
 }
 
+
+const utcToSloveniaDiffHours = 2;
+const toSlovenianTimePlusTimezoneDifference = (date: Date): string => {
+    date.setMinutes(date.getMinutes() + utcToSloveniaDiffHours*60);
+    const slovenianTime = `${to2Digits(date.getHours())}:${to2Digits(date.getMinutes())}`;
+    return slovenianTime;
+}
+
 const toSlovenianDateTime = (date: Date): string => {
     const slovenianDateTime = `${toSlovenianDate(date)} ${toSlovenianTime(date)}`;
+    return slovenianDateTime;
+}
+
+const toSlovenianDateTimePlusTimezoneDifference = (date: Date): string => {
+    const slovenianDateTime = `${toSlovenianDate(date)} ${toSlovenianTimePlusTimezoneDifference(date)}`;
     return slovenianDateTime;
 }
 
@@ -35,4 +48,16 @@ const timeBetweenDates = (date1: Date, date2: Date): string => {
     return days+' dni '+hours+'h '+minutes+'min '; //+seconds+'s';
 }
 
-export { toSlovenianDate, toSlovenianTime, toSlovenianDateTime, timeBetweenDatesSeconds, timeBetweenDates };
+const getAnswerDeadlineDate = (assignedDate: Date): Date => {
+    const incomingMidnight = new Date(assignedDate.getFullYear(), assignedDate.getMonth(), assignedDate.getDate() + 1);
+    incomingMidnight.setDate(incomingMidnight.getDate()+7);
+    return incomingMidnight;
+}
+
+const getAnswerResonsesDeadlineDate = (assignedDate: Date): Date => {
+    const incomingMidnight = new Date(assignedDate.getFullYear(), assignedDate.getMonth(), assignedDate.getDate() + 1);
+    incomingMidnight.setDate(incomingMidnight.getDate()+14);
+    return incomingMidnight;
+}
+
+export { toSlovenianDate, toSlovenianTime, toSlovenianTimePlusTimezoneDifference, toSlovenianDateTime, toSlovenianDateTimePlusTimezoneDifference, timeBetweenDatesSeconds, timeBetweenDates, getAnswerDeadlineDate, getAnswerResonsesDeadlineDate};

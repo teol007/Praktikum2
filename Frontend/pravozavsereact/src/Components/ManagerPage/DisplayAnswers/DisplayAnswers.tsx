@@ -8,6 +8,7 @@ import TimeUntilAnswered from "../../Answer/TimeUntilAnswered/TimeUntilAnswered"
 import DisplayAnswerActions from "./DisplayAnswerActions/DisplayAnswerActions";
 import ResponsesStatusesCount from "../../Answer/Response/ResponsesStatusesCount/ResponseStatuses";
 import AutoEmailSettings from "./AutoEmailSettings/AutoEmailSettings";
+import TimeUntilResponsesDeadline from "../../Answer/TimeUntilResponsesDeadline/TimeUntilResponsesDeadline";
 
 export default function DisplayAnswers(): JSX.Element {
   const [answers] = useAtom(answersDBAtom);
@@ -29,6 +30,8 @@ export default function DisplayAnswers(): JSX.Element {
         <div key={answer.id} className="col flex justify-content-center" style={{ paddingTop: '1rem', paddingBottom: '1rem' }} >
             <Card title={<></>} subTitle={() => (answerAuthor(answer))} footer={<DisplayAnswerActions answer={answer} />} className="md:w-25rem">
               <TimeUntilAnswered answer={answer} />
+              <hr />
+              <TimeUntilResponsesDeadline answer={answer} />
               <hr />
               <ResponsesStatusesCount responses={answer.responses} />
             </Card>
