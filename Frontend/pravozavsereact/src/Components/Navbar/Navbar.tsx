@@ -11,11 +11,12 @@ const everyoneButtons: MenuItem[] = [
     {label: 'Home', icon: 'pi pi-fw pi-home', target: '/'},
     {label: 'Zastavi vprašanje', icon: 'pi pi-fw pi-question-circle', target: '/zastaviVprasanje'},
     {label: 'Račun', icon: 'pi pi-fw pi-user', target: '/racun'},
-    {label: 'Arhiv', icon: 'pi pi-fw pi-user', target: '/arhiv'},
 ];
 
 const onlyAuthorButtons: MenuItem[] = [
     {label: 'Stran za avtorja', icon: 'pi pi-fw pi-user', target: '/avtor'},
+    {label: 'Arhiv', icon: 'pi pi-fw pi-user', target: '/arhiv'},
+
 ];
 
 const onlyManagerButtons: MenuItem[] = [

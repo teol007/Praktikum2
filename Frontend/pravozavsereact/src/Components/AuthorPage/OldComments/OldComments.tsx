@@ -49,7 +49,7 @@ export default function OldComments(): JSX.Element {
             style={{ paddingTop: '1rem', paddingBottom: '1rem' }}
           >
             <Card title={() => findLawField(answer)} className="md:w-25rem">
-              <div style={{ marginLeft: '3em', marginRight: '3em' }}>
+              <div style={{ marginLeft: '3em', marginRight: '3em', minWidth:'400px' }}>
                 {answer.responses
                   .filter((response) => response.commenterUid === user?.uid)
                   .map((response) => (

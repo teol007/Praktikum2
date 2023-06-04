@@ -12,16 +12,16 @@
 - mail reminders - 1 dan do oddaje, opomnik za zamudo, ko prejmeš vprašanje, ko pride komentar,...
 ----------------------------------------------------------------------------------------------------------------------------------
 ŠE ZA NAREDIT
-- urejanje pravic uporabnikov (vloga) in pravnih področij in neaktivnost/aktivnost
-- arhiv se skrije, da ga vidijo sami avtorji
+- urejanje pravic uporabnikov (vloga) in pravnih področij in neaktivnost/aktivnost ✔
+- arhiv se skrije, da ga vidijo sami avtorji ✔
 - avtor lahko spreminja pravno področje
 - spremeni da se ločijo končana vprašanja od nedokončanih vprašanj
 - nek flow - na katerem koraku si
-- stran za prijavo
+- stran za prijavo ✔
 - statistika zamude
 - postavi vprašanje
-- dodan timer na odgovoru za ocenit
+- dodan timer na odgovoru za ocenit ✔
 - maili za poslat: stranka odda vprašanje (se pošle stranki) ✔, avtor dobi vprašanje za odgovorit (avtor) ✔, ko je vprašanje za komentirat
  (vsem avtorjem), ko je zamuda (za odgovorit - avtor ko ma vprašanje za odgovorit) ✔, 2 dni pred iztekom roka oddaje (avtor) ✔, stranka dobi odgovor ✔,
 ko nekdo komentira tvoj odgovor (avtor) ✔
-- odzivi se vidijo že na strani za odgovorit
+- odzivi se vidijo že na strani za odgovorit ✔
