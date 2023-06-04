@@ -9,35 +9,28 @@ import { Question } from "../../../Modules/Interfaces/Question";
 import { useNavigate } from "react-router";
 import { MultiSelect } from "primereact/multiselect";
 import { Checkbox, CheckboxChangeEvent } from "primereact/checkbox";
-
-
-interface Category {
-    name: string; 
-    key: string;
-}
+import { Card } from "primereact/card";
+import { Divider } from 'primereact/divider';
 
 export default function AddQuestion(): JSX.Element {
     const [lawFields, setLawFields] = useState<string[]>([]);
     const [email, setEmail] = useState('');
     const [description, setDescription] = useState('');
-
+    const [checkboxes, setCheckboxes] = useState<string[]>([]);
     const navigate = useNavigate();
 
     const handleSubmit = async (event: {preventDefault: () => void}) => {
         event.preventDefault();
-
         try {
             const newQuestion: Question = {
                 created: Timestamp.now(),
                 customerEmail: email,
                 description: description,
-                relatesToQuestionId: null, //! TODO, ce uporabnik vpise id prejsnjega vprasanja, ga dodaj sem
+                relatesToQuestionId: null,
                 lawFields: lawFields,
                 closed: false,
             }
-
             await addDoc(collection(db, "Questions"), newQuestion);
-
             setLawFields([]);
             setEmail('');
             setDescription('');
@@ -50,81 +43,115 @@ export default function AddQuestion(): JSX.Element {
     const lawFieldsArray = [ 'Stvarno pravo', 'Kazensko pravo', 'Prekrškovno pravo', 'Obligacijsko pravo', 'Odškodnina',
     'Delovno pravo', 'Socialno pravo', 'Družinsko pravo', 'Dedno pravo', 'Izvršilno pravo', 'Stečaj', 'Davčno pravo', 'Drugo'];
 
-    const categories: Category[] = [
-        { name: 'Accounting', key: 'A' },
-        { name: 'Marketing', key: 'M' },
-        { name: 'Production', key: 'P' },
-        { name: 'Research', key: 'R' }
-    ];
-    const [selectedCategories, setSelectedCategories] = useState<Category[]>([categories[1]]);
-
-    const onCategoryChange = (e: CheckboxChangeEvent) => {
-        let _selectedCategories = [...selectedCategories];
-
+    const onCheckboxChange = (e: CheckboxChangeEvent) => {
+        let _checkboxes = [...checkboxes];
         if (e.checked)
-            _selectedCategories.push(e.value);
+            _checkboxes.push(e.value);
         else
-            _selectedCategories = _selectedCategories.filter(category => category.key !== e.value.key);
-
-        setSelectedCategories(_selectedCategories);
-    };
+            _checkboxes.splice(_checkboxes.indexOf(e.value), 1);
+        setCheckboxes(_checkboxes);
+    }
 
   return (
-    <div className="container">
-
-    <h2>Vprašalnik</h2> <br />
-
-    <p>Tukaj lahko postavite svoje vprašanje, ki zadeva vaš pravni problem oziroma dilemo.</p> <br />
-
-    <form onSubmit={handleSubmit}>
-        <div className="card flex justify-content-center">
-            <div className="flex flex-column gap-2"> <br />
-                <label htmlFor="email">E-mail</label><br />
-                <InputText id="email" aria-describedby="email-help" type="email" value={email} onChange={(e) => setEmail(e.target.value)} required /><br />
-                <small id="email-help">
-                    Vpišite E-mail, na katerega želite prejeti odgovor.
-                </small> <br /> <br />
-            </div>
-        </div> <br />
-
-        <div className="card flex justify-content-center">
-            <div className="flex flex-column gap-2"> <br />
-                <label htmlFor="opis">Opis pravnega problema</label> <br />
-                <InputTextarea id="opis" value={description} onChange={(e) => setDescription(e.target.value)} rows={3} cols={100} required /> <br />
-                <small id="opis-help">
-                    Tukaj opišite svoj pravni problem.
-                </small> <br /> <br />
-            </div>
-        </div> <br />
-
-        <div className="card flex justify-content-center"> <br /> <br />
-            <label htmlFor="opis">Pravno področje</label>
-            <MultiSelect value={lawFields} onChange={(e) => setLawFields(e.value)} options={lawFieldsArray} 
-            placeholder="Izberi pravno področje problema" className="w-full md:w-14rem" required />
-            <small id="opis-help">
-                    Izberite pravno področje vašega problema
-            </small>  <br /> <br />
-        </div>
-        <br />
-
-        <div className="card flex justify-content-center">
-            <div className="flex flex-column gap-3">
-                {categories.map((category) => {
-                    return (
-                        <div key={category.key} className="flex align-items-center">
-                            <Checkbox inputId={category.key} name="category" value={category} onChange={onCategoryChange} checked={selectedCategories.some((item) => item.key === category.key)} />
-                            <label htmlFor={category.key} className="ml-2">
-                                {category.name}
-                            </label>
+    <div className="">
+    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+          <Card title={<>Vprašalnik za pravne probleme</>} footer={<></>} style={{ margin: '20px', /* width: '500px' */ }}>
+            <p>Tukaj lahko postavite svoje vprašanje, ki zadeva vaš pravni problem oziroma dilemo.</p>
+            <Divider />
+            <form onSubmit={handleSubmit}>
+                
+                <div className="container">
+                    <div className="row">
+                        <div className="col">
+                            <div className=" flex justify-content-center">
+                                <div className="flex flex-column gap-2"> <br />
+                                    <b><label htmlFor="email">E-mail</label><br /></b>
+                                    <InputText id="email" aria-describedby="email-help" type="email" value={email} onChange={(e) => setEmail(e.target.value)} required style={{width: '300px'}} /><br />
+                                    <small id="email-help">
+                                        Vpišite e-mail, na katerega želite prejeti odgovor.
+                                    </small>
+                                </div>
+                            </div>
                         </div>
-                    );
-                })}
-            </div>
+                        <div className="col">
+                            <div className=" flex justify-content-center"> <br />
+                                <b><label htmlFor="opis">Pravno področje</label><br /> </b>
+                                <MultiSelect value={lawFields} onChange={(e) => setLawFields(e.value)} options={lawFieldsArray} 
+                                placeholder="Izberi pravno področje problema" className="w-full md:w-14rem" required /> <br />
+                                <small id="opis-help">
+                                    Izberite pravno področje vašega problema.
+                                </small>  <br /> <br />
+                            </div>
+                        </div>
+                    </div>
+                    <div className="row">
+                        <div className=" flex justify-content-center">
+                            <div className="flex flex-column gap-2"> <br />
+                                <b><label htmlFor="opis">Opis pravnega problema</label></b> <br />
+                                <InputTextarea id="opis" value={description} onChange={(e) => setDescription(e.target.value)} rows={3} cols={125} required /> <br />
+                                <small id="opis-help">
+                                    Tukaj opišite svoj pravni problem.
+                                </small> <br /> <br />
+                            </div>
+                        </div>
+                    </div>
+                    <Divider />
+                    <div className="row">
+                        <div className="col">
+                            <div className="flex align-items-center">
+                                <label htmlFor="ingredient23" className="ml-2">
+                                    <p><b>Ali ste preverili svoj e-mail naslov?</b></p>
+                                    <p>Prosimo, da ponovno preverite pravilni zapis vašega elektronskega naslova, da vam bomo 
+                                    lahko zanesljivo posredovali naše mnenje.</p>
+                                </label>
+                                <Checkbox inputId="ingredient23" name="questionChecks" value="EmailCheck" onChange={onCheckboxChange} 
+                                checked={checkboxes.includes('EmailCheck')} required />
+                                <p>Preveril sem e-mail naslov.</p>
+                            </div>
+                            <Divider />
+                            <div className="flex align-items-center">
+                                <label htmlFor="ingredient24" className="ml-2">
+                                    <p><b>Politika zasebnosti spletnega portala Pravo za vse</b></p>
+                                    <p> Ali se strinjate s politiko zasebnosti spletnega portala Pravo za vse, dostopno na: 
+                                    <a href="https://www.pravozavse.si/politika-zasebnosti/"> https://www.pravozavse.si/politika-zasebnosti/</a>?</p>
+                                </label>
+                                <Checkbox inputId="ingredient24" name="questionChecks" 
+                                value="Privacy" onChange={onCheckboxChange} 
+                                checked={checkboxes.includes('Privacy')} required />
+                                <p>Strinjam se s politiko zasebnosti.</p>
+                            </div>
+                        </div>
+                        <div className="col">
+                            <div className="flex align-items-center">
+                                <label htmlFor="ingredient25" className="ml-2">
+                                    <p><b>Uporaba E-mail računa</b></p>
+                                    <p>Ali se strinjate, da Pravo za vse uporablja vaš E-mail račun za namene obveščanja o odgovoru na 
+                                    Vaše pravno vprašanje?</p>
+                                </label>
+                                <Checkbox inputId="ingredient25" name="questionChecks" 
+                                value="EmailUsage" onChange={onCheckboxChange} 
+                                checked={checkboxes.includes('EmailUsage')} required />
+                                <p>Strinjam se z uporabo e-mail naslova.</p>
+                            </div>
+                            <Divider />
+                            <div className="flex align-items-center">
+                                <label htmlFor="ingredient26" className="ml-2">
+                                    <p><b>Splošni pogoji spletnega portala Pravo za vse</b></p>
+                                    <p>Ali se strinjate s splošnimi pogoji spletnega portala Pravo za vse, dostopnimi na: 
+                                    <a href="https://www.pravozavse.si/splosni-pogoji/"> https://www.pravozavse.si/splosni-pogoji/</a>?</p>
+                                </label>
+                                <Checkbox inputId="ingredient26" name="questionChecks" 
+                                value="TermsOfService" onChange={onCheckboxChange} 
+                                checked={checkboxes.includes('TermsOfService')} required />
+                                <p>Strinjam se s splošnimi pogoji.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <Button label="Pošlji vprašanje" className="w-full" severity="success" raised />
+            </form>
+          </Card>
         </div>
-
-        <Button label="Pošlji vprašanje" className="w-full" severity="success" raised />
-      
-    </form>
     </div>
   );
 }
