@@ -26,7 +26,7 @@ export default function DisplayAnswers(): JSX.Element {
       <h2 style={{marginTop: '1em'}}>Dodeljena vprašanja</h2>
       <AutoEmailSettings />
       <div className="row">
-      {answers.map(answer => (
+      {answers.filter((answer) => (!(answer.published && answer.fileUrl!==''))).map(answer => (
         <div key={answer.id} className="col flex justify-content-center" style={{ paddingTop: '1rem', paddingBottom: '1rem' }} >
             <Card title={<></>} subTitle={() => (answerAuthor(answer))} footer={<DisplayAnswerActions answer={answer} />} className="md:w-25rem">
               <TimeUntilAnswered answer={answer} />

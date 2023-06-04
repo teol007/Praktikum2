@@ -38,7 +38,7 @@ export default function Archive(): JSX.Element {
   };
 
 
-  const filteredAnswers = answers.filter((answer) => {
+  const filteredAnswers = answers.filter((answer) => (answer.published && answer.fileUrl!=='')).filter((answer) => {
     if (selectedAuthors.length > 0 && answer.authorUid && !selectedAuthors.includes(answer.authorUid)) {
       return false;
     }
@@ -73,7 +73,7 @@ export default function Archive(): JSX.Element {
 
   return (
     <div>
-      <h2 style={{ margin: '30px' }}>Arhiv vprašanj in odgovorov</h2>
+      <h2 style={{ margin: '30px' }}>Arhiv zaključenih odgovorov</h2>
 
       <div className="container" style={{ display: 'flex', alignItems: 'center' }}>
         <div style={{ marginRight: '15px' }}>
