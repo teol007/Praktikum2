@@ -18,9 +18,6 @@ export default function CommentsStatistics(props: CommentsStatisticsProps): JSX.
     const [questions] = useAtom(questionsDBAtom);
     const [users] = useAtom(usersDBAtom);
 
-    //const [chartData, setChartData] = useState({});
-    //const [chartOptions, setChartOptions] = useState({});
-
     const strinjamSeData = [];
     const neStrinjamSeData = [];
     const mocnoNeStrinjamSeData = [];
