@@ -4,6 +4,7 @@ import { answersDBAtom } from "../../../Atoms/AnswersDBAtom";
 import { questionsDBAtom } from "../../../Atoms/QuestionsDBAtom";
 import { UserCustomInfo } from "../../../Modules/Interfaces/UserCustomInfo";
 import StatisticsGraph from "../StatisticsGraph/StatisticsGraph";
+import { lawFieldsArray } from "../../../Modules/Objects/lawFieldsArray";
 
 interface QuestionStatisticsProps {
     users: UserCustomInfo[] | null,
@@ -20,7 +21,6 @@ export default function QuestionStatistics(props: QuestionStatisticsProps): JSX.
     if (props.users === null && props.lawFields !== null && props.lawFields.length > 0){
         data = props.lawFields.map(lawField => {
             let counter = 0;
-          
             answers.forEach(answer => {
               const selectedQuestionIndex = questions.findIndex(question => question.id === answer.questionId);
               if (selectedQuestionIndex >= 0) {
@@ -67,6 +67,20 @@ export default function QuestionStatistics(props: QuestionStatisticsProps): JSX.
             counter = 0;
             dataLabels.push(props.users[i].fullName);
         }
+    } else if (props.users === null && props.lawFields === null){
+        lawFieldsArray.forEach((lawField) => {
+            let counter = 0;
+            answers.forEach((answer) => {
+                const selectedQuestionIndex = questions.findIndex(question => question.id === answer.questionId);
+                if (selectedQuestionIndex >= 0) {
+                  if (questions[selectedQuestionIndex].lawFields.includes(lawField)) {
+                    counter++;
+                  }
+                }
+            });
+            data.push(counter);
+            dataLabels.push(lawField);
+        })
     }
     return (
         <div>

@@ -4,6 +4,8 @@ import { useAtom } from "jotai";
 import { answersDBAtom } from "../../../Atoms/AnswersDBAtom";
 import { Chart } from 'primereact/chart';
 import { UserCustomInfo } from "../../../Modules/Interfaces/UserCustomInfo";
+import { usersDBAtom } from "../../../Atoms/UsersDBAtom";
+import { lawFieldsArray } from "../../../Modules/Objects/lawFieldsArray";
 
 interface CommentsStatisticsProps {
     users: UserCustomInfo[] | null,
@@ -14,6 +16,8 @@ export default function CommentsStatistics(props: CommentsStatisticsProps): JSX.
 
     const [answers] = useAtom(answersDBAtom);
     const [questions] = useAtom(questionsDBAtom);
+    const [users] = useAtom(usersDBAtom);
+
     //const [chartData, setChartData] = useState({});
     //const [chartOptions, setChartOptions] = useState({});
 
@@ -96,6 +100,45 @@ export default function CommentsStatistics(props: CommentsStatisticsProps): JSX.
             neStrinjamSeData.push(neStrinjamSeCounter);
             mocnoNeStrinjamSeData.push(mocnoNeStrinjamSeCounter);
             labelsUsers.push(props.users[i].fullName)
+        }
+    } else if (props.users === null && props.lawFields === null){
+        for (let i = 0; i < users.length; i++){
+            let strinjamSeCounter = 0;
+            let neStrinjamSeCounter = 0;
+            let mocnoNeStrinjamSeCounter = 0;
+            for (let j = 0; j < answers.length; j++){
+                if (answers[j].responses.length > 0){
+                    for (let u = 0; u < answers[j].responses.length; u++){
+                        for (let o = 0; o < lawFieldsArray.length; o++){
+                            let selectedQuestionIndex = questions.findIndex(question => question.id === answers[j].questionId);
+                            if (selectedQuestionIndex > -1){
+                                if (answers[j].responses[u].commenterUid ===users[i].uid && questions[selectedQuestionIndex].lawFields.includes(lawFieldsArray[o])){
+                                    switch (answers[j].responses[u].status) {
+                                        case "Good":
+                                            strinjamSeCounter++
+                                            console.log("JA")
+                                            break;
+                                        case "Bad":
+                                            neStrinjamSeCounter++
+                                            console.log("MBY")
+                                            break;
+                                        case "Very bad":
+                                            mocnoNeStrinjamSeCounter++;
+                                            console.log("NE")
+                                            break;
+                                        default:
+                                            break;
+                                    }
+                                }
+                            }
+                        }
+                    }    
+                }
+            }
+            strinjamSeData.push(strinjamSeCounter);
+            neStrinjamSeData.push(neStrinjamSeCounter);
+            mocnoNeStrinjamSeData.push(mocnoNeStrinjamSeCounter);
+            labelsUsers.push(users[i].fullName)
         }
     }
 
