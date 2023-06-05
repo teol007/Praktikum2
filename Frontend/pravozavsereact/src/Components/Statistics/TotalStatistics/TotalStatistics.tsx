@@ -7,6 +7,8 @@ import { lawFieldsArray } from '../../../Modules/Objects/lawFieldsArray';
 import { UserCustomInfo } from '../../../Modules/Interfaces/UserCustomInfo';
 import CommentsStatistics from '../CommentsStatistics/CommentsStatistics';
 import QuestionStatistics from '../QuestionStatistics/QuestionStatistics';
+import LateStatistics from '../LateStatistics/LateStatistics';
+import { Dropdown, DropdownChangeEvent } from 'primereact/dropdown';
 
 export default function TotalStatistics(): JSX.Element {
     const [users] = useAtom(usersDBAtom);
@@ -14,6 +16,7 @@ export default function TotalStatistics(): JSX.Element {
     const [selectedAuthors, setSelectedAuthors] = useState<UserCustomInfo[] | null>(null);
     const [selectedLawFields, setSelectedLawFields] = useState<string[] | null>(null);
     const [selectedLawFieldsComments, setSelectedLawFieldsComments] = useState<string[] | null>(null);
+    const [selectedAuthorLate, setSelectedAuthorLate] = useState<UserCustomInfo | undefined>(users[1]); //za zdaj je default nastavljeno na Maja Prosenjak, ker noben drug nima zamude - da se kaj vidi
   
     return (
         <div>
@@ -53,9 +56,21 @@ export default function TotalStatistics(): JSX.Element {
                                 </div>
                                 </AccordionTab>
                             </Accordion>
-                        </AccordionTab>    
-                    </Accordion>    
-                </div> 
+                        </AccordionTab>
+                        <AccordionTab header="Statistika zamude">
+                            <Accordion activeIndex={3}>
+                                <AccordionTab header="Sortiraj po avtorju">
+                                <div className="card flex justify-content-center">
+                                    <Dropdown value={selectedAuthorLate} onChange={(e: DropdownChangeEvent) => setSelectedAuthorLate(e.value)} 
+                                    options={users} optionLabel="fullName" placeholder="Izberi avtorja" className="w-full md:w-14rem" />
+                                </div>
+                                </AccordionTab>
+                            </Accordion>
+                        </AccordionTab>
+                    </Accordion>
+                </div>
+                <h4 style={{marginTop: "15px"}}>Graf zamud za avtorja: {selectedAuthorLate?.fullName} </h4>
+                    <LateStatistics user={selectedAuthorLate} />  
                 </div>
                 <div className="col">
                     <h4>Graf pravnih vprašanj</h4>

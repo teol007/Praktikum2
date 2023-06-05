@@ -48,6 +48,14 @@ const timeBetweenDates = (date1: Date, date2: Date): string => {
     return days+' dni '+hours+'h '+minutes+'min '; //+seconds+'s';
 }
 
+const timeBetweenDatesDaysNumber = (date1: Date, date2: Date): number => {
+    const differenceSeconds = Math.abs(timeBetweenDatesSeconds(date1, date2));
+    //const seconds = differenceSeconds%60;
+    const days: number = Math.floor(differenceSeconds/60/60/24);
+
+    return days//+' dni ';//+hours+'h '+minutes+'min '+seconds+'s';
+}
+
 const getAnswerDeadlineDate = (assignedDate: Date): Date => {
     const incomingMidnight = new Date(assignedDate.getFullYear(), assignedDate.getMonth(), assignedDate.getDate() + 1);
     incomingMidnight.setDate(incomingMidnight.getDate()+7);
@@ -60,4 +68,4 @@ const getAnswerResonsesDeadlineDate = (assignedDate: Date): Date => {
     return incomingMidnight;
 }
 
-export { toSlovenianDate, toSlovenianTime, toSlovenianTimePlusTimezoneDifference, toSlovenianDateTime, toSlovenianDateTimePlusTimezoneDifference, timeBetweenDatesSeconds, timeBetweenDates, getAnswerDeadlineDate, getAnswerResonsesDeadlineDate};
+export { toSlovenianDate, toSlovenianTime, toSlovenianTimePlusTimezoneDifference, toSlovenianDateTime, toSlovenianDateTimePlusTimezoneDifference, timeBetweenDatesSeconds, timeBetweenDates, getAnswerDeadlineDate, getAnswerResonsesDeadlineDate, timeBetweenDatesDaysNumber};

@@ -6,6 +6,7 @@ import { userAuthentication } from "../../../Atoms/UserAuthentication";
 import { responseStatusArray } from "../../../Modules/Objects/responseStatusArray";
 import { lawFieldsArray } from "../../../Modules/Objects/lawFieldsArray";
 import { questionsDBAtom } from "../../../Atoms/QuestionsDBAtom";
+import LateStatistics from "../LateStatistics/LateStatistics";
 
 export default function PersonalStatistics(): JSX.Element {
 
@@ -63,6 +64,9 @@ export default function PersonalStatistics(): JSX.Element {
                     <h4>Graf mojih komentarjev</h4>
                     <StatisticsGraph dataLabels={responseStatusArray} dataColors={['rgb(30, 223, 30)','orange','red']} data={dataArray} graphLabel={"Tipi ocen komentarjev"} />
                 </div>
+            </div>
+            <div>
+                 <LateStatistics user={user} />
             </div>
         </div>
     );

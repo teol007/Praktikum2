@@ -74,15 +74,12 @@ export default function CommentsStatistics(props: CommentsStatisticsProps): JSX.
                                     switch (answers[j].responses[u].status) {
                                         case "Good":
                                             strinjamSeCounter++
-                                            console.log("JA")
                                             break;
                                         case "Bad":
                                             neStrinjamSeCounter++
-                                            console.log("MBY")
                                             break;
                                         case "Very bad":
                                             mocnoNeStrinjamSeCounter++;
-                                            console.log("NE")
                                             break;
                                         default:
                                             break;
@@ -113,15 +110,12 @@ export default function CommentsStatistics(props: CommentsStatisticsProps): JSX.
                                     switch (answers[j].responses[u].status) {
                                         case "Good":
                                             strinjamSeCounter++
-                                            console.log("JA")
                                             break;
                                         case "Bad":
                                             neStrinjamSeCounter++
-                                            console.log("MBY")
                                             break;
                                         case "Very bad":
                                             mocnoNeStrinjamSeCounter++;
-                                            console.log("NE")
                                             break;
                                         default:
                                             break;
@@ -138,7 +132,6 @@ export default function CommentsStatistics(props: CommentsStatisticsProps): JSX.
             labelsUsers.push(users[i].fullName)
         }
     }
-
     const documentStyle = getComputedStyle(document.documentElement);
     const textColor = documentStyle.getPropertyValue('--text-color');
     const textColorSecondary = documentStyle.getPropertyValue('--text-color-secondary');
