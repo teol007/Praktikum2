@@ -7,7 +7,7 @@ import { usersDBAtom } from "../../../Atoms/UsersDBAtom";
 import { getAnswerDeadlineDate, timeBetweenDatesDaysNumber } from "../../../Modules/Functions/DateConverters";
 
 interface LateStatisticsProps {
-    user: UserCustomInfo | undefined,
+    user: UserCustomInfo | undefined
 }
 
 export default function LateStatistics(props: LateStatisticsProps): JSX.Element {
