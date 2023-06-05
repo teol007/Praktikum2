@@ -10,6 +10,7 @@ import { QuestionWithId } from "../../../Modules/Interfaces/Question";
 import { questionsDBAtom } from "../../../Atoms/QuestionsDBAtom";
 import ResponsesStatusesCount from '../../Answer/Response/ResponsesStatusesCount/ResponseStatuses';
 import TimeUntilAnswered from '../../Answer/TimeUntilAnswered/TimeUntilAnswered';
+import ProgressBar from '../../ProgressBar/ProgressBar';
 
 export default function DisplayAnswersToEvaluate(): JSX.Element {
   const [questions] = useAtom(questionsDBAtom);
@@ -71,6 +72,7 @@ export default function DisplayAnswersToEvaluate(): JSX.Element {
 
   return (
     <div className="container">
+      <ProgressBar activeIndex={1} />
       <h2 style={{ marginTop: '1em' }}>Vprašanja za oceniti</h2>
       <div className="row">
         {filteredAnswers.map(answer => (

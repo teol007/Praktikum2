@@ -8,6 +8,7 @@ import PendingAnswerActions from "./PendingAnswerActions/PendingAnswerActions";
 import { AnswerWithId } from "../../../Modules/Interfaces/Answer";
 import { userAuthentication } from "../../../Atoms/UserAuthentication";
 import TimeUntilResponsesDeadline from "../../Answer/TimeUntilResponsesDeadline/TimeUntilResponsesDeadline";
+import ProgressBar from "../../ProgressBar/ProgressBar";
 
 export function PendingAnswers(): JSX.Element {
   const [answers] = useAtom(answersDBAtom);
@@ -21,6 +22,7 @@ export function PendingAnswers(): JSX.Element {
 
   return(
     <div className="container">
+      <ProgressBar activeIndex={0} />
       <h2 style={{marginTop: '1em'}}>Dodeljena vprašanja za odgovoriti</h2>
       <div className="row">
       {

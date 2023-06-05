@@ -8,7 +8,7 @@ import { userAuthentication } from '../../Atoms/UserAuthentication';
 import { Group } from '../../Modules/Interfaces/UserCustomInfo';
 
 const everyoneButtons: MenuItem[] = [
-    {label: 'Home', icon: 'pi pi-fw pi-home', target: '/'},
+    /* {label: 'Home', icon: 'pi pi-fw pi-home', target: '/'}, */
     {label: 'Zastavi vprašanje', icon: 'pi pi-fw pi-question-circle', target: '/zastaviVprasanje'},
     {label: 'Račun', icon: 'pi pi-fw pi-user', target: '/racun'},
 ];
