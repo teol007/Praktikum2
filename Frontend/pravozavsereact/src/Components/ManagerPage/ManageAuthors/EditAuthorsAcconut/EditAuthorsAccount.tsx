@@ -1,7 +1,7 @@
 import { doc, updateDoc, Timestamp } from "firebase/firestore";
 import React, { useState } from "react";
 import { db } from "../../../../Config/Firebase";
-import { UserCustomInfo } from "../../../../Modules/Interfaces/UserCustomInfo";
+import { Group, UserCustomInfo } from "../../../../Modules/Interfaces/UserCustomInfo";
 import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
 import { Calendar } from "primereact/calendar";
@@ -9,10 +9,18 @@ import { Dialog } from "primereact/dialog";
 import { Dropdown } from "primereact/dropdown";
 import { Chip } from "primereact/chip";
 import { MultiSelect } from "primereact/multiselect";
+import { SelectItemOptionsType } from "primereact/selectitem";
+import { userGroupToSlovenian } from "../../../../Modules/Functions/UserGroupTranslate";
 
 export interface EditAuthorsAccountProps {
   user: UserCustomInfo;
 }
+
+const userGroupsOptions: SelectItemOptionsType = [ 
+  { value: Group.Unconfirmed, label: userGroupToSlovenian(Group.Unconfirmed) },
+  { value: Group.Author, label: userGroupToSlovenian(Group.Author) },
+  { value: Group.Manager, label: userGroupToSlovenian(Group.Manager) }
+];
 
 export default function EditAuthorsAccount(props: EditAuthorsAccountProps): JSX.Element {
   const [visible, setVisible] = useState(false);
@@ -78,11 +86,11 @@ export default function EditAuthorsAccount(props: EditAuthorsAccountProps): JSX.
           </p>
           <p>
             <b>Vloga:</b>
-            <Dropdown value={group} onChange={(e) => setGroup(e.value)} options={[ { value: "Author", label: "Avtor" },  { value: "Manager", label: "Urednik" },]} placeholder="Določi vlogo" className="w-full md:w-14rem" />
+            <Dropdown value={group} onChange={(e) => setGroup(e.value)} options={userGroupsOptions} placeholder="Določi vlogo" className="w-full md:w-14rem" />
           </p>
           <p>
             <b>Neaktiven:</b>
-            <Calendar value={inactive}  onChange={(e) => setInactive(e.value as Date[])} selectionMode="range" showIcon readOnlyInput />
+            <Calendar value={inactive}  onChange={(e) => setInactive(e.value as Date[])} selectionMode="range" showIcon readOnlyInput dateFormat="dd.mm.yy" />
           </p>
 
           <div style={{ marginBottom: "1em" }}>

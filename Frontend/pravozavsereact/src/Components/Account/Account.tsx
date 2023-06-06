@@ -6,6 +6,7 @@ import { userAuthentication } from "../../Atoms/UserAuthentication";
 import { Card } from "primereact/card";
 import { Chip } from "primereact/chip";
 import EditAccount from "./EditAccount/EditAccount";
+import { userGroupToSlovenian } from "../../Modules/Functions/UserGroupTranslate";
 
 export default function Account(): JSX.Element {
   //const [user, loading, error] = useAuthState(firebaseAuth);
@@ -61,7 +62,7 @@ export default function Account(): JSX.Element {
             <p><b>Ime in priimek:</b> {loggedInUser.fullName}</p>
             <p><b>Naziv:</b> {loggedInUser.academicTitle!=='' ? loggedInUser.academicTitle : <i>/</i>}</p>
             <p><b>Email:</b> {loggedInUser.email}</p>
-            <p><b>Vloga:</b> {loggedInUser.group}</p>
+            <p><b>Vloga:</b> {userGroupToSlovenian(loggedInUser.group)}</p>
 
             <div style={{marginBottom: '1em'}}><b>Pravna področja: </b>
               {loggedInUser.lawFields.map((field, index) => (

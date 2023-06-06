@@ -4,10 +4,8 @@ import "primereact/resources/themes/lara-light-indigo/theme.css";
 import "primereact/resources/primereact.min.css";     
 import 'primeicons/primeicons.css';
 import { Routes, Route, Navigate } from 'react-router';
-import Greetings from './Components/Greetings/Greetings';
 import AddQuestion from './Components/Questions/AddQuestion/AddQuestion';
 import Navbar from './Components/Navbar/Navbar';
-import Tests from './Components/Test/Tests/Tests';
 import HumanRights from './Components/HumanRights/HumanRights';
 import AboutUs from './Components/AboutUs/AboutUs';
 import PageNotFound from './Components/PageNotFound/PageNotFound';
@@ -30,11 +28,7 @@ function App() {
       <Navbar />
       <Routes>
           <Route path='/'
-              element={
-                <>
-                  <Greetings />
-                </>
-              } />
+              element={<AddQuestion/>}/>
           <Route path='/zastaviVprasanje'
               element={<AddQuestion/>}/>
           <Route path='/oNas'
@@ -45,9 +39,6 @@ function App() {
               element={<Account />}/>
           <Route path='/vprasanja'
               element={<DisplayQuestions />}/>
-
-          <Route path='/tests'
-              element={<Tests />}/>
           <Route path='/urednik/*'
             element={loggedInUser&&loggedInUser.group===Group.Manager ? <ManagerPage /> : <Navigate to={'/racun'} />}
           />
@@ -55,7 +46,7 @@ function App() {
               element={loggedInUser&&(loggedInUser.group===Group.Manager||loggedInUser.group===Group.Author) ? <AuthorPage /> : <Navigate to={'/racun'} />}
           />
           <Route path='/arhiv'
-              element={<Archive />}/>
+              element={loggedInUser&&(loggedInUser.group===Group.Manager||loggedInUser.group===Group.Author) ? <Archive /> : <Navigate to={'/racun'} />} />
           <Route path='/*'
               element={<PageNotFound />}/>
       </Routes>
