@@ -34,7 +34,7 @@ export default function AddQuestion(): JSX.Element {
             setLawFields([]);
             setEmail('');
             setDescription('');
-            navigate("/oNas")
+            navigate("/oNas");
         } catch (error) {
             console.error(error);
         }
@@ -77,7 +77,7 @@ export default function AddQuestion(): JSX.Element {
                             <div className=" flex justify-content-center"> <br />
                                 <b><label htmlFor="opis">Pravno področje</label><br /> </b>
                                 <MultiSelect value={lawFields} onChange={(e) => setLawFields(e.value)} options={lawFieldsArray} 
-                                placeholder="Izberi pravno področje problema" className="w-full md:w-14rem" required /> <br />
+                                placeholder="Izberi pravno področje problema" filter maxSelectedLabels={2} className="w-full md:w-14rem" style={{width: '300px'}} required /> <br />
                                 <small id="opis-help">
                                     Izberite pravno področje vašega problema.
                                 </small>  <br /> <br />

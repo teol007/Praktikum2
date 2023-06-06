@@ -18,18 +18,6 @@ export default function LateStatistics(props: LateStatisticsProps): JSX.Element 
     let data: number[] = [];
     let dataLabels: string[] = [];
 
-    /* function isBefore(date1: Date, date2: Date) {
-        return date1 < date2;
-    } */
-
-/*     if(props.timeFrame !== null && props.timeFrame.length === 2){
-        if (props.timeFrame[0] !== null && props.timeFrame[1] !== null){
-            if (props.user === undefined && users.length > 0){
-                
-            }
-        }
-    } */
-
     if (props.user === undefined && users.length > 0){
         for (let i = 0; i < 14; i++){
             let counter = 0;
@@ -41,13 +29,6 @@ export default function LateStatistics(props: LateStatisticsProps): JSX.Element 
                         if (isBefore(deadline,answers[j].answered?.toDate()! )){
                             const razlika: number = timeBetweenDatesDaysNumber(deadline, answers[j].answered?.toDate()!);
                             if (razlika === (i + 1)){
-                                //
-/*                                 if (props.timeFrame !== null && props.timeFrame.length === 2){
-                                    if (props.timeFrame[0] !== null && props.timeFrame[1] !== null){
-
-                                    }
-                                } */
-                                //
                                 counter++;
                             }
                         }

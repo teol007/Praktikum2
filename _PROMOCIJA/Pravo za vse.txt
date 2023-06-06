@@ -1,0 +1,21 @@
+Informacijski sistem Pravo za vse
+
+Namen IS Pravo za vse je poenostavitev procesa zastavljanja in odgovarjanja na pravna vprašanja.
+
+Leto izdelave: 2023
+
+Avtorji:
+- Maja Prosenjak
+- Katarina Lipovšek
+- Teo Lah
+
+Domača stran: https://pravo-za-vse-db.web.app/
+Vir podatkov: ?
+Koda: https://github.com/teol007/Praktikum2
+
+Kategorizacija: spletna aplikacija
+
+Oznake: React, TypeScript, Firebase, Firestore, NodeJS, GitHub, REST
+
+Opis storitve:
+

@@ -18,7 +18,7 @@ export default function TotalStatistics(): JSX.Element {
     const [selectedLawFields, setSelectedLawFields] = useState<string[] | null>([]);
     const [selectedLawFieldsComments, setSelectedLawFieldsComments] = useState<string[] | null>([]);
     const [selectedAuthorLate, setSelectedAuthorLate] = useState<UserCustomInfo | undefined>(users[1]); //za zdaj je default nastavljeno na Maja Prosenjak, ker noben drug nima zamude - da se kaj vidi
-    const [inactive, setInactive] = useState<Date[] | null>([]);
+    const [timeFrameQuestions, setTimeFrameQuestions] = useState<Date[] | null>([]);
     const [timeFrameComments, setTimeFrameComments] = useState<Date[] | null>([]);
 
     return (
@@ -44,7 +44,7 @@ export default function TotalStatistics(): JSX.Element {
                                 </AccordionTab>
                                 <AccordionTab header="Sortiraj po časovnem obdobju">
                                 <div className="card flex justify-content-center">
-                                    <Calendar value={inactive}  onChange={(e) => setInactive(e.value as Date[])} selectionMode="range" 
+                                    <Calendar value={timeFrameQuestions}  onChange={(e) => setTimeFrameQuestions(e.value as Date[])} selectionMode="range" 
                                     showIcon readOnlyInput showButtonBar />
                                 </div>
                                 </AccordionTab>
@@ -89,7 +89,7 @@ export default function TotalStatistics(): JSX.Element {
                 </div>
                 <div className="col">
                     <h4>Graf pravnih vprašanj</h4>
-                    <QuestionStatistics users={selectedAuthorsQuestion} lawFields={selectedLawFields} timeFrame={inactive} /> <br />
+                    <QuestionStatistics users={selectedAuthorsQuestion} lawFields={selectedLawFields} timeFrame={timeFrameQuestions} /> <br />
                     <h4>Graf komentarjev na pravna vprašanja</h4> <br />
                     <CommentsStatistics users={selectedAuthors} lawFields={selectedLawFieldsComments} timeFrame={timeFrameComments} /> <br />
                 </div>
