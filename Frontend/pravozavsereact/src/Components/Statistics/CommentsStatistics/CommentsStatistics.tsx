@@ -6,10 +6,12 @@ import { Chart } from 'primereact/chart';
 import { UserCustomInfo } from "../../../Modules/Interfaces/UserCustomInfo";
 import { usersDBAtom } from "../../../Atoms/UsersDBAtom";
 import { lawFieldsArray } from "../../../Modules/Objects/lawFieldsArray";
+import { isBefore } from "../../../Modules/Functions/DateConverters";
 
 interface CommentsStatisticsProps {
     users: UserCustomInfo[] | null,
-    lawFields: string[] | null
+    lawFields: string[] | null,
+    timeFrame: Date[] | null
 }
 
 export default function CommentsStatistics(props: CommentsStatisticsProps): JSX.Element {
@@ -22,9 +24,7 @@ export default function CommentsStatistics(props: CommentsStatisticsProps): JSX.
     const neStrinjamSeData = [];
     const mocnoNeStrinjamSeData = [];
     const labelsUsers = [];
-
-    if (props.users !== null && props.users?.length > 0 && props.lawFields === null){
-
+    if (props.users !== null && props.lawFields !== null && props.users.length > 0 && props.lawFields.length === 0){//ce se izbere avtor, lawField pa ne
         for (let i = 0; i<props.users.length; i++){
             let strinjamSeCounter = 0;
             let neStrinjamSeCounter = 0;
@@ -33,21 +33,39 @@ export default function CommentsStatistics(props: CommentsStatisticsProps): JSX.
                 if (answers[j].responses.length > 0){
                     for (let u = 0; u < answers[j].responses.length; u++){
                         if (answers[j].responses[u].commenterUid === props.users[i].uid){
-                            switch (answers[j].responses[u].status) {
-                                case "Good":
-                                    strinjamSeCounter++
-                                    console.log("JA")
-                                    break;
-                                case "Bad":
-                                    neStrinjamSeCounter++
-                                    console.log("MBY")
-                                    break;
-                                case "Very bad":
-                                    mocnoNeStrinjamSeCounter++;
-                                    console.log("NE")
-                                    break;
-                                default:
-                                    break;
+                            if (props.timeFrame !== null && props.timeFrame.length === 2){
+                                if (props.timeFrame[0] !== null && props.timeFrame[1] !== null){
+                                    if (isBefore(answers[j].responses[u].created.toDate(), props.timeFrame[0] ) || isBefore(props.timeFrame[1], answers[j].responses[u].created.toDate())){
+                                    } else {
+                                        switch (answers[j].responses[u].status) {
+                                            case "Good":
+                                                strinjamSeCounter++
+                                                break;
+                                            case "Bad":
+                                                neStrinjamSeCounter++
+                                                break;
+                                            case "Very bad":
+                                                mocnoNeStrinjamSeCounter++;
+                                                break;
+                                            default:
+                                                break;
+                                        }
+                                    }
+                                }
+                            } else {
+                                switch (answers[j].responses[u].status) {
+                                    case "Good":
+                                        strinjamSeCounter++
+                                        break;
+                                    case "Bad":
+                                        neStrinjamSeCounter++
+                                        break;
+                                    case "Very bad":
+                                        mocnoNeStrinjamSeCounter++;
+                                        break;
+                                    default:
+                                        break;
+                                }
                             }
                         }
                     }    
@@ -58,7 +76,7 @@ export default function CommentsStatistics(props: CommentsStatisticsProps): JSX.
             mocnoNeStrinjamSeData.push(mocnoNeStrinjamSeCounter);
             labelsUsers.push(props.users[i].fullName)
         }
-    } else if (props.users !== null && props.lawFields !== null && props.lawFields.length > 0 && props.users.length > 0){
+    } else if (props.users !== null && props.lawFields !== null && props.lawFields.length > 0 && props.users.length > 0){//ce se izbere avtor in lawfield
         for (let i = 0; i<props.users.length; i++){
             let strinjamSeCounter = 0;
             let neStrinjamSeCounter = 0;
@@ -71,18 +89,39 @@ export default function CommentsStatistics(props: CommentsStatisticsProps): JSX.
                             let selectedQuestionIndex = questions.findIndex(question => question.id === answers[j].questionId);
                             if (selectedQuestionIndex > -1){
                                 if (answers[j].responses[u].commenterUid === props.users[i].uid && questions[selectedQuestionIndex].lawFields.includes(props.lawFields[o])){
-                                    switch (answers[j].responses[u].status) {
-                                        case "Good":
-                                            strinjamSeCounter++
-                                            break;
-                                        case "Bad":
-                                            neStrinjamSeCounter++
-                                            break;
-                                        case "Very bad":
-                                            mocnoNeStrinjamSeCounter++;
-                                            break;
-                                        default:
-                                            break;
+                                    if (props.timeFrame !== null && props.timeFrame.length === 2 && props.timeFrame[0] !== null && props.timeFrame[1] !== null){
+                                        if (props.timeFrame[0] !== null && props.timeFrame[1] !== null){
+                                            if (isBefore(answers[j].responses[u].created.toDate(), props.timeFrame[0] ) || isBefore(props.timeFrame[1], answers[j].responses[u].created.toDate())){
+                                            } else {
+                                                switch (answers[j].responses[u].status) {
+                                                    case "Good":
+                                                        strinjamSeCounter++
+                                                        break;
+                                                    case "Bad":
+                                                        neStrinjamSeCounter++
+                                                        break;
+                                                    case "Very bad":
+                                                        mocnoNeStrinjamSeCounter++;
+                                                        break;
+                                                    default:
+                                                        break;
+                                                }
+                                            }
+                                        }
+                                    } else {
+                                        switch (answers[j].responses[u].status) {
+                                            case "Good":
+                                                strinjamSeCounter++
+                                                break;
+                                            case "Bad":
+                                                neStrinjamSeCounter++
+                                                break;
+                                            case "Very bad":
+                                                mocnoNeStrinjamSeCounter++;
+                                                break;
+                                            default:
+                                                break;
+                                        }
                                     }
                                 }
                             }
@@ -95,7 +134,7 @@ export default function CommentsStatistics(props: CommentsStatisticsProps): JSX.
             mocnoNeStrinjamSeData.push(mocnoNeStrinjamSeCounter);
             labelsUsers.push(props.users[i].fullName)
         }
-    } else if (props.users === null && props.lawFields === null){
+    } else if (props.users !== null && props.lawFields !== null && props.users.length === 0 && props.lawFields.length === 0){ //ne izbere se niti avtor niti lawfield
         for (let i = 0; i < users.length; i++){
             let strinjamSeCounter = 0;
             let neStrinjamSeCounter = 0;
@@ -106,19 +145,40 @@ export default function CommentsStatistics(props: CommentsStatisticsProps): JSX.
                         for (let o = 0; o < lawFieldsArray.length; o++){
                             let selectedQuestionIndex = questions.findIndex(question => question.id === answers[j].questionId);
                             if (selectedQuestionIndex > -1){
-                                if (answers[j].responses[u].commenterUid ===users[i].uid && questions[selectedQuestionIndex].lawFields.includes(lawFieldsArray[o])){
-                                    switch (answers[j].responses[u].status) {
-                                        case "Good":
-                                            strinjamSeCounter++
-                                            break;
-                                        case "Bad":
-                                            neStrinjamSeCounter++
-                                            break;
-                                        case "Very bad":
-                                            mocnoNeStrinjamSeCounter++;
-                                            break;
-                                        default:
-                                            break;
+                                if (answers[j].responses[u].commenterUid === users[i].uid && questions[selectedQuestionIndex].lawFields.includes(lawFieldsArray[o])){
+                                    if (props.timeFrame !== null && props.timeFrame.length === 2 && props.timeFrame[0] !== null && props.timeFrame[1] !== null){
+                                        if (props.timeFrame[0] !== null && props.timeFrame[1] !== null){
+                                            if (isBefore(answers[j].responses[u].created.toDate(), props.timeFrame[0] ) || isBefore(props.timeFrame[1], answers[j].responses[u].created.toDate())){
+                                            } else {
+                                                switch (answers[j].responses[u].status) {
+                                                    case "Good":
+                                                        strinjamSeCounter++
+                                                        break;
+                                                    case "Bad":
+                                                        neStrinjamSeCounter++
+                                                        break;
+                                                    case "Very bad":
+                                                        mocnoNeStrinjamSeCounter++;
+                                                        break;
+                                                    default:
+                                                        break;
+                                                }
+                                            }
+                                        }
+                                    } else {
+                                        switch (answers[j].responses[u].status) {
+                                            case "Good":
+                                                strinjamSeCounter++
+                                                break;
+                                            case "Bad":
+                                                neStrinjamSeCounter++
+                                                break;
+                                            case "Very bad":
+                                                mocnoNeStrinjamSeCounter++;
+                                                break;
+                                            default:
+                                                break;
+                                        }
                                     }
                                 }
                             }

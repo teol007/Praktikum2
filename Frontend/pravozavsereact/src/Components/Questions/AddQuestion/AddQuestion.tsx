@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
 import { InputTextarea } from "primereact/inputtextarea";
@@ -6,18 +6,18 @@ import { collection, addDoc } from "firebase/firestore";
 import { db } from "../../../Config/Firebase";
 import { Timestamp } from "@firebase/firestore";
 import { Question } from "../../../Modules/Interfaces/Question";
-import { useNavigate } from "react-router";
 import { MultiSelect } from "primereact/multiselect";
 import { Checkbox, CheckboxChangeEvent } from "primereact/checkbox";
 import { Card } from "primereact/card";
 import { Divider } from 'primereact/divider';
+import { Toast } from 'primereact/toast';
 
 export default function AddQuestion(): JSX.Element {
     const [lawFields, setLawFields] = useState<string[]>([]);
     const [email, setEmail] = useState('');
     const [description, setDescription] = useState('');
     const [checkboxes, setCheckboxes] = useState<string[]>([]);
-    const navigate = useNavigate();
+    const toast = useRef<Toast>(null);
 
     const handleSubmit = async (event: {preventDefault: () => void}) => {
         event.preventDefault();
@@ -34,7 +34,7 @@ export default function AddQuestion(): JSX.Element {
             setLawFields([]);
             setEmail('');
             setDescription('');
-            navigate("/oNas")
+            toast.current?.show({ severity: 'success', summary: 'Vprašanje poslano', detail: 'Hvala, prejeli smo Vaše vprašanje!', sticky: true });
         } catch (error) {
             console.error(error);
         }
@@ -59,10 +59,9 @@ export default function AddQuestion(): JSX.Element {
             <p>Tukaj lahko postavite svoje vprašanje, ki zadeva vaš pravni problem oziroma dilemo.</p>
             <Divider />
             <form onSubmit={handleSubmit}>
-                
                 <div className="container">
                     <div className="row">
-                        <div className="col">
+                        <div className="col-sm-12 col-md-6 col-lg-6 col-xl-6">
                             <div className=" flex justify-content-center">
                                 <div className="flex flex-column gap-2"> <br />
                                     <b><label htmlFor="email">E-mail</label><br /></b>
@@ -73,11 +72,11 @@ export default function AddQuestion(): JSX.Element {
                                 </div>
                             </div>
                         </div>
-                        <div className="col">
+                        <div className="col-sm-12 col-md-6 col-lg-6 col-xl-6">
                             <div className=" flex justify-content-center"> <br />
                                 <b><label htmlFor="opis">Pravno področje</label><br /> </b>
                                 <MultiSelect value={lawFields} onChange={(e) => setLawFields(e.value)} options={lawFieldsArray} 
-                                placeholder="Izberi pravno področje problema" className="w-full md:w-14rem" required /> <br />
+                                placeholder="Izberi pravno področje problema" filter maxSelectedLabels={2} className="w-full md:w-14rem" style={{width: '300px'}} required /> <br />
                                 <small id="opis-help">
                                     Izberite pravno področje vašega problema.
                                 </small>  <br /> <br />
@@ -97,50 +96,50 @@ export default function AddQuestion(): JSX.Element {
                     </div>
                     <Divider />
                     <div className="row">
-                        <div className="col">
+                        <div className="col-sm-12 col-md-6 col-lg-6 col-xl-6">
                             <div className="flex align-items-center">
-                                <label htmlFor="ingredient23" className="ml-2">
+                                <label htmlFor="emailcheck" className="ml-2">
                                     <p><b>Ali ste preverili svoj e-mail naslov?</b></p>
                                     <p>Prosimo, da ponovno preverite pravilni zapis vašega elektronskega naslova, da vam bomo 
                                     lahko zanesljivo posredovali naše mnenje.</p>
                                 </label>
-                                <Checkbox inputId="ingredient23" name="questionChecks" value="EmailCheck" onChange={onCheckboxChange} 
+                                <Checkbox inputId="emailcheck" name="questionChecks" value="EmailCheck" onChange={onCheckboxChange} 
                                 checked={checkboxes.includes('EmailCheck')} required />
                                 <p>Preveril sem e-mail naslov.</p>
                             </div>
                             <Divider />
                             <div className="flex align-items-center">
-                                <label htmlFor="ingredient24" className="ml-2">
+                                <label htmlFor="privacycheck" className="ml-2">
                                     <p><b>Politika zasebnosti spletnega portala Pravo za vse</b></p>
                                     <p> Ali se strinjate s politiko zasebnosti spletnega portala Pravo za vse, dostopno na: 
                                     <a href="https://www.pravozavse.si/politika-zasebnosti/"> https://www.pravozavse.si/politika-zasebnosti/</a>?</p>
                                 </label>
-                                <Checkbox inputId="ingredient24" name="questionChecks" 
+                                <Checkbox inputId="privacycheck" name="questionChecks" 
                                 value="Privacy" onChange={onCheckboxChange} 
                                 checked={checkboxes.includes('Privacy')} required />
                                 <p>Strinjam se s politiko zasebnosti.</p>
                             </div>
                         </div>
-                        <div className="col">
+                        <div className="col-sm-12 col-md-6 col-lg-6 col-xl-6">
                             <div className="flex align-items-center">
-                                <label htmlFor="ingredient25" className="ml-2">
+                                <label htmlFor="emailusagecheck" className="ml-2">
                                     <p><b>Uporaba E-mail računa</b></p>
                                     <p>Ali se strinjate, da Pravo za vse uporablja vaš E-mail račun za namene obveščanja o odgovoru na 
                                     Vaše pravno vprašanje?</p>
                                 </label>
-                                <Checkbox inputId="ingredient25" name="questionChecks" 
+                                <Checkbox inputId="emailusagecheck" name="questionChecks" 
                                 value="EmailUsage" onChange={onCheckboxChange} 
                                 checked={checkboxes.includes('EmailUsage')} required />
                                 <p>Strinjam se z uporabo e-mail naslova.</p>
                             </div>
                             <Divider />
                             <div className="flex align-items-center">
-                                <label htmlFor="ingredient26" className="ml-2">
+                                <label htmlFor="toscheck" className="ml-2">
                                     <p><b>Splošni pogoji spletnega portala Pravo za vse</b></p>
                                     <p>Ali se strinjate s splošnimi pogoji spletnega portala Pravo za vse, dostopnimi na: 
                                     <a href="https://www.pravozavse.si/splosni-pogoji/"> https://www.pravozavse.si/splosni-pogoji/</a>?</p>
                                 </label>
-                                <Checkbox inputId="ingredient26" name="questionChecks" 
+                                <Checkbox inputId="toscheck" name="questionChecks" 
                                 value="TermsOfService" onChange={onCheckboxChange} 
                                 checked={checkboxes.includes('TermsOfService')} required />
                                 <p>Strinjam se s splošnimi pogoji.</p>
@@ -148,6 +147,7 @@ export default function AddQuestion(): JSX.Element {
                         </div>
                     </div>
                 </div>
+                <Toast ref={toast} />
                 <Button label="Pošlji vprašanje" className="w-full" severity="success" raised />
             </form>
           </Card>

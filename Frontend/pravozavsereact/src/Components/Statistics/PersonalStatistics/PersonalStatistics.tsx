@@ -66,7 +66,7 @@ export default function PersonalStatistics(): JSX.Element {
                 </div>
             </div>
             <div>
-                 <LateStatistics user={user} />
+                 <LateStatistics user={user} timeFrame={null} />
             </div>
         </div>
     );
