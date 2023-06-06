@@ -11,7 +11,6 @@ import { Checkbox, CheckboxChangeEvent } from "primereact/checkbox";
 import { Card } from "primereact/card";
 import { Divider } from 'primereact/divider';
 import { Toast } from 'primereact/toast';
-import { classNames } from 'primereact/utils';
 
 export default function AddQuestion(): JSX.Element {
     const [lawFields, setLawFields] = useState<string[]>([]);
