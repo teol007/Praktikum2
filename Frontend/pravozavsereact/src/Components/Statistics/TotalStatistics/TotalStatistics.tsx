@@ -9,15 +9,38 @@ import CommentsStatistics from '../CommentsStatistics/CommentsStatistics';
 import QuestionStatistics from '../QuestionStatistics/QuestionStatistics';
 import LateStatistics from '../LateStatistics/LateStatistics';
 import { Dropdown, DropdownChangeEvent } from 'primereact/dropdown';
+import { Calendar } from "primereact/calendar";
 
 export default function TotalStatistics(): JSX.Element {
     const [users] = useAtom(usersDBAtom);
-    const [selectedAuthorsQuestion, setSelectedAuthorsQuestion] = useState<UserCustomInfo[] | null>(null);
-    const [selectedAuthors, setSelectedAuthors] = useState<UserCustomInfo[] | null>(null);
-    const [selectedLawFields, setSelectedLawFields] = useState<string[] | null>(null);
-    const [selectedLawFieldsComments, setSelectedLawFieldsComments] = useState<string[] | null>(null);
+    const [selectedAuthorsQuestion, setSelectedAuthorsQuestion] = useState<UserCustomInfo[] | null>([]);
+    const [selectedAuthors, setSelectedAuthors] = useState<UserCustomInfo[] | null>([]);
+    const [selectedLawFields, setSelectedLawFields] = useState<string[] | null>([]);
+    const [selectedLawFieldsComments, setSelectedLawFieldsComments] = useState<string[] | null>([]);
     const [selectedAuthorLate, setSelectedAuthorLate] = useState<UserCustomInfo | undefined>(users[1]); //za zdaj je default nastavljeno na Maja Prosenjak, ker noben drug nima zamude - da se kaj vidi
-  
+    const [inactive, setInactive] = useState<Date[] | null>([]);
+    const [timeFrameComments, setTimeFrameComments] = useState<Date[] | null>([]);
+    //const [firstDate, setFirstDate] = useState<Date | null>(null);
+    //const [secondDate, setSecondDate] = useState<Date | null>(null);
+
+/*     const handleSelectedTime = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+        event.preventDefault();
+        if (inactive !== null){
+            console.log("inactive ni null");
+            if (inactive?.length == 2){
+                console.log("dolzina inactive je 2");
+                if(inactive[0] !== null && inactive[1] !== null){
+                    let newFirstDate = inactive[0]
+                    let newSecondDate = inactive[1]
+                    setFirstDate(newFirstDate);
+                    setSecondDate(newSecondDate);
+                    console.log("to je prvi datum: " + firstDate);
+                    console.log("to je drugi datum: " + secondDate);
+                }
+            }
+        }
+    } */
+    
     return (
         <div>
           <div className="container" style={{marginLeft: 0, marginTop: "10px"}}>
@@ -39,6 +62,13 @@ export default function TotalStatistics(): JSX.Element {
                                         display="chip" filter placeholder="Izberi pravno področje" maxSelectedLabels={3} className="w-full md:w-20rem" />
                                 </div>
                                 </AccordionTab>
+                                <AccordionTab header="Sortiraj po časovnem obdobju">
+                                <div className="card flex justify-content-center">
+                                    <Calendar value={inactive}  onChange={(e) => setInactive(e.value as Date[])} selectionMode="range" 
+                                    showIcon readOnlyInput /* style={{width: '400px'}} */ />
+                                    {/* <Button label="Potrdi" icon="pi pi-check" onClick={handleSelectedTime} autoFocus style={{marginLeft: '10px'}} /> */}
+                                </div>
+                                </AccordionTab>
                             </Accordion>
                         </AccordionTab>
                         <AccordionTab header="Statistika komentarjev na pravna vprašanja">
@@ -53,6 +83,13 @@ export default function TotalStatistics(): JSX.Element {
                                 <div className="card flex justify-content-center">
                                     <MultiSelect value={selectedLawFieldsComments} onChange={(e: MultiSelectChangeEvent) => setSelectedLawFieldsComments(e.value)} options={lawFieldsArray} 
                                         filter placeholder="Izberi pravno področje" maxSelectedLabels={3} className="w-full md:w-20rem" />
+                                </div>
+                                </AccordionTab>
+                                <AccordionTab header="Sortiraj po časovnem obdobju">
+                                <div className="card flex justify-content-center">
+                                    <Calendar value={timeFrameComments}  onChange={(e) => setTimeFrameComments(e.value as Date[])} selectionMode="range" 
+                                    showIcon readOnlyInput /* style={{width: '400px'}} */ />
+                                    {/* <Button label="Potrdi" icon="pi pi-check" onClick={handleSelectedTime} autoFocus style={{marginLeft: '10px'}} /> */}
                                 </div>
                                 </AccordionTab>
                             </Accordion>
@@ -70,13 +107,13 @@ export default function TotalStatistics(): JSX.Element {
                     </Accordion>
                 </div>
                 <h4 style={{marginTop: "15px"}}>Graf zamud za avtorja: {selectedAuthorLate?.fullName} </h4>
-                    <LateStatistics user={selectedAuthorLate} />  
+                    <LateStatistics user={selectedAuthorLate} timeFrame={null} />  
                 </div>
                 <div className="col">
                     <h4>Graf pravnih vprašanj</h4>
-                    <QuestionStatistics users={selectedAuthorsQuestion} lawFields={selectedLawFields} /> <br />
+                    <QuestionStatistics users={selectedAuthorsQuestion} lawFields={selectedLawFields} timeFrame={inactive} /> <br />
                     <h4>Graf komentarjev na pravna vprašanja</h4> <br />
-                    <CommentsStatistics users={selectedAuthors} lawFields={selectedLawFieldsComments} /> <br />
+                    <CommentsStatistics users={selectedAuthors} lawFields={selectedLawFieldsComments} timeFrame={timeFrameComments} /> <br />
                 </div>
             </div>
           </div>
