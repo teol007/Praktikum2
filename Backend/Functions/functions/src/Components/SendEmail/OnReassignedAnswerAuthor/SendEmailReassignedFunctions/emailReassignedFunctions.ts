@@ -27,7 +27,7 @@ export const createNewUserReassignedEmail = async (question: Question|QuestionWi
   const fileExists: boolean = (answer.fileUrl!=='');
   
   const message: EmailMessage = {
-    subject: "Dodeljeno novo vprašanje",
+    subject: "Predodeljeno novo vprašanje",
     html: htmlNewUserAnswerReassigned(question, newUser.academicTitle+' '+newUser.fullName, reassignmentDate, fileExists),
   };
 

@@ -6,20 +6,12 @@ import UnassignedQuestionActions from "./UnassignedQuestionActions/UnassignedQue
 import { useAtom } from "jotai";
 import { questionsDBAtom } from "../../../Atoms/QuestionsDBAtom";
 import { answersDBAtom } from "../../../Atoms/AnswersDBAtom";
-import { ToggleButton, ToggleButtonChangeEvent } from 'primereact/togglebutton';
-import { doc, updateDoc } from "firebase/firestore";
-import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog';
-import { db } from "../../../Config/Firebase";
-import { settingsOrganizationsDBAtom } from "../../../Atoms/OrganizationsDBAtom";
-import { settingsOrganizationDocId } from "../../../Config/OrganizationDocuments";
 import DisplayLawFieldsText from "../../Questions/DisplayLawFields/DisplayLawFieldsText/DisplayLawFieldsText";
 
 
 export default function DisplayUnassignedQuestions(): JSX.Element {
   const [questions] = useAtom(questionsDBAtom);
   const [answers] = useAtom(answersDBAtom);
-  const [mainOrganizationDocument] = useAtom(settingsOrganizationsDBAtom);
-  const isAutoAssignOn = mainOrganizationDocument?.autoAssignQuestions;
 
   const unassignedQuestionActions = (question: QuestionWithId): JSX.Element => (
     <UnassignedQuestionActions question={question} />
@@ -30,33 +22,9 @@ export default function DisplayUnassignedQuestions(): JSX.Element {
     return questions.filter((question)=>(!assignedQuestionsIDs.includes(question.id)));
   }
 
-  const confirmChangeAutoAssignQuestions = (message: JSX.Element, value: boolean) => {
-    confirmDialog({
-        header: 'Potrditev',
-        message: message,
-        icon: 'pi pi-exclamation-triangle',
-        async accept() {
-          try {
-            await updateDoc(doc(db, "Organizations/"+settingsOrganizationDocId), {autoAssignQuestions: value});
-          } catch (error) {
-            console.warn(error);
-          }
-        },
-    });
-  };
-
-  const handleChange = (e: ToggleButtonChangeEvent) => {
-    if(e.value)
-      confirmChangeAutoAssignQuestions(<>Ali res želiš <strong>vklopiti</strong> avtomatsko dodeljevanje novih vprašanj avtorjem?</>, e.value);
-    else
-      confirmChangeAutoAssignQuestions(<>Ali res želiš <strong>izklopiti</strong> avtomatsko dodeljevanje novih vprašanj avtorjem?</>, e.value);
-  }
-
   return (
     <div className="container">
       <h2 style={{marginTop: '1em'}}>Nedodeljena vprašanja</h2>
-      <ConfirmDialog />
-      <ToggleButton onLabel="Avtomatsko dodeljevanje novih vprašanj" offLabel="Samo ročno dodeljevanje novih vprašanj" onIcon="pi pi-eject" offIcon="pi pi-inbox" checked={isAutoAssignOn} onChange={handleChange} className="w-9rem" />
       <div className="row">
       {filterUnassignedQuestions(questions).map(question => (
           <div key={question.id} className="col flex justify-content-center" style={{ paddingTop: '1rem', paddingBottom: '1rem' }} >

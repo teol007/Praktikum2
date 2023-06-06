@@ -1,3 +1,4 @@
+import { frontendHostingUrlLoginPage } from "../../../Config/FrontendHostingConf";
 import { Answer, AnswerWithId } from "../../Interfaces/Answer";
 import { Question, QuestionWithId } from "../../Interfaces/Question";
 import { UserCustomInfo } from "../../Interfaces/UserCustomInfo";
@@ -41,7 +42,7 @@ export const htmlAnswerOverDeadline = (question: Question|QuestionWithId, answer
     </head>
     <body>
       <div class="email-container">
-        <p class="normalText">Pozdravljeni.<br /><br />Obveščamo vas, da je rok za oddajo odgovora na vprašanje za katerega ste bili odgovorni potekel.</p>
+        <p class="normalText">Pozdravljeni,<br /><br />obveščamo vas, da je potekel rok za oddajo odgovora na vprašanje, ki vam je bilo dodeljeno.</p>
         <hr />
         <h2>Podrobnosti</h2>
         <p class="question-description"><strong>Vprašanje:</strong> ${question.description}</p>
@@ -49,11 +50,12 @@ export const htmlAnswerOverDeadline = (question: Question|QuestionWithId, answer
         <div class="assigned-info">
           <p><strong>Dodeljeno osebi:</strong> ${author.academicTitle+' '+author.fullName}</p>
           <p><strong>Datum dodelitve:</strong> ${answer.authorAssigned ? toSlovenianDateTime(answer.authorAssigned.toDate()) : '<i>Ni navedeno</i>'}</p>
+          <p>Link do spletne strani: <a href="${frontendHostingUrlLoginPage}">Pravo za vse</a></p>
           ${isFileAttached ? '<p>V priponki je priložena datoteka, ki ste jo oddali.</p>' : ''}
         </div>
         <hr />
         <br />
-        <p class="footer normalText">Lep pozdrav<br />organizacija Pravo za vse</p>
+        <p class="footer normalText">Lep pozdrav<br />ekipa spletnega portala Pravo za VSE</p>
       </div>
     </body>
     </html>`;

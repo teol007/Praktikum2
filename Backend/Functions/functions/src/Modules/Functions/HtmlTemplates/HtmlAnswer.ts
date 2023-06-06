@@ -40,7 +40,7 @@ export const htmlAnswer = (question: QuestionWithId, answer: AnswerWithId): stri
     </head>
     <body>
       <div class="email-container">
-        <p class="normalText">Pozdravljeni.<br /><br />V priponki vam pošiljamo odgovor na vaše pravno vprašanje, ki ste ga postavili organizaciji Pravo za vse</p>
+        <p class="normalText">Spoštovani,<br /><br />v priponki vam pošiljamo odgovor na vaše zastavljeno pravno vprašanje, hkrati pa se vam zahvaljujemo za izkazano zaupanje.</p>
         <hr />
         <h2>Podrobnosti vprašanja</h2>
         <p class="question-description"><strong>Vaše vprašanje:</strong> ${question.description}</p>
@@ -48,13 +48,13 @@ export const htmlAnswer = (question: QuestionWithId, answer: AnswerWithId): stri
           <p><strong>Vprašanje smo prejeli:</strong> ${toSlovenianDateTimePlusTimezoneDifference(question.created.toDate())}</p>
         </div>
         <p class="law-fields"><strong>Spada med pravna področja:</strong> ${question.lawFields.join(", ").toLowerCase()}</p>
-        <p class="law-fields"><strong>Oznake:</strong> ${answer.tags.join(", ").toLowerCase()}</p>
+        <p class="law-fields"><strong>Oznake:</strong> ${answer.tags.length<=0 ? '/' : answer.tags.join(", ").toLowerCase()}</p>
         <p class="law-fields">Dokument s pravnim odgovorom se nahaja v priponki.</p>
         <hr />
         <p><i>Če niste postavili nobenega vprašanja ali ne veste zakaj ste prejeli to sporočilo, ga ignorirajte.</i><br /><i>If you have not asked any questions or do not know why you received this message, ignore it.</i></p>
         
         <br />
-        <p class="footer normalText">Lep pozdrav<br />organizacija Pravo za vse</p>
+        <p class="footer normalText">V upanju na čimboljši razplet vas lepo pozdravljamo.<br />Ekipa spletnega portala Pravo za VSE</p>
       </div>
     </body>
     </html>`;
