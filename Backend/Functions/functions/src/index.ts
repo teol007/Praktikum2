@@ -29,7 +29,10 @@ import { sendEmailOnUpdatedReassignedAnswerAuthor } from "./Components/SendEmail
 import { sendEmailOnUpdatedAnswerResponse } from "./Components/SendEmail/OnAnswerResponse/OnEvent/SendEmailOnUpdatedAnswerResponse";
 import { sendEmailOnCreatedAnswerResponse } from "./Components/SendEmail/OnAnswerResponse/OnEvent/SendEmailOnCreatedAnswerResponse";
 import { onScheduleEveryday } from "./Components/SendEmail/AnswerDeadline/SendEmailOnAnswerDeadline";
+import { onNewUserSignUp } from "./Components/OnNewUserSignUp/onNewUserSignUp";
 
+
+exports.onNewUserSignUp = onNewUserSignUp;
 exports.onCreateQuestion = onCreateQuestion;
 exports.sendEmailOnCreateAnswer = sendEmailOnCreateAnswer;
 exports.sendEmailOnCreatedReassignedAnswerAuthor = sendEmailOnCreatedReassignedAnswerAuthor;
@@ -39,4 +42,3 @@ exports.sendEmailOnUpdatedAnswerResponse = sendEmailOnUpdatedAnswerResponse;
 exports.onScheduleEveryday = onScheduleEveryday;
 exports.sendEmailOnCreatePublishAnswer = sendEmailOnCreatePublishAnswer;
 exports.sendEmailOnPublishAnswer = sendEmailOnPublishAnswer;
-

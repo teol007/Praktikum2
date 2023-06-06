@@ -4,6 +4,8 @@ import { usersDBAtom } from "../../../Atoms/UsersDBAtom";
 import { Card } from "primereact/card";
 import { Chip } from "primereact/chip";
 import EditAuthorsAccount from "./EditAuthorsAcconut/EditAuthorsAccount";
+import { userGroupToSlovenian } from "../../../Modules/Functions/UserGroupTranslate";
+import { toSlovenianDate } from "../../../Modules/Functions/DateConverters";
 
 export default function ManageAuthors(): JSX.Element {
     const [users] = useAtom(usersDBAtom);
@@ -20,12 +22,12 @@ export default function ManageAuthors(): JSX.Element {
                 <p><b>Ime in priimek: </b> {user.fullName}</p>
                 <p><b>Naziv: </b> {user.academicTitle!=='' ? user.academicTitle : <i>/</i>}</p>
                 <p><b>Email: </b> {user.email}</p>
-                <p><b>Vloga: </b> {user.group}</p>
+                <p><b>Vloga: </b> {userGroupToSlovenian(user.group)}</p>
                 {user.inactive && (
                     <p>
                         <b>Neaktivnost: </b>
                         {user.inactive.from && user.inactive.to
-                        ? `${user.inactive.from.toDate().toLocaleString()} ${user.inactive.to.toDate().toLocaleString()}`
+                        ? `Od ${toSlovenianDate(user.inactive.from.toDate())} do ${toSlovenianDate(user.inactive.to.toDate())}`
                         : null}
                     </p>
                 )}

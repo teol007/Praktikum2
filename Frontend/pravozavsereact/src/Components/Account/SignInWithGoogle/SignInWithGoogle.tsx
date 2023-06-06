@@ -1,52 +1,27 @@
 import React, { useRef, useState } from "react";
 import { Button } from "primereact/button";
 import { signInWithPopup } from "@firebase/auth";
-import { db, firebaseAuth, firebaseAuthGoogleProvider } from "../../../Config/Firebase";
+import { firebaseAuth, firebaseAuthGoogleProvider } from "../../../Config/Firebase";
 import { Toast } from 'primereact/toast';
 import { getAdditionalUserInfo } from "firebase/auth";
-import { Timestamp, doc, setDoc } from "firebase/firestore";
-import { Group, UserCustomInfo } from "../../../Modules/Interfaces/UserCustomInfo";
 import { ProgressSpinner } from 'primereact/progressspinner';
 
 export default function SignInWithGoogle(): JSX.Element {
   const toast = useRef<Toast>(null);
   const [loading, setLoading] = useState<boolean>(false);
+  const [isNewUser, setIsNewUser] = useState<boolean>(false);
 
   const signUpWithGoogle = async () => {
     setLoading(true);
     try {
       const logedInAccount = await signInWithPopup(firebaseAuth, firebaseAuthGoogleProvider);
-      const isNewUser: boolean = getAdditionalUserInfo(logedInAccount)!.isNewUser; //it should always be defined
-      if(isNewUser)
-      {
-        const saveNewUser = async () => {
-          try {
-            const newUser: UserCustomInfo = {
-              fullName: (logedInAccount.user.displayName ?? 'Anonimna oseba'),
-              academicTitle: "",
-              email: (logedInAccount.user.email ?? 'Neznano'),
-              group: Group.Unconfirmed,
-              lawFields: [],
-              inactive: {
-                from: Timestamp.now(),
-                to: Timestamp.now()
-              },
-              uid: logedInAccount.user.uid,
-            };
-
-            await setDoc(doc(db, 'Users', newUser.uid), newUser);
-          } catch (error) {
-            console.error(error);
-          }
-        }
-    
-        saveNewUser();
-      }
-      
+      const newUser: boolean = getAdditionalUserInfo(logedInAccount)!.isNewUser; //it should always be defined
+      setIsNewUser(newUser);
       showSuccess();
     } catch (error) {
-      showError('Neuspešno', 'Prijava neuspešna');
       console.error(error);
+      showError('Neuspešno', 'Prijava neuspešna');
+      setLoading(false);
     }
   }
 
@@ -72,6 +47,9 @@ export default function SignInWithGoogle(): JSX.Element {
               {loading ? 
                 <><br /><strong>Avtentikacija:</strong><br /><ProgressSpinner style={{width: '3em', height: '3em'}} strokeWidth="8" fill="var(--surface-ground)" animationDuration=".5s" /></>
                 :<></>
+              }
+              {isNewUser &&
+                <p style={{color: 'red'}}><strong>Počakajte</strong>, da vas prvič registriramo.<br />To lahko traja nekaj momentov.</p>
               }
             </div>
           </div>
