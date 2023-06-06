@@ -9,6 +9,7 @@ import { QuestionWithId } from "../../Modules/Interfaces/Question";
 import ResponsesStatusesCount from "../Answer/Response/ResponsesStatusesCount/ResponseStatuses";
 import AnswerDetails from "../Answer/AnswerDetails/AnswerDetails";
 import { MultiSelect } from "primereact/multiselect";
+import { Calendar } from "primereact/calendar";
 
 export default function Archive(): JSX.Element {
   const [answers] = useAtom(answersDBAtom);
@@ -16,7 +17,7 @@ export default function Archive(): JSX.Element {
   const [users] = useAtom(usersDBAtom);
   const [selectedAuthors, setSelectedAuthors] = useState<string[]>([]);
   const [selectedLawFields, setSelectedLawFields] = useState<string[]>([]);
-  const [selectedMonths, setSelectedMonths] = useState<number[]>([]);
+  const [selectedMonths, setSelectedMonths] = useState<Date[] | null>(null);
 
   const answerAuthor = (answer: AnswerWithId): JSX.Element => {
     let text = '';
@@ -33,24 +34,25 @@ export default function Archive(): JSX.Element {
     setSelectedLawFields(event.value);
   };
 
-  const handleMonthChange = (event: { value: string[] }) => {
-    setSelectedMonths(event.value.map(Number));
-  };
-
-
-  const filteredAnswers = answers.filter((answer) => (answer.published && answer.fileUrl!=='')).filter((answer) => {
+  const filteredAnswers = answers.filter((answer) => answer.published && answer.fileUrl !== '').filter((answer) => {
     if (selectedAuthors.length > 0 && answer.authorUid && !selectedAuthors.includes(answer.authorUid)) {
       return false;
     }
     if (selectedLawFields.length > 0) {
       const question: QuestionWithId | undefined = questions.find((q) => q.id === answer.questionId);
-      if (!question || !selectedLawFields.some(field => question.lawFields.includes(field))) {
+      if (!question || !selectedLawFields.some((field) => question.lawFields.includes(field))) {
         return false;
       }
     }
-    if (selectedMonths.length > 0) {
+    if (selectedMonths && selectedMonths.length === 2) {
+      const startMonth = selectedMonths[0];
+      const endMonth = selectedMonths[1];
       const answeredDate = answer.answered ? answer.answered.toDate() : null;
-      if (!answeredDate || !selectedMonths.includes(answeredDate.getMonth())) {
+      if (
+        !answeredDate ||
+        answeredDate < startMonth ||
+        answeredDate > endMonth
+      ) {
         return false;
       }
     }
@@ -62,12 +64,10 @@ export default function Archive(): JSX.Element {
     'Delovno pravo', 'Socialno pravo', 'Družinsko pravo', 'Dedno pravo', 'Izvršilno pravo', 'Stečaj', 'Davčno pravo', 'Drugo'
   ];
 
-  const months = ['januar', 'februar', 'marec', 'april', 'maj', 'junij', 'julij', 'avgust', 'september', 'oktober', 'november', 'december'];
-
   const findLawField = (answer: AnswerWithId) => {
     const question: QuestionWithId | undefined = questions.find((q) => q.id === answer.questionId);
     const lawField = question?.lawFields;
-    const joinedLawFields = lawField?.join(" & ");
+    const joinedLawFields = lawField?.join(", ");
     return joinedLawFields;
   };
 
@@ -77,58 +77,32 @@ export default function Archive(): JSX.Element {
 
       <div className="container" style={{ display: 'flex', alignItems: 'center' }}>
         <div style={{ marginRight: '15px' }}>
-          <label htmlFor="authorSelect">Avtor:</label>
-          <MultiSelect
-          filter
-            id="authorSelect"
-            value={selectedAuthors}
-            options={users.map(user => ({ label: `${user.academicTitle} ${user.fullName}`, value: user.uid }))}
-            onChange={handleAuthorChange}
-            placeholder="Izberite avtorje"
-          />
-         
+          <label htmlFor="authorSelect">Avtor: </label>
+          <MultiSelect filter id="authorSelect" value={selectedAuthors}  options={users.map((user) => ({ label: `${user.academicTitle} ${user.fullName}`, value: user.uid }))}  onChange={handleAuthorChange} placeholder="Izberite avtorje" />
         </div>
         <div style={{ marginRight: '15px' }}>
-          <label htmlFor="lawFieldSelect">Pravno področje:</label>
-          <MultiSelect
-            filter
-            id="lawFieldSelect"
-            value={selectedLawFields}
-            options={lawFieldsArray.map(field => ({ label: field, value: field }))}
-            onChange={handleLawFieldChange}
-            placeholder="Izberite področja"
-          />
+          <label htmlFor="lawFieldSelect">Pravno področje: </label>
+          <MultiSelect filter id="lawFieldSelect" value={selectedLawFields} options={lawFieldsArray.map((field) => ({ label: field, value: field }))} onChange={handleLawFieldChange}  placeholder="Izberite področja" />
         </div>
         <div>
-          <label htmlFor="monthSelect">Mesec:</label>
-          <MultiSelect
-            filter
-            id="monthSelect"
-            value={selectedMonths.map(String)}
-            options={months.map((month, index) => ({ label: month, value: index.toString() }))}
-            onChange={handleMonthChange}
-            placeholder="Izberite mesece"
-          />
+          <label htmlFor="monthSelect">Časovno obdobje: </label>
+          <Calendar value={selectedMonths} onChange={(e) => setSelectedMonths(e.value as Date[])} selectionMode="range" showIcon readOnlyInput dateFormat="dd.mm.yy" showButtonBar />
+        </div>
+
+      </div>
+
+      <div className="container">
+        <div className="row">
+          {filteredAnswers.map((answer) => (
+            <div key={answer.id} className="col flex justify-content-center" style={{ paddingTop: '1rem', paddingBottom: '1rem' }} >
+              <Card  title={() => findLawField(answer)} subTitle={() => answerAuthor(answer)} footer={<AnswerDetails answer={answer} />} className="md:w-25rem" style={{ minWidth: '300px' }}>
+                <hr />
+                <ResponsesStatusesCount responses={answer.responses} />
+              </Card>
+            </div>
+          ))}
         </div>
       </div>
-
-<div className="container">
-<div className="row">
-      {filteredAnswers.map((answer) => (
-          <div key={answer.id} className="col flex justify-content-center" style={{ paddingTop: '1rem', paddingBottom: '1rem' }}>
-            <Card title={() => findLawField(answer)} subTitle={() => answerAuthor(answer)} footer={<AnswerDetails answer={answer} />} className="md:w-25rem" style={{minWidth:'300px'}}>
-              <hr />
-              <ResponsesStatusesCount responses={answer.responses} />
-            </Card>
-          </div>
-      ))} 
-      </div>
-
-</div>
-      
-
     </div>
-
-    
   );
 }

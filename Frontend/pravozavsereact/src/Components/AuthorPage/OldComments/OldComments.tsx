@@ -24,7 +24,7 @@ export default function OldComments(): JSX.Element {
   const findLawField = (answer: AnswerWithId) => {
     const question: QuestionWithId | undefined = questions.find((q) => q.id === answer.questionId);
     const lawField = question?.lawFields;
-    const joinedLawFields = lawField?.join(" & ");
+    const joinedLawFields = lawField?.join(", ");
     return joinedLawFields;
   };
 
