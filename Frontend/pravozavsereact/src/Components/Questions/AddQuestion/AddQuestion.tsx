@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
 import { InputTextarea } from "primereact/inputtextarea";
@@ -6,18 +6,19 @@ import { collection, addDoc } from "firebase/firestore";
 import { db } from "../../../Config/Firebase";
 import { Timestamp } from "@firebase/firestore";
 import { Question } from "../../../Modules/Interfaces/Question";
-import { useNavigate } from "react-router";
 import { MultiSelect } from "primereact/multiselect";
 import { Checkbox, CheckboxChangeEvent } from "primereact/checkbox";
 import { Card } from "primereact/card";
 import { Divider } from 'primereact/divider';
+import { Toast } from 'primereact/toast';
+import { classNames } from 'primereact/utils';
 
 export default function AddQuestion(): JSX.Element {
     const [lawFields, setLawFields] = useState<string[]>([]);
     const [email, setEmail] = useState('');
     const [description, setDescription] = useState('');
     const [checkboxes, setCheckboxes] = useState<string[]>([]);
-    const navigate = useNavigate();
+    const toast = useRef<Toast>(null);
 
     const handleSubmit = async (event: {preventDefault: () => void}) => {
         event.preventDefault();
@@ -34,7 +35,7 @@ export default function AddQuestion(): JSX.Element {
             setLawFields([]);
             setEmail('');
             setDescription('');
-            navigate("/oNas");
+            toast.current?.show({ severity: 'success', summary: 'Vprašanje poslano', detail: 'Hvala, prejeli smo Vaše vprašanje!', sticky: true });
         } catch (error) {
             console.error(error);
         }
@@ -59,7 +60,6 @@ export default function AddQuestion(): JSX.Element {
             <p>Tukaj lahko postavite svoje vprašanje, ki zadeva vaš pravni problem oziroma dilemo.</p>
             <Divider />
             <form onSubmit={handleSubmit}>
-                
                 <div className="container">
                     <div className="row">
                         <div className="col-sm-12 col-md-6 col-lg-6 col-xl-6">
@@ -148,6 +148,7 @@ export default function AddQuestion(): JSX.Element {
                         </div>
                     </div>
                 </div>
+                <Toast ref={toast} />
                 <Button label="Pošlji vprašanje" className="w-full" severity="success" raised />
             </form>
           </Card>
