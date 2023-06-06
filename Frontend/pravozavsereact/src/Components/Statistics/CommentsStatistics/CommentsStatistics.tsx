@@ -146,18 +146,39 @@ export default function CommentsStatistics(props: CommentsStatisticsProps): JSX.
                             let selectedQuestionIndex = questions.findIndex(question => question.id === answers[j].questionId);
                             if (selectedQuestionIndex > -1){
                                 if (answers[j].responses[u].commenterUid === users[i].uid && questions[selectedQuestionIndex].lawFields.includes(lawFieldsArray[o])){
-                                    switch (answers[j].responses[u].status) {
-                                        case "Good":
-                                            strinjamSeCounter++
-                                            break;
-                                        case "Bad":
-                                            neStrinjamSeCounter++
-                                            break;
-                                        case "Very bad":
-                                            mocnoNeStrinjamSeCounter++;
-                                            break;
-                                        default:
-                                            break;
+                                    if (props.timeFrame !== null && props.timeFrame.length === 2 && props.timeFrame[0] !== null && props.timeFrame[1] !== null){
+                                        if (props.timeFrame[0] !== null && props.timeFrame[1] !== null){
+                                            if (isBefore(answers[j].responses[u].created.toDate(), props.timeFrame[0] ) || isBefore(props.timeFrame[1], answers[j].responses[u].created.toDate())){
+                                            } else {
+                                                switch (answers[j].responses[u].status) {
+                                                    case "Good":
+                                                        strinjamSeCounter++
+                                                        break;
+                                                    case "Bad":
+                                                        neStrinjamSeCounter++
+                                                        break;
+                                                    case "Very bad":
+                                                        mocnoNeStrinjamSeCounter++;
+                                                        break;
+                                                    default:
+                                                        break;
+                                                }
+                                            }
+                                        }
+                                    } else {
+                                        switch (answers[j].responses[u].status) {
+                                            case "Good":
+                                                strinjamSeCounter++
+                                                break;
+                                            case "Bad":
+                                                neStrinjamSeCounter++
+                                                break;
+                                            case "Very bad":
+                                                mocnoNeStrinjamSeCounter++;
+                                                break;
+                                            default:
+                                                break;
+                                        }
                                     }
                                 }
                             }

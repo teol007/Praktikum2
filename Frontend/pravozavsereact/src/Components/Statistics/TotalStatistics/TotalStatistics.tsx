@@ -20,27 +20,7 @@ export default function TotalStatistics(): JSX.Element {
     const [selectedAuthorLate, setSelectedAuthorLate] = useState<UserCustomInfo | undefined>(users[1]); //za zdaj je default nastavljeno na Maja Prosenjak, ker noben drug nima zamude - da se kaj vidi
     const [inactive, setInactive] = useState<Date[] | null>([]);
     const [timeFrameComments, setTimeFrameComments] = useState<Date[] | null>([]);
-    //const [firstDate, setFirstDate] = useState<Date | null>(null);
-    //const [secondDate, setSecondDate] = useState<Date | null>(null);
 
-/*     const handleSelectedTime = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-        event.preventDefault();
-        if (inactive !== null){
-            console.log("inactive ni null");
-            if (inactive?.length == 2){
-                console.log("dolzina inactive je 2");
-                if(inactive[0] !== null && inactive[1] !== null){
-                    let newFirstDate = inactive[0]
-                    let newSecondDate = inactive[1]
-                    setFirstDate(newFirstDate);
-                    setSecondDate(newSecondDate);
-                    console.log("to je prvi datum: " + firstDate);
-                    console.log("to je drugi datum: " + secondDate);
-                }
-            }
-        }
-    } */
-    
     return (
         <div>
           <div className="container" style={{marginLeft: 0, marginTop: "10px"}}>
@@ -65,8 +45,7 @@ export default function TotalStatistics(): JSX.Element {
                                 <AccordionTab header="Sortiraj po časovnem obdobju">
                                 <div className="card flex justify-content-center">
                                     <Calendar value={inactive}  onChange={(e) => setInactive(e.value as Date[])} selectionMode="range" 
-                                    showIcon readOnlyInput /* style={{width: '400px'}} */ />
-                                    {/* <Button label="Potrdi" icon="pi pi-check" onClick={handleSelectedTime} autoFocus style={{marginLeft: '10px'}} /> */}
+                                    showIcon readOnlyInput showButtonBar />
                                 </div>
                                 </AccordionTab>
                             </Accordion>
@@ -87,9 +66,8 @@ export default function TotalStatistics(): JSX.Element {
                                 </AccordionTab>
                                 <AccordionTab header="Sortiraj po časovnem obdobju">
                                 <div className="card flex justify-content-center">
-                                    <Calendar value={timeFrameComments}  onChange={(e) => setTimeFrameComments(e.value as Date[])} selectionMode="range" 
-                                    showIcon readOnlyInput /* style={{width: '400px'}} */ />
-                                    {/* <Button label="Potrdi" icon="pi pi-check" onClick={handleSelectedTime} autoFocus style={{marginLeft: '10px'}} /> */}
+                                    <Calendar value={timeFrameComments}  onChange={(e) => setTimeFrameComments(e.value as Date[])} 
+                                    selectionMode="range" showIcon readOnlyInput showButtonBar />
                                 </div>
                                 </AccordionTab>
                             </Accordion>
