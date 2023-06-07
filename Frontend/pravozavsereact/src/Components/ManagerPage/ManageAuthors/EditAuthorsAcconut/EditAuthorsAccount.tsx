@@ -72,26 +72,26 @@ export default function EditAuthorsAccount(props: EditAuthorsAccountProps): JSX.
       <div className="flex justify-content-center">
         <Button label="Uredi račun" icon="pi pi-external-link" className="p-button p-button p-button-primary" size="small" onClick={handleClick} style={{ margin: "10px", padding: "10px" }} />
         <Dialog header="Uredi podatke o avtorju"  visible={visible}  style={{ width: "90vw" }} onHide={() => setVisible(false)} blockScroll={true} >
-          <p>
+          <div style={{marginBottom: "1em", marginTop: 0}}>
             <b>Ime in priimek:</b>
             <InputText value={name} onChange={(e) => setName(e.target.value)} />
-          </p>
-          <p>
+          </div>
+          <div style={{marginBottom: "1em", marginTop: 0}}>
             <b>Naziv:</b>
             <InputText value={title} onChange={(e) => setTitle(e.target.value)} />
-          </p>
-          <p>
+          </div>
+          <div style={{marginBottom: "1em", marginTop: 0}}>
             <b>Email:</b>
             <InputText value={email} onChange={(e) => setEmail(e.target.value)} />
-          </p>
-          <p>
+          </div>
+          <div style={{marginBottom: "1em", marginTop: 0}}>
             <b>Vloga:</b>
             <Dropdown value={group} onChange={(e) => setGroup(e.value)} options={userGroupsOptions} placeholder="Določi vlogo" className="w-full md:w-14rem" />
-          </p>
-          <p>
+          </div>
+          <div style={{marginBottom: "1em", marginTop: 0}}>
             <b>Neaktiven:</b>
             <Calendar value={inactive}  onChange={(e) => setInactive(e.value as Date[])} selectionMode="range" showIcon readOnlyInput dateFormat="dd.mm.yy" />
-          </p>
+          </div>
 
           <div style={{ marginBottom: "1em" }}>
             <b>Pravna področja: </b>

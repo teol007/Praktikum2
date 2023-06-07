@@ -8,7 +8,7 @@ import { getFirestore } from 'firebase-admin/firestore';
 import { v4 as uuidv4 } from "uuid";
 const db = getFirestore();
 
-const createQuestionReceivedEmail = async (question: QuestionWithId): Promise<Email|null> => {  
+const createQuestionReceivedEmail = async (question: QuestionWithId): Promise<Email> => {  
 	const message: EmailMessage = {
 	  subject: "Prejem pravnega vprašanja",
 	  html: htmlQuestionReceived(question)
@@ -31,7 +31,7 @@ const createQuestionReceivedEmail = async (question: QuestionWithId): Promise<Em
  */
 export const sendEmailQuestionReceived = async (event: FirestoreEvent<QueryDocumentSnapshot | undefined, {questionId: string}>) => {
   try {
-	  const questionSnapshot = event.data;
+	const questionSnapshot = event.data;
     if (!questionSnapshot) {
       logger.warn("sendEmailQuestionReceived: No data associated with the event");
       return;
@@ -52,9 +52,7 @@ export const sendEmailQuestionReceived = async (event: FirestoreEvent<QueryDocum
 	  }
 
 	  const email = await createQuestionReceivedEmail(question);
-    if(email)
       await db.collection('AutoEmails').add(email);
-    
 	} catch(error) {
 		logger.error(error);
 	}

@@ -1,12 +1,12 @@
-- so pravno društvo! (Teo)
+- so pravno društvo! (Teo) ✓
 - dokumentacija! (vizija oziroma nek opis kaj je naša rešitev, na začetku se lahko doda tut logo (Maja)
 - predstavitev
 - screenshoti ALI video posnetek delovanja aplikacije (in case live predstavitev ne deluje)
 - pri statistiki se gleda za določeno časovno obdobje (Maja)
 - nekje se izpiše skupno število vseh vprašanj (Maja in Katarina)
-- spreminjanje vsebine mailov po potrebi (Teo)
+- spreminjanje vsebine mailov po potrebi (Teo) ✓
 - pri arhivu namesto po mesecu, gledamo po datumu oz. časovno obdobje (Katarina)
 - pri late statistiki, se kaže zamujen odgovor tudi, če še dejansko ni odgovorjeno (ampak zamuja!) (Maja)
-- dodajanje linkov v maile (Teo)
+- dodajanje linkov v maile (Teo) ✓
 - za predstavitev: neki testni podatki? (Teo)
-- bug pri registraciji (Teo)
+- bug pri registraciji (Teo) ✓

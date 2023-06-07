@@ -7,7 +7,6 @@ import { AnswerWithId } from "../../../Modules/Interfaces/Answer";
 import TimeUntilAnswered from "../../Answer/TimeUntilAnswered/TimeUntilAnswered";
 import DisplayAnswerActions from "./DisplayAnswerActions/DisplayAnswerActions";
 import ResponsesStatusesCount from "../../Answer/Response/ResponsesStatusesCount/ResponseStatuses";
-import AutoEmailSettings from "./AutoEmailSettings/AutoEmailSettings";
 import TimeUntilResponsesDeadline from "../../Answer/TimeUntilResponsesDeadline/TimeUntilResponsesDeadline";
 import DisplayLawFieldsText from "../../Questions/DisplayLawFields/DisplayLawFieldsText/DisplayLawFieldsText";
 import { questionsDBAtom } from "../../../Atoms/QuestionsDBAtom";
@@ -33,7 +32,6 @@ export default function DisplayAnswers(): JSX.Element {
   return (
     <div className="container">
       <h2 style={{ marginTop: '1em' }}>Dodeljena vprašanja</h2>
-      <AutoEmailSettings />
       <div className="row">
         {answers
           .filter((answer) => !(answer.published && answer.fileUrl !== ''))

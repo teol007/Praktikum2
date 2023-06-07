@@ -1,3 +1,4 @@
+import { frontendHostingUrlLoginPage } from "../../../Config/FrontendHostingConf";
 import { toSlovenianDateTimePlusTimezoneDifference } from "../DateConverters";
 
 export const htmlQuestionAssigned = (questionDescription: string,  lawFields: string[],  authorAssignedName: string, authorAssignedDate: Date|undefined|null): string => {
@@ -38,7 +39,7 @@ export const htmlQuestionAssigned = (questionDescription: string,  lawFields: st
     </head>
     <body>
       <div class="email-container">
-        <p class="normalText">Pozdravljeni.<br /><br />Dodeljeno vam je bilo novo vprašanje.</p>
+        <p class="normalText">Pozdravljeni,<br /><br />dodeljeno vam je bilo novo vprašanje.</p>
         <hr />
         <h2>Podrobnosti</h2>
         <p class="question-description"><strong>Vprašanje:</strong> ${questionDescription}</p>
@@ -46,10 +47,11 @@ export const htmlQuestionAssigned = (questionDescription: string,  lawFields: st
         <div class="assigned-info">
           <p><strong>Dodeljeno osebi:</strong> ${authorAssignedName}</p>
           <p><strong>Datum dodelitve:</strong> ${authorAssignedDate ? toSlovenianDateTimePlusTimezoneDifference(authorAssignedDate) : '<i>Ni navedeno</i>'}</p>
+          <p>Link do spletne strani: <a href="${frontendHostingUrlLoginPage}">Pravo za vse</a></p>
         </div>
         <hr />
         <br />
-        <p class="footer normalText">Lep pozdrav<br />organizacija Pravo za vse</p>
+        <p class="footer normalText">Lep pozdrav<br />ekipa spletnega portala Pravo za VSE</p>
       </div>
     </body>
     </html>`;

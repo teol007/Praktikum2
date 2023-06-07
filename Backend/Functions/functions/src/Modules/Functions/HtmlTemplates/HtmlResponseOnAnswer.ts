@@ -1,3 +1,4 @@
+import { frontendHostingUrlLoginPage } from "../../../Config/FrontendHostingConf";
 import { Answer, AnswerWithId, Response, Status } from "../../Interfaces/Answer";
 import { Question, QuestionWithId } from "../../Interfaces/Question";
 import { UserCustomInfo } from "../../Interfaces/UserCustomInfo";
@@ -53,7 +54,7 @@ export const htmlResponseOnAnswer = (question: Question|QuestionWithId, answer: 
     </head>
     <body>
       <div class="email-container">
-        <p class="normalText">Pozdravljeni.<br /><br />Dobili ste nov odziv na vaš oddan odgovor.</p>
+        <p class="normalText">Pozdravljeni,<br /><br />dobili ste nov komentar na vaš odgovor.</p>
         <hr />
         <h2>Nov odziv</h2>
         <p class="question-description"><strong>Mnenje: </strong> ${mnenjeHtml(response.status)}</p>
@@ -67,15 +68,16 @@ export const htmlResponseOnAnswer = (question: Question|QuestionWithId, answer: 
         <h2>Podrobnosti odgovora</h2>
         <p class="question-description"><strong>Vprašanje:</strong> ${question.description}</p>
         <p class="law-fields"><strong>Pravna področja:</strong> ${question.lawFields.join(", ").toLowerCase()}</p>
-        <p class="law-fields"><strong>Oznake:</strong> ${answer.tags.join(", ").toLowerCase()}</p>
+        <p class="law-fields"><strong>Oznake:</strong> ${answer.tags.length<=0 ? '/' : answer.tags.join(", ").toLowerCase()}</p>
         <div class="assigned-info">
           <p><strong>Dodeljena oseba za odgovor:</strong> ${answerAuthor.academicTitle+' '+answerAuthor.fullName}</p>
           <p><strong>Datum dodelitve:</strong> ${answer.authorAssigned ? toSlovenianDateTimePlusTimezoneDifference(answer.authorAssigned.toDate()) : '<i>Ni navedeno</i>'}</p>
         </div>
         <p class="law-fields"><strong>Število odzivov:</strong> ${answer.responses.length}</p>
+        <p class="law-fields">Link do spletne strani: <a href="${frontendHostingUrlLoginPage}">Pravo za vse</a></p>
         <hr />
         <br />
-        <p class="footer normalText">Lep pozdrav<br />organizacija Pravo za vse</p>
+        <p class="footer normalText">Lep pozdrav<br />ekipa spletnega portala Pravo za VSE</p>
       </div>
     </body>
     </html>`;

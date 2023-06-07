@@ -1,3 +1,4 @@
+import { frontendHostingUrlLoginPage } from "../../../Config/FrontendHostingConf";
 import { Question, QuestionWithId } from "../../Interfaces/Question";
 import { toSlovenianDateTimePlusTimezoneDifference } from "../DateConverters";
 
@@ -39,7 +40,7 @@ export const htmlNewUserAnswerReassigned = (question: Question|QuestionWithId, a
     </head>
     <body>
       <div class="email-container">
-        <p class="normalText">Pozdravljeni.<br /><br />Obveščamo vas, da je vprašanje bilo predodeljeno vam.</p>
+        <p class="normalText">Pozdravljeni,<br /><br />obveščamo vas, da je bilo vprašanje predodeljeno vam.</p>
         <hr />
         <h2>Podrobnosti</h2>
         <p class="question-description"><strong>Vprašanje:</strong> ${question.description}</p>
@@ -47,11 +48,12 @@ export const htmlNewUserAnswerReassigned = (question: Question|QuestionWithId, a
         <div class="assigned-info">
           <p><strong>Predodeljeno osebi:</strong> ${authorAssignedName}</p>
           <p><strong>Datum predodelitve:</strong> ${authorReassignedDate ? toSlovenianDateTimePlusTimezoneDifference(authorReassignedDate) : '<i>Ni navedeno</i>'}</p>
+          <p>Link do spletne strani: <a href="${frontendHostingUrlLoginPage}">Pravo za vse</a></p>
           ${isFileAttached ? '<p>Predhodno dodeljena oseba je že <strong>oddala datoteko z (delnim) odgovorom</strong>, s katero lahko nadaljujete. Datoteka je v priponki.</p>' : ''}
         </div>
         <hr />
         <br />
-        <p class="footer normalText">Lep pozdrav<br />organizacija Pravo za vse</p>
+        <p class="footer normalText">Lep pozdrav<br />ekipa spletnega portala Pravo za VSE</p>
       </div>
     </body>
     </html>`;

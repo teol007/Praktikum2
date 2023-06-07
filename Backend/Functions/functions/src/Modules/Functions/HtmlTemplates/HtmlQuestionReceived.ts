@@ -39,7 +39,7 @@ export const htmlQuestionReceived = (question: QuestionWithId|Question): string 
     </head>
     <body>
       <div class="email-container">
-        <p class="normalText">Pozdravljeni.<br /><br />Vaše pravno vprašanje smo prejeli. Odgovorili vam bomo v roku 15 dni.</p>
+        <p class="normalText">Spošovani,<br /><br />vaše pravno vprašanje smo sprejeli. Zahvaljujemo se vam za zaupanje. Odgovorili vam bomo v najkrajšem možnem času, najkasneje pa v roku 14 dni.</p>
         <hr />
         <h2>Podrobnosti vprašanja</h2>
         <p class="question-description"><strong>Vprašanje:</strong> ${question.description}</p>
@@ -50,7 +50,7 @@ export const htmlQuestionReceived = (question: QuestionWithId|Question): string 
         <hr />
         <p><i>Če niste postavili nobenega vprašanja ali ne veste zakaj ste prejeli to sporočilo, ga ignorirajte.</i><br /><i>If you have not asked any questions or do not know why you received this message, ignore it.</i></p>
         <br />
-        <p class="footer normalText">Lep pozdrav<br />organizacija Pravo za vse</p>
+        <p class="footer normalText">Lep pozdrav<br />ekipa spletnega portala Pravo za VSE.</p>
       </div>
     </body>
     </html>`;

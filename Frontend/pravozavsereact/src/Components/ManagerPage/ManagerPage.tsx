@@ -7,6 +7,7 @@ import { Route, Routes, useNavigate } from "react-router-dom";
 import DisplayAnswers from "./DisplayAnswers/DisplayAnswers";
 import TotalStatistics from "../Statistics/TotalStatistics/TotalStatistics";
 import ManageAuthors from "./ManageAuthors/ManageAuthors";
+import AutomationSettings from "./AutomationSettings/AutomationSettings";
 
 export default function ManagerPage(): JSX.Element {
   const navigate = useNavigate();
@@ -28,9 +29,20 @@ export default function ManagerPage(): JSX.Element {
       command: () => {navigate('/urednik/skupnaStatistika')}
     },
     {
-      label: 'Upravljanje\u00A0avtorjev',
-      icon: 'pi pi-fw pi-pencil',
-      command: () => {navigate('/urednik/upravljanjeAvtorjev')}
+      label: 'Nastavitve',
+      icon: 'pi pi-fw pi-cog',
+      items: [
+        {
+          label: 'Upravljanje avtorjev',
+          icon: 'pi pi-fw pi-user-edit',
+          command: () => {navigate('/urednik/upravljanjeAvtorjev')}
+        },
+        {
+          label: 'Nastavitve avtomatizacije',
+          icon: 'pi pi-fw pi-sitemap',
+          command: () => {navigate('/urednik/nastavitveAvtomatizacije')}
+        },
+      ]
     },
   ];
   
@@ -49,6 +61,9 @@ export default function ManagerPage(): JSX.Element {
         />
         <Route path='/upravljanjeAvtorjev'
           element={<ManageAuthors />}
+        />
+        <Route path='/nastavitveAvtomatizacije'
+          element={<AutomationSettings />}
         />
         <Route path='/*'
           element={<PageNotFound />}/>
