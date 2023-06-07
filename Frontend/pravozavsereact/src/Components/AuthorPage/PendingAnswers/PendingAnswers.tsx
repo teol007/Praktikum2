@@ -20,7 +20,8 @@ export function PendingAnswers(): JSX.Element {
   const answersForAuthor = ():AnswerWithId[] => {
     if(!user)
       return [];
-    return answers.filter((answer)=>(answer.authorUid===user.uid))
+    const showAnswers = answers.filter((answer)=>(answer.authorUid===user.uid));
+    return showAnswers.filter((answer) => (!(answer.published && answer.fileUrl!=='')))
   };
 
   const findLawFields = (answer: AnswerWithId): string|undefined => {
