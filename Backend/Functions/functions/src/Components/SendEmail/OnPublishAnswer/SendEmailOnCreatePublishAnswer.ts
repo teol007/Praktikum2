@@ -96,12 +96,15 @@ export const sendEmailOnCreatePublishAnswer = onDocumentCreated("Organizations/"
     if(!email)
       return;
 
-    const isSuccessful = await sendEmailAnswer(email);
-    if(isSuccessful)
-    {
+      const isSuccessful = await sendEmailAnswer(email);
+      if(!isSuccessful)
+      {
+        logger.error('sendEmailOnCreatePublishAnswer: autoSendAnswers setting is off - function ends without doing anything')
+        return;
+      }
+  
       db.collection('Questions').doc(answer.questionId).update({closed: true});
       db.collection('Answers').doc(answer.id).update({published: Timestamp.now()});
-    }
 
   } catch(error) {
     logger.error(error);

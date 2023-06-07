@@ -39,7 +39,6 @@ const createAnswerEmail = async (question: QuestionWithId, answer: AnswerWithId)
 
 export const sendEmailOnPublishAnswer = onDocumentUpdated("Organizations/"+publishOrganizationDocId, async (event) => {
   try {
-    logger.warn('Dela1'); //!
     const data = event.data?.after.data();
     const previousData = event.data?.before.data();
     if (data?.lastPublishedAnswerId === previousData?.lastPublishedAnswerId)
@@ -52,7 +51,6 @@ export const sendEmailOnPublishAnswer = onDocumentUpdated("Organizations/"+publi
       lastPublishedAnswerId: data.lastPublishedAnswerId
     };
 
-    logger.warn('Dela2'); //!
     const answerDoc = await db.collection('Answers').doc(published.lastPublishedAnswerId).get();
     if(!answerDoc.exists)
       return;
@@ -91,7 +89,6 @@ export const sendEmailOnPublishAnswer = onDocumentUpdated("Organizations/"+publi
       closed: questionData.closed
     };
 
-    logger.warn('Dela3'); //!
     const email = await createAnswerEmail(question, answer);
     if(!email)
       return;
@@ -106,7 +103,6 @@ export const sendEmailOnPublishAnswer = onDocumentUpdated("Organizations/"+publi
     db.collection('Questions').doc(answer.questionId).update({closed: true});
     db.collection('Answers').doc(answer.id).update({published: Timestamp.now()});
     
-    logger.warn('Dela vse'); //!
   } catch(error) {
     logger.error(error);
   }
