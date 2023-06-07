@@ -64,10 +64,10 @@ export default function DisplayAnswersToEvaluate(): JSX.Element {
   const sortedAnswers = [...answers].sort((b, a) => countResponsesByAnswer(b) - countResponsesByAnswer(a));
 
   const filteredAnswers = sortedAnswers.filter(answer => {
-    const goodResponsesCount = answer.responses.filter(response => response.status === 'Good').length;
+    //const goodResponsesCount = answer.responses.filter(response => response.status === 'Good').length;
     const isAuthorLoggedInUser = answer.authorUid === loggedInUser?.uid;
-    const isAnswered = answer.answered != null;
-    return goodResponsesCount < 3 && !isAuthorLoggedInUser && !isAnswered;
+    const isAnswered = answer.answered ? answer.fileUrl!=='' : false;
+    return !isAuthorLoggedInUser && isAnswered;
   });
 
   return (
