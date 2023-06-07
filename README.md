@@ -1,5 +1,7 @@
 # Informacijski sistem Pravo za vse
 
+![Logotip Pravo za vse](https://github.com/teol007/Praktikum2/blob/main/_PROMOCIJA/logo-pravozavse.jpg)
+
 ## Vizija
 Namen IS Pravo za vse je poenostavitev procesa zastavljanja in odgovarjanja na pravna vprašanja. Glavni namen je omogočiti društvu Pravo za vse
 lažji pregled nad zastavljenimi vprašanji in avtomatizirati, pohitriti proces odgovarjanja na vprašanja. Vloge, ki nastopajo pri storitvi so:
