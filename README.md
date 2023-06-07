@@ -1,11 +1,10 @@
 # Informacijski sistem Pravo za vse
 
-Link do nameščene storitve: https://pravo-za-vse-db.web.app
-
 ## Vizija
-Namen IS Pravo za vse je poenostavitev procesa zastavljanja in odgovarjanja na pravna vprašanja. Naš glavni namen je omogočiti društvu Pravo za vse
-lažji pregled nad zastavljenimi vprašanji in pohitriti proces odgovarjanja na vprašanja. Vloge, ki nastopajo pri naši storitvi so:
-- stranka: neprijavljen uporabnik, ki želi zastaviti pravno vprašanje
+Namen IS Pravo za vse je poenostavitev procesa zastavljanja in odgovarjanja na pravna vprašanja. Glavni namen je omogočiti društvu Pravo za vse
+lažji pregled nad zastavljenimi vprašanji in avtomatizirati, pohitriti proces odgovarjanja na vprašanja. Vloge, ki nastopajo pri storitvi so:
+- stranka: neprijavljen uporabnik, ki postavi pravno vprašanje
+- neopredeljen uporabnik: prijavljen uporabnik, ki čaka na odobritev urednika
 - avtor: prijavljen uporabnik, član društva Pravo za vse, ki odgovarja na pravna vprašanja in ocenjuje druge odgovore
 - urednik: prijavljen uporabnik, član društva Pravo za vse, ki po potrebi skrbi za ročno upravljanje z vprašanji in upravlja z drugimi avtorji (ima pregled
 nad vsem, kar ima tudi avtor)
