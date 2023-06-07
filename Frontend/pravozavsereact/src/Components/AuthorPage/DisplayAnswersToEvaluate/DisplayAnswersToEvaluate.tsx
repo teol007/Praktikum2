@@ -67,7 +67,8 @@ export default function DisplayAnswersToEvaluate(): JSX.Element {
     //const goodResponsesCount = answer.responses.filter(response => response.status === 'Good').length;
     const isAuthorLoggedInUser = answer.authorUid === loggedInUser?.uid;
     const isAnswered = answer.answered ? answer.fileUrl!=='' : false;
-    return !isAuthorLoggedInUser && isAnswered;
+    const isPublished = answer.published ? answer.fileUrl!=='' : false;
+    return !isAuthorLoggedInUser && isAnswered && !isPublished;
   });
 
   return (
