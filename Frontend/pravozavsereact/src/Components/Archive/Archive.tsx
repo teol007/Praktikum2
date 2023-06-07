@@ -10,6 +10,8 @@ import ResponsesStatusesCount from "../Answer/Response/ResponsesStatusesCount/Re
 import AnswerDetails from "../Answer/AnswerDetails/AnswerDetails";
 import { MultiSelect } from "primereact/multiselect";
 import { Calendar } from "primereact/calendar";
+import { userAuthentication } from "../../Atoms/UserAuthentication";
+import { Group } from "../../Modules/Interfaces/UserCustomInfo";
 
 export default function Archive(): JSX.Element {
   const [answers] = useAtom(answersDBAtom);
@@ -18,6 +20,8 @@ export default function Archive(): JSX.Element {
   const [selectedAuthors, setSelectedAuthors] = useState<string[]>([]);
   const [selectedLawFields, setSelectedLawFields] = useState<string[]>([]);
   const [selectedMonths, setSelectedMonths] = useState<Date[] | null>(null);
+  const [loggedInUser] = useAtom(userAuthentication);
+  const canSeePrivateData = loggedInUser ? loggedInUser.group===Group.Manager : false;
 
   const answerAuthor = (answer: AnswerWithId): JSX.Element => {
     let text = '';
@@ -95,7 +99,7 @@ export default function Archive(): JSX.Element {
         <div className="row">
           {filteredAnswers.map((answer) => (
             <div key={answer.id} className="col flex justify-content-center" style={{ paddingTop: '1rem', paddingBottom: '1rem' }} >
-              <Card  title={() => findLawField(answer)} subTitle={() => answerAuthor(answer)} footer={<AnswerDetails answer={answer} />} className="md:w-25rem" style={{ minWidth: '300px' }}>
+              <Card  title={() => findLawField(answer)} subTitle={() => answerAuthor(answer)} footer={<AnswerDetails answer={answer} withPersonalData={canSeePrivateData} withQuestionPersonalData={canSeePrivateData} />} className="md:w-25rem" style={{ minWidth: '300px' }}>
                 <hr />
                 <ResponsesStatusesCount responses={answer.responses} />
               </Card>

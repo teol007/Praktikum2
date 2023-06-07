@@ -2,7 +2,7 @@ import React, { PropsWithChildren, useState } from "react";
 import { Button } from 'primereact/button';
 import { Dialog } from 'primereact/dialog';
 import { toSlovenianDate, toSlovenianTime } from "../../../Modules/Functions/DateConverters";
-import { AnswerWithId, Response } from "../../../Modules/Interfaces/Answer";
+import { AnswerWithId } from "../../../Modules/Interfaces/Answer";
 import QuestionDetails from "../../Questions/QuestionDetails/QuestionDetails";
 import { useAtom } from "jotai";
 import { questionsDBAtom } from "../../../Atoms/QuestionsDBAtom";
@@ -10,7 +10,6 @@ import { usersDBAtom } from "../../../Atoms/UsersDBAtom";
 import DisplayResponse from "../Response/DisplayResponse/DisplayResponse";
 import { Accordion, AccordionTab } from "primereact/accordion";
 import { ScrollTop } from 'primereact/scrolltop';
-import { Carousel, CarouselResponsiveOption } from 'primereact/carousel';
 import './AnswerDetails.css'
 import FileDownloadButton from "../FIles/FileDownloadButton/FileDownloadButton";
 import DisplayAnswerTags from "./DisplayAnswerTags/DisplayAnswerTags";
@@ -22,24 +21,6 @@ export interface AnswerDetailsProps{
   editQuestionLawFields?: boolean;
 }
 
-const carouselResponsiveOptions: CarouselResponsiveOption[] = [
-  {
-      breakpoint: '1199px',
-      numVisible: 3,
-      numScroll: 1
-  },
-  {
-      breakpoint: '991px',
-      numVisible: 2,
-      numScroll: 1
-  },
-  {
-      breakpoint: '767px',
-      numVisible: 1,
-      numScroll: 1
-  }
-];
-
 const displayAnswerAuthorAssigned = (answer: AnswerWithId): JSX.Element => {
   const date = answer.authorAssigned;
   if(!date)
@@ -50,16 +31,14 @@ const displayAnswerAuthorAssigned = (answer: AnswerWithId): JSX.Element => {
 const displayResponses = (answer: AnswerWithId): JSX.Element => {
   if(answer.responses.length <= 0)
     return <i style={{display: 'inline-block', paddingLeft: '1em'}}>Ni odzivov</i>
+    
   return (
     <div>
-      <Carousel className="m-0 p-0" 
-        value={answer.responses}
-        orientation="vertical"
-        numVisible={1} 
-        numScroll={1} 
-        itemTemplate={(item: Response)=>(<DisplayResponse response={item} />) /* key={props.answer.id+'/'+response} */ }
-        responsiveOptions={carouselResponsiveOptions}
-      />
+      {
+        answer.responses.map((response) => (
+          <DisplayResponse key={response.commenterUid+'/'+response.created.toMillis()} response={response} />
+        ))
+      }
     </div>
   );
 }

@@ -33,7 +33,7 @@ export default function DisplayAnswersToEvaluate(): JSX.Element {
   };
 
 
-  const findLawField = (answer: AnswerWithId) => {
+  const findLawFields = (answer: AnswerWithId) => {
     const question: QuestionWithId | undefined = questions.find((q) => q.id === answer.questionId);
     const lawField = question?.lawFields;
     const joinedLawFields = lawField?.join(" & ")
@@ -77,7 +77,7 @@ export default function DisplayAnswersToEvaluate(): JSX.Element {
       <div className="row">
         {filteredAnswers.map(answer => (
           <div key={answer.id} className="col flex justify-content-center" style={{ paddingTop: '1rem', paddingBottom: '1rem' }} >
-            <Card title={() => findLawField(answer)} subTitle={<><span>Avtor odgovora: </span><span>{answerAuthor(answer)}</span></>} 
+            <Card title={() => findLawFields(answer)} subTitle={<><span>Avtor odgovora: </span><span>{answerAuthor(answer)}</span></>} 
               className="md:w-25rem" style={{backgroundColor: checkDate(answer)}}>
               <TimeUntilAnswered answer={answer} />
               <br />
