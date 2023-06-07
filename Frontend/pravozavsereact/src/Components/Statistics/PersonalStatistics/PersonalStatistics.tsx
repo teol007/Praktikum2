@@ -66,6 +66,7 @@ export default function PersonalStatistics(): JSX.Element {
                 </div>
             </div>
             <div>
+                <h4 style={{marginTop: "10px"}}>Graf mojih zamud</h4>
                  <LateStatistics user={user} timeFrame={null} />
             </div>
         </div>

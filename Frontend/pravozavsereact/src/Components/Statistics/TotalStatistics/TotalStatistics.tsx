@@ -39,7 +39,7 @@ export default function TotalStatistics(): JSX.Element {
                                 <AccordionTab header="Sortiraj po pravnem področju">
                                 <div className="card flex justify-content-center">
                                     <MultiSelect value={selectedLawFields} onChange={(e: MultiSelectChangeEvent) => setSelectedLawFields(e.value)} options={lawFieldsArray} 
-                                        display="chip" filter placeholder="Izberi pravno področje" maxSelectedLabels={3} className="w-full md:w-20rem" />
+                                        display="chip" filter placeholder="Izberi pravno področje" maxSelectedLabels={2} className="w-full md:w-20rem" />
                                 </div>
                                 </AccordionTab>
                                 <AccordionTab header="Sortiraj po časovnem obdobju">

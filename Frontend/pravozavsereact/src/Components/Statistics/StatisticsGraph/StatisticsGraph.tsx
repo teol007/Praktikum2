@@ -22,6 +22,8 @@ export default function StatisticsGraph(props: StatisticsGraphProps): JSX.Elemen
         ]
     };
     const options = {
+        maintainAspectRatio: false,
+        aspectRatio: 0.8,
         scales: {
             y: {
                 beginAtZero: true
