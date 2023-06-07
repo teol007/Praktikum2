@@ -10,12 +10,18 @@ Avtorji:
 - Teo Lah
 
 Domača stran: https://pravo-za-vse-db.web.app/
-Vir podatkov: ?
+Vir podatkov: https://console.firebase.google.com/project/pravo-za-vse-db/overview
 Koda: https://github.com/teol007/Praktikum2
 
 Kategorizacija: spletna aplikacija
 
-Oznake: React, TypeScript, Firebase, Firestore, NodeJS, GitHub, REST
+Oznake: TypeScript, JavaScript, React, PrimeReact, NodeJS, Firebase, GitHub, Scrum, YouTrack, SendGrid
 
 Opis storitve:
-
+Namen IS Pravo za vse je poenostavitev procesa zastavljanja in odgovarjanja na pravna vprašanja. Glavni namen je omogočiti društvu Pravo za vse
+lažji pregled nad zastavljenimi vprašanji in avtomatizirati, pohitriti proces odgovarjanja na vprašanja. Vloge, ki nastopajo pri storitvi so:
+- stranka: neprijavljen uporabnik, ki postavi pravno vprašanje
+- neopredeljen uporabnik: prijavljen uporabnik, ki čaka na odobritev urednika
+- avtor: prijavljen uporabnik, član društva Pravo za vse, ki odgovarja na pravna vprašanja in ocenjuje druge odgovore
+- urednik: prijavljen uporabnik, član društva Pravo za vse, ki po potrebi skrbi za ročno upravljanje z vprašanji in upravlja z drugimi avtorji (ima pregled
+nad vsem, kar ima tudi avtor)
