@@ -82,11 +82,11 @@ export default function Archive(): JSX.Element {
       <div className="container" style={{ display: 'flex', alignItems: 'center' }}>
         <div style={{ marginRight: '15px' }}>
           <label htmlFor="authorSelect">Avtor: </label>
-          <MultiSelect filter id="authorSelect" value={selectedAuthors}  options={users.map((user) => ({ label: `${user.academicTitle} ${user.fullName}`, value: user.uid }))}  onChange={handleAuthorChange} placeholder="Izberite avtorje" />
+          <MultiSelect filter id="authorSelect" value={selectedAuthors}  options={users.map((user) => ({ label: `${user.academicTitle} ${user.fullName}`, value: user.uid }))}  onChange={handleAuthorChange} placeholder="Izberite avtorje" maxSelectedLabels={3} selectedItemsLabel={`${selectedAuthors.length} izbranih`} />
         </div>
         <div style={{ marginRight: '15px' }}>
           <label htmlFor="lawFieldSelect">Pravno področje: </label>
-          <MultiSelect filter id="lawFieldSelect" value={selectedLawFields} options={lawFieldsArray.map((field) => ({ label: field, value: field }))} onChange={handleLawFieldChange}  placeholder="Izberite področja" />
+          <MultiSelect filter id="lawFieldSelect" value={selectedLawFields} options={lawFieldsArray.map((field) => ({ label: field, value: field }))} onChange={handleLawFieldChange}  placeholder="Izberite področja" maxSelectedLabels={3} selectedItemsLabel={`${selectedLawFields.length} izbranih`} />
         </div>
         <div>
           <label htmlFor="monthSelect">Časovno obdobje: </label>
